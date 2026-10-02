@@ -1,7 +1,11 @@
-TORNEO SAN MARTÍN 2026 — SITIO WEB
+TORNEO SAN MARTÍN 2026 · FRONTEND NUEVO
 
-Esta versión conecta Masculino y Femenino con Google Sheets.
-La categoría femenina usa la publicación web de Google Sheets para leer todas las pestañas en un solo archivo publicado.
-Los datos se vuelven a consultar automáticamente cada 2 minutos.
+Incluye: Dashboard, competición, equipos, plantillas, estadísticas, dos videos de presentación y Manual del Torneo.
 
-No se necesita datos.json.
+JUGADORES: la página busca la pestaña JUGADORES y detecta la estructura exacta Equipo | Jugador | Dorsal | Posición.
+
+VIDEOS: Masculino https://youtube.com/shorts/cjn7Y9CnVTQ?feature=share · Femenino https://www.youtube.com/shorts/UkpKEy84rO8
+
+LOGOS: esta versión no los incluye todavía; se agregarán cuando estén disponibles.
+
+PUBLICACIÓN: reemplaza en GitHub los archivos index.html, estilos.css y app.js por estos tres.

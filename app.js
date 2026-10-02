@@ -1,98 +1,16 @@
-/* TORNEO SAN MARTÍN 2026 — datos en vivo desde Google Sheets */
-const CONFIG={
-  masculino:{
-    nombre:'MASCULINO',
-    id:'1mCMBHkh_Kg98IdgbKu8fPpqh8it_OCAn_aqA2BDSE1E',
-    hojas:{calendario:'CALENDARIO',resultados:'RESULTADOS',tabla:'TABLA_POSICIONES',jugadores:'JUGADORES'}
-  },
-  femenino:{
-    nombre:'FEMENINO',
-    id:'1YgQ8hXwvrV8tDmQtzRgrdDinkAM8U9coaxXuBe7JqHM',
-    publicado:'https://docs.google.com/spreadsheets/d/e/2PACX-1vTvjdSukLjlJb9bk9BYCbl0NAsLfl49pnF1njIw2mCyODC15kBRcIHRL3iAM_nE44bRuPPIats-QOcy/pub',
-    hojas:{calendario:'CALENDARIO',resultados:'RESULTADOS',tabla:'TABLA_POSICIONES',jugadores:'JUGADORES'}
-  }
-};
-let DATA={};let cat='masculino';let requestToken=0;
-const $=s=>document.querySelector(s);const $$=s=>document.querySelectorAll(s);
-function initials(n){return (n||'SM').split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase()}
-function fmtDate(d){if(!d)return 'Fecha por definir';if(/^\d{2}\/\d{2}\/\d{4}$/.test(String(d)))return d;const m=String(d).match(/Date\((\d+),(\d+),(\d+)/);if(m)return `${String(+m[3]).padStart(2,'0')}/${String(+m[2]+1).padStart(2,'0')}/${m[1]}`;return String(d)}
-function clean(v){return v==null?'':String(v).trim()}
-function num(v){if(v==null||v==='')return 0;const n=Number(String(v).replace(',','.'));return Number.isFinite(n)?n:0}
-function parseDate(v,f){return clean(f)||clean(v)}
-async function loadPublishedWorkbook(baseUrl){
-  if(!window.XLSX) throw new Error('No se pudo cargar el lector de hojas publicado.');
-  const r=await fetch(baseUrl+'?output=xlsx&cachebust='+Date.now(),{cache:'no-store'});
-  if(!r.ok) throw new Error('Google Sheets publicó el archivo con estado '+r.status);
-  const buf=await r.arrayBuffer();
-  const wb=XLSX.read(buf,{type:'array',cellDates:false});
-  const out={};
-  (wb.SheetNames||[]).forEach(name=>{
-    const ws=wb.Sheets[name];
-    out[name]=XLSX.utils.sheet_to_json(ws,{header:1,defval:'',raw:false});
-  });
-  return out;
-}
-function rowsFromPublished(rows){return (rows||[]).filter(r=>Array.isArray(r));}
-
-function loadSheet(spreadsheetId,sheetName){
-  return new Promise((resolve,reject)=>{
-    const cb='gsCallback_'+Date.now()+'_'+Math.random().toString(36).slice(2);
-    const script=document.createElement('script');
-    const timer=setTimeout(()=>{cleanup();reject(new Error('Tiempo de espera al cargar '+sheetName));},15000);
-    function cleanup(){clearTimeout(timer);delete window[cb];script.remove()}
-    window[cb]=data=>{cleanup();if(!data||data.status!=='ok'){reject(new Error('No se pudo leer '+sheetName));return}resolve(data.table||{cols:[],rows:[]})};
-    script.onerror=()=>{cleanup();reject(new Error('No se pudo conectar con '+sheetName))};
-    const url='https://docs.google.com/spreadsheets/d/'+encodeURIComponent(spreadsheetId)+'/gviz/tq?tqx='+encodeURIComponent('responseHandler:'+cb)+'&sheet='+encodeURIComponent(sheetName)+'&headers=1';
-    script.src=url;document.head.appendChild(script);
-  });
-}
-function tableRows(table){return (table.rows||[]).map(r=>(r.c||[]).map(c=>c?((c.f!==undefined&&c.f!==null&&c.f!=='')?c.f:c.v):''));}
-function buildData(calTable,resTable,tabTable,jugTable){
-  const cal=tableRows(calTable).map(r=>({round:num(r[0]),match:num(r[1]),date:parseDate(r[2],r[2]),time:clean(r[3]),home:clean(r[5]),away:clean(r[7]),venue:clean(r[8]),score:clean(r[9])||'-',note:clean(r[10])})).filter(x=>x.match||x.home||x.away||x.note);
-  const results=tableRows(resTable).map(r=>({round:num(r[0]),match:num(r[1]),date:parseDate(r[2],r[2]),home:clean(r[3]),away:clean(r[4]),homeGoals:r[5]===''?null:num(r[5]),awayGoals:r[6]===''?null:num(r[6]),status:clean(r[7]),winner:clean(r[8]),note:clean(r[9])})).filter(x=>x.match||x.home||x.away||x.note);
-  const standings=tableRows(tabTable).map(r=>({pos:r[0]===''?null:num(r[0]),code:r[1]===''?null:num(r[1]),team:clean(r[2]),pj:num(r[3]),pg:num(r[4]),pe:num(r[5]),pp:num(r[6]),gf:num(r[7]),gc:num(r[8]),dg:num(r[9]),pts:num(r[10]),pct:num(r[11]),form:clean(r[12]),state:clean(r[13])})).filter(x=>x.team);
-  const players=tableRows(jugTable).slice(8).map(r=>({match:num(r[0]),round:num(r[1]),date:parseDate(r[2],r[2]),team:clean(r[3]),rival:clean(r[4]),name:clean(r[5]),number:clean(r[6]),role:clean(r[7]),goals:num(r[8]),assists:num(r[9]),yellow:num(r[10]),red:num(r[11])})).filter(x=>x.name&&x.team);
-  const teamMap=new Map();standings.forEach(x=>{if(x.code!=null)teamMap.set(String(x.code),x.team)});cal.forEach(x=>{if(x.home&&!standings.some(s=>s.team===x.home))standings.push({team:x.home,code:null,pj:0,pg:0,pe:0,pp:0,gf:0,gc:0,dg:0,pts:0,pct:0})});
-  const teams=[...new Map(standings.filter(x=>x.team).map(x=>[x.team,{code:x.code,name:x.team}])).values()];
-  return {schedule:cal,results,standings,players,teams,updated:new Date()};
-}
-async function loadLive(){
-  const token=++requestToken;const cfg=CONFIG[cat];
-  setLoading(true);
-  try{
-    let cal,res,tab,jug;
-    if(cfg.publicado){
-      const wb=await loadPublishedWorkbook(cfg.publicado);
-      const faltantes=Object.values(cfg.hojas).filter(n=>!wb[n]);
-      if(faltantes.length) throw new Error('No se encontraron estas hojas publicadas: '+faltantes.join(', '));
-      cal={rows:rowsFromPublished(wb[cfg.hojas.calendario]).map(r=>({c:r.map(v=>({v:v,f:v}))}))};
-      res={rows:rowsFromPublished(wb[cfg.hojas.resultados]).map(r=>({c:r.map(v=>({v:v,f:v}))}))};
-      tab={rows:rowsFromPublished(wb[cfg.hojas.tabla]).map(r=>({c:r.map(v=>({v:v,f:v}))}))};
-      jug={rows:rowsFromPublished(wb[cfg.hojas.jugadores]).map(r=>({c:r.map(v=>({v:v,f:v}))}))};
-    }else{
-      [cal,res,tab,jug]=await Promise.all([loadSheet(cfg.id,cfg.hojas.calendario),loadSheet(cfg.id,cfg.hojas.resultados),loadSheet(cfg.id,cfg.hojas.tabla),loadSheet(cfg.id,cfg.hojas.jugadores)]);
-    }
-    if(token!==requestToken)return;
-    DATA[cat]=buildData(cal,res,tab,jug);render();setLoading(false);
-  }catch(e){
-    console.error(e);setLoading(false);
-    showError('No se pudieron actualizar los datos de '+cfg.nombre+'. Detalle: '+(e&&e.message?e.message:'error desconocido')+'.');
-  }
-}
-function setLoading(on){const p=$('#statusPill');if(p)p.textContent=on?'ACTUALIZANDO…':(DATA[cat]?'EN VIVO':'SIN DATOS')}
-function showError(msg){const el=$('#liveError');if(el){el.textContent=msg;el.hidden=false}}
-function getData(){return DATA[cat]||{results:[],schedule:[],standings:[],players:[],teams:[]}}
-function render(){const d=getData();$('#liveError').hidden=true;const played=d.results.filter(x=>x.status.toLowerCase()==='jugado').length;const pending=d.results.filter(x=>x.status.toLowerCase()!=='jugado').length;const goals=d.results.reduce((s,x)=>s+(x.homeGoals==null?0:x.homeGoals)+(x.awayGoals==null?0:x.awayGoals),0);$('#played').textContent=played;$('#pending').textContent=pending;$('#goals').textContent=goals;$('#statusPill').textContent=played?'EN VIVO':'PRÓXIMAMENTE';
- const upcoming=d.schedule.filter(x=>x.date&&x.home&&x.away&&(!x.score||x.score==='-'));const next=upcoming[0];$('#nextRound').textContent=next?`Jornada ${next.round}`:'';$('#nextMatch').innerHTML=next?matchHTML(next):'<p class="meta">No hay partidos próximos cargados.</p>';
- const latest=d.results.filter(x=>x.status.toLowerCase()==='jugado').slice(-4).reverse();$('#latest').innerHTML=latest.length?latest.map(x=>`<div class="result-row"><span>${x.home}</span><span class="result-score">${x.homeGoals} - ${x.awayGoals}</span><span class="away">${x.away}</span></div>`).join(''):'<p class="meta">Aún no hay resultados registrados.</p>';
- const sorted=[...d.standings].sort((a,b)=>{if(a.pj===0&&b.pj>0)return 1;if(a.pj>0&&b.pj===0)return -1;return (a.pos||99)-(b.pos||99)});$('#miniTable').innerHTML=sorted.map(x=>`<div class="result-row" style="grid-template-columns:32px 1fr 40px"><b>${x.pos||'—'}</b><span>${x.team}</span><b>${x.pts}</b></div>`).join('');
- renderSchedule();renderStandings();renderTeams();renderPlayers();}
-function matchHTML(x){return `<div class="match"><div class="team"><div class="badge">${initials(x.home)}</div>${x.home||'Por definir'}</div><div><div class="score">${x.score&&x.score!=='-'?x.score:'VS'}</div><div class="vs">${fmtDate(x.date)}${x.time?' · '+x.time:''}</div></div><div class="team"><div class="badge">${initials(x.away)}</div>${x.away||'Por definir'}</div></div><div class="meta">${x.venue||'Cancha por definir'}${x.note?' · '+x.note:''}</div>`}
-function renderSchedule(){const d=getData();const f=$('#roundFilter');const current=f.value||'all';f.innerHTML='<option value="all">Todas las jornadas</option>'+[...new Set(d.schedule.map(x=>x.round).filter(Boolean))].map(r=>`<option value="${r}">Jornada ${r}</option>`).join('');f.value=[...f.options].some(o=>o.value===current)?current:'all';const filter=f.value;const rows=d.schedule.filter(x=>filter==='all'||String(x.round)===filter);$('#scheduleTable').innerHTML=rows.map(x=>`<tr><td>${x.round||'—'}</td><td>#${x.match||'—'}</td><td>${fmtDate(x.date)}</td><td>${x.home||'Por definir'}</td><td><b>${x.score||'-'}</b></td><td>${x.away||'Por definir'}</td><td>${x.venue||'Por definir'}</td><td><span class="status ${x.score&&x.score!=='-'?'played':'pending'}">${x.score&&x.score!=='-'?'JUGADO':'PENDIENTE'}</span></td></tr>`).join('')}
-function renderStandings(){const d=getData();const rows=[...d.standings].sort((a,b)=>{if(a.pj===0&&b.pj>0)return 1;if(a.pj>0&&b.pj===0)return -1;return (a.pos||99)-(b.pos||99)});$('#standingsTable').innerHTML=rows.map(x=>`<tr><td><b>${x.pos||'—'}</b></td><td><b>${x.team}</b></td><td>${x.pj}</td><td>${x.pg}</td><td>${x.pe}</td><td>${x.pp}</td><td>${x.gf}</td><td>${x.gc}</td><td>${x.dg}</td><td><b>${x.pts}</b></td><td>${x.pct?Math.round(x.pct*100)+'%':'0%'}</td></tr>`).join('')}
-function renderTeams(){const d=getData();$('#teamGrid').innerHTML=d.teams.map(t=>{const s=d.standings.find(x=>x.team===t.name)||{};const players=d.players.filter(p=>p.team===t.name);return `<article class="team-card"><div class="team-logo">${initials(t.name)}</div><h3>${t.name}</h3><p>${t.code!=null?'Código '+t.code+' · ':''}${players.length} jugadores registrados</p><div class="team-stat"><span>PJ <b>${s.pj||0}</b></span><span>PTS <b>${s.pts||0}</b></span><span>DG <b>${s.dg||0}</b></span></div></article>`}).join('')}
-function renderPlayers(){const d=getData();const f=$('#teamFilter');const current=f.value||'all';f.innerHTML='<option value="all">Todos los equipos</option>'+d.teams.map(t=>`<option>${t.name}</option>`).join('');f.value=[...f.options].some(o=>o.value===current)?current:'all';const ps=d.players.filter(p=>f.value==='all'||p.team===f.value);$('#playerGrid').innerHTML=ps.length?ps.map(p=>`<div class="player"><div class="number">${p.number||'—'}</div><div><b>${p.name}</b><small>${p.team}</small><small>${p.role||'Jugador'}</small></div></div>`).join(''):'<p class="meta">No hay jugadores registrados todavía.</p>'}
-$$('.navbtn').forEach(b=>b.onclick=()=>{$$('.navbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');$$('.section').forEach(x=>x.classList.remove('active'));$('#'+b.dataset.section).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})});
-$$('.cat').forEach(b=>b.onclick=()=>{$$('.cat').forEach(x=>x.classList.remove('active'));b.classList.add('active');cat=b.dataset.cat;loadLive()});
-$('#roundFilter').onchange=renderSchedule;$('#teamFilter').onchange=renderPlayers;$$('[data-go]').forEach(b=>b.onclick=()=>{const n=b.dataset.go;$$('.navbtn').forEach(x=>x.classList.toggle('active',x.dataset.section===n));$$('.section').forEach(x=>x.classList.toggle('active',x.id===n));window.scrollTo({top:0,behavior:'smooth'})});
-loadLive();setInterval(loadLive,120000);
+const CONFIG={masculino:{nombre:'MASCULINO',id:'1mCMBHkh_Kg98IdgbKu8fPpqh8it_OCAn_aqA2BDSE1E',hojas:{cal:'CALENDARIO',res:'RESULTADOS',tab:'TABLA_POSICIONES',jug:'JUGADORES'},video:'https://www.youtube.com/embed/cjn7Y9CnVTQ?rel=0'},femenino:{nombre:'FEMENINO',id:'1YgQ8hXwvrV8tDmQtzRgrdDinkAM8U9coaxXuBe7JqHM',publicado:'https://docs.google.com/spreadsheets/d/e/2PACX-1vTvjdSukLjlJb9bk9BYCbl0NAsLfl49pnF1njIw2mCyODC15kBRcIHRL3iAM_nE44bRuPPIats-QOcy/pub',hojas:{cal:'CALENDARIO',res:'RESULTADOS',tab:'TABLA_POSICIONES',jug:'JUGADORES'},video:'https://www.youtube.com/embed/UkpKEy84rO8?rel=0'}};let cat='masculino',DATA={};const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],clean=v=>v==null?'':String(v).trim(),num=v=>{let n=Number(String(v??'').replace(',','.'));return Number.isFinite(n)?n:0},norm=v=>clean(v).toUpperCase().replace(/\s+/g,' ');
+function loadSheet(id,name){return new Promise((ok,no)=>{let cb='cb'+Date.now()+Math.random().toString(36).slice(2),sc=document.createElement('script'),to=setTimeout(()=>{del();no(Error('Tiempo de espera en '+name))},15000);function del(){clearTimeout(to);delete window[cb];sc.remove()}window[cb]=d=>{del();d&&d.status==='ok'?ok(d.table):no(Error('No se pudo leer '+name))};sc.onerror=()=>{del();no(Error('No se pudo conectar con '+name))};sc.src='https://docs.google.com/spreadsheets/d/'+id+'/gviz/tq?tqx='+encodeURIComponent('responseHandler:'+cb)+'&sheet='+encodeURIComponent(name)+'&headers=1';document.head.appendChild(sc)})}
+async function published(url){let r=await fetch(url+'?output=xlsx&cachebust='+Date.now(),{cache:'no-store'});if(!r.ok)throw Error('Google Sheets respondió '+r.status);let wb=XLSX.read(await r.arrayBuffer(),{type:'array',cellDates:false}),o={};wb.SheetNames.forEach(n=>o[n]=XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,defval:'',raw:false}));return o}
+function rows(t){return (t.rows||[]).map(r=>(r.c||[]).map(c=>c?(c.f!==undefined&&c.f!==''?c.f:c.v):''))}function findHeader(a,expected){let target=expected.map(norm);return a.findIndex(r=>target.every((x,i)=>norm(r[i])===x))}
+function parsePlayers(a){let h=findHeader(a,['Equipo','Jugador','Dorsal','Posición']);if(h<0)return[];return a.slice(h+1).map(r=>({team:clean(r[0]),name:clean(r[1]),number:clean(r[2]),role:clean(r[3])})).filter(x=>x.team&&x.name)}
+function build(cal,res,tab,jug){let c=rows(cal).map(r=>({round:num(r[0]),match:num(r[1]),date:clean(r[2]),time:clean(r[3]),home:clean(r[5]),away:clean(r[7]),venue:clean(r[8]),score:clean(r[9])||'-',note:clean(r[10])})).filter(x=>x.match||x.home||x.away),r=rows(res).map(x=>({match:num(x[0]),round:num(x[1]),date:clean(x[2]),home:clean(x[3]),away:clean(x[4]),hg:x[5]===''?null:num(x[5]),ag:x[6]===''?null:num(x[6]),status:clean(x[7])})).filter(x=>x.match||x.home||x.away),t=rows(tab).map(x=>({pos:num(x[0]),team:clean(x[2]),pj:num(x[3]),pg:num(x[4]),pe:num(x[5]),pp:num(x[6]),gf:num(x[7]),gc:num(x[8]),dg:num(x[9]),pts:num(x[10]),pct:num(x[11])})).filter(x=>x.team),a=rows(jug);return{cal:c,res:r,tab:t,players:parsePlayers(a),teams:[...new Set([...t.map(x=>x.team),...parsePlayers(a).map(x=>x.team)])]}}
+async function load(){try{$('#status').textContent='ACTUALIZANDO…';let cfg=CONFIG[cat],cal,res,tab,jug;if(cfg.publicado){let w=await published(cfg.publicado);cal={rows:(w[cfg.hojas.cal]||[]).map(r=>({c:r.map(v=>({v,f:v}))}))};res={rows:(w[cfg.hojas.res]||[]).map(r=>({c:r.map(v=>({v,f:v}))}))};tab={rows:(w[cfg.hojas.tab]||[]).map(r=>({c:r.map(v=>({v,f:v}))}))};jug={rows:(w[cfg.hojas.jug]||[]).map(r=>({c:r.map(v=>({v,f:v}))}))}}else [cal,res,tab,jug]=await Promise.all([loadSheet(cfg.id,cfg.hojas.cal),loadSheet(cfg.id,cfg.hojas.res),loadSheet(cfg.id,cfg.hojas.tab),loadSheet(cfg.id,cfg.hojas.jug)]);DATA[cat]=build(cal,res,tab,jug);$('#error').hidden=true;render();$('#status').textContent='DATOS CONECTADOS'}catch(e){console.error(e);$('#error').textContent='No se pudieron actualizar los datos de '+CONFIG[cat].nombre+'. Revisa que el archivo esté disponible para consulta web.';$('#error').hidden=false;renderStatic()}}
+function render(){let d=DATA[cat]||{cal:[],res:[],tab:[],players:[],teams:[]};$('#catTitle').textContent='TORNEO '+CONFIG[cat].nombre;$('#videoCat').textContent=cat;let played=d.res.filter(x=>norm(x.status)==='JUGADO'),goals=played.reduce((s,x)=>s+(x.hg||0)+(x.ag||0),0),total=d.cal.length;let leader=d.tab[0];$('#cards').innerHTML=[['PARTIDOS JUGADOS',played.length,'Encuentros oficiales'],['PARTIDOS PENDIENTES',Math.max(total-played.length,0),'Programación restante'],['GOLES REGISTRADOS',goals,'Marcadores oficiales'],['LÍDER ACTUAL',leader?leader.team:'—',leader?leader.pts+' puntos':'Tabla oficial']].map(x=>`<div class="metric"><small>${x[0]}</small><strong>${x[1]}</strong><span>${x[2]}</span></div>`).join('');let next=d.cal.find(x=>x.home&&x.away&&(!x.score||x.score==='-'));$('#next').innerHTML=next?match(next):'<div class="empty">No hay próximo partido cargado.</div>';let last=played.at(-1);$('#latest').innerHTML=last?`<div class="result"><strong>${last.home}</strong><strong>${last.hg} - ${last.ag}</strong><strong>${last.away}</strong></div>`:'<div class="empty">Aún no hay resultados oficiales.</div>';$('#mini').innerHTML=d.tab.slice(0,5).map((x,i)=>`<div class="minirow"><b>${x.pos||i+1}</b><span>${x.team}</span><b>${x.pts}</b></div>`).join('')||'<div class="empty">Sin tabla.</div>';$('#topscorers').innerHTML='<div class="empty">La tabla de goleadores se mostrará cuando la fuente oficial esté disponible.</div>';$('#scorers').innerHTML=$('#topscorers').innerHTML;renderComp('calendario');renderTeams(d);renderPlayers(d);renderVideo()}
+function match(x){return `<div class="match"><div class="team"><span class="badge">${ini(x.home)}</span>${x.home}</div><div><div class="score">VS</div><div class="vs">${x.date}${x.time?' · '+x.time:''}</div></div><div class="team"><span class="badge">${ini(x.away)}</span>${x.away}</div></div><div class="meta">${x.venue||'Cancha por definir'}${x.note?' · '+x.note:''}</div>`}function ini(x){return clean(x).split(/\s+/).filter(Boolean).slice(0,2).map(y=>y[0]).join('').toUpperCase()}
+function renderComp(panel){let d=DATA[cat]||{cal:[],res:[],tab:[]},p=$('#competitionPanel');if(panel==='tabla'){p.innerHTML=`<div class="card table-wrap"><table class="table"><thead><tr><th>POS.</th><th>EQUIPO</th><th>PJ</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DG</th><th>PTS</th></tr></thead><tbody>${d.tab.map((x,i)=>`<tr><td>${x.pos||i+1}</td><td><b>${x.team}</b></td><td>${x.pj}</td><td>${x.pg}</td><td>${x.pe}</td><td>${x.pp}</td><td>${x.gf}</td><td>${x.gc}</td><td>${x.dg}</td><td><b>${x.pts}</b></td></tr>`).join('')}</tbody></table></div>`}else{let arr=panel==='resultados'?d.res.filter(x=>norm(x.status)==='JUGADO'):d.cal;let groups={};arr.forEach(x=>(groups[x.round||'']??=[]).push(x));p.innerHTML='<div class="calendar">'+Object.entries(groups).map(([j,rs])=>`<div class="round"><div>JORNADA ${j||'—'}</div>${rs.map(x=>`<div class="game"><div><small>${x.date||''}<br>${x.time||''}</small></div><div class="home">${x.home||'Por definir'}</div><div class="score">${panel==='resultados'?`${x.hg} - ${x.ag}`:'VS'}</div><div class="away">${x.away||'Por definir'}</div><div><small>${x.venue||''}<br>${x.note||''}</small></div></div>`).join('')}</div>`).join('')+'</div>'||'<div class="empty">Sin datos.</div>'}}
+function renderTeams(d){$('#teams').innerHTML=d.teams.map((x,i)=>`<article class="team-card"><div class="team-logo">${ini(x)}</div><h3>${x}</h3><p>${cat.toUpperCase()} · PLANTILLA OFICIAL</p><div class="team-stats"><span>PJ <b>${(d.tab.find(t=>t.team===x)||{}).pj||0}</b></span><span>PTS <b>${(d.tab.find(t=>t.team===x)||{}).pts||0}</b></span></div></article>`).join('')||'<div class="empty">Sin equipos cargados.</div>'}
+function renderPlayers(d){let f=$('#teamFilter'),cur=f.value||'all';f.innerHTML='<option value="all">Todos los equipos</option>'+d.teams.map(x=>`<option value="${x}">${x}</option>`).join('');f.value=[...f.options].some(x=>x.value===cur)?cur:'all';let ps=d.players.filter(x=>f.value==='all'||x.team===f.value);$('#players').innerHTML=ps.length?ps.map(x=>`<article class="player"><div class="number">#${x.number||'—'}</div><div><b>${x.name}</b><small>${x.team}</small><small>${x.role||'Posición no registrada'}</small></div></article>`).join(''):'<div class="empty">No hay jugadores registrados. Se lee exclusivamente la pestaña JUGADORES.</div>'}
+function renderVideo(){let u=CONFIG[cat].video;let frame=`<iframe src="${u}" title="Presentación ${CONFIG[cat].nombre}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;$('#videoHome').innerHTML=frame;$('#videoPage').innerHTML=frame}
+function renderStatic(){if(!DATA[cat]){let d={cal:[],res:[],tab:[],players:[],teams:CONFIG[cat].nombre==='MASCULINO'?['BAYERN MUU FC','ADMIN UNITED FC','REAL SAN MARTIN FC','ULTIMA MILLA FC','LOS PROBIÓTICOS FC']:['MONARCA FC','INTER LÁCTEOS FC','ÉLITE FC']};renderTeams(d);renderPlayers(d);renderVideo()}}
+function go(id){$$('.section').forEach(s=>s.classList.toggle('activo',s.id===id));$$('nav button').forEach(b=>b.classList.toggle('activo',b.dataset.section===id));$('#nav').classList.remove('abierto');scrollTo({top:0,behavior:'smooth'})}
+$$('nav button').forEach(b=>b.onclick=()=>go(b.dataset.section));$$('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));$$('.cat').forEach(b=>b.onclick=()=>{$$('.cat').forEach(x=>x.classList.remove('activo'));b.classList.add('activo');cat=b.dataset.cat;load()});$$('.tabs button').forEach(b=>b.onclick=()=>{$$('.tabs button').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');renderComp(b.dataset.panel)});$('#teamFilter').onchange=()=>renderPlayers(DATA[cat]);$('#menubtn').onclick=()=>$('#nav').classList.toggle('abierto');load();setInterval(load,120000);
