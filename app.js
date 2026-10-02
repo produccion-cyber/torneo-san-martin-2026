@@ -8,6 +8,7 @@ const CONFIG={
   femenino:{
     nombre:'FEMENINO',
     id:'1YgQ8hXwvrV8tDmQtzRgrdDinkAM8U9coaxXuBe7JqHM',
+    publicado:'https://docs.google.com/spreadsheets/d/e/2PACX-1vTvjdSukLjlJb9bk9BYCbl0NAsLfl49pnF1njIw2mCyODC15kBRcIHRL3iAM_nE44bRuPPIats-QOcy/pub',
     hojas:{calendario:'CALENDARIO',resultados:'RESULTADOS',tabla:'TABLA_POSICIONES',jugadores:'JUGADORES'}
   }
 };
@@ -18,6 +19,21 @@ function fmtDate(d){if(!d)return 'Fecha por definir';if(/^\d{2}\/\d{2}\/\d{4}$/.
 function clean(v){return v==null?'':String(v).trim()}
 function num(v){if(v==null||v==='')return 0;const n=Number(String(v).replace(',','.'));return Number.isFinite(n)?n:0}
 function parseDate(v,f){return clean(f)||clean(v)}
+async function loadPublishedWorkbook(baseUrl){
+  if(!window.XLSX) throw new Error('No se pudo cargar el lector de hojas publicado.');
+  const r=await fetch(baseUrl+'?output=xlsx&cachebust='+Date.now(),{cache:'no-store'});
+  if(!r.ok) throw new Error('Google Sheets publicó el archivo con estado '+r.status);
+  const buf=await r.arrayBuffer();
+  const wb=XLSX.read(buf,{type:'array',cellDates:false});
+  const out={};
+  (wb.SheetNames||[]).forEach(name=>{
+    const ws=wb.Sheets[name];
+    out[name]=XLSX.utils.sheet_to_json(ws,{header:1,defval:'',raw:false});
+  });
+  return out;
+}
+function rowsFromPublished(rows){return (rows||[]).filter(r=>Array.isArray(r));}
+
 function loadSheet(spreadsheetId,sheetName){
   return new Promise((resolve,reject)=>{
     const cb='gsCallback_'+Date.now()+'_'+Math.random().toString(36).slice(2);
@@ -43,7 +59,25 @@ function buildData(calTable,resTable,tabTable,jugTable){
 async function loadLive(){
   const token=++requestToken;const cfg=CONFIG[cat];
   setLoading(true);
-  try{const [cal,res,tab,jug]=await Promise.all([loadSheet(cfg.id,cfg.hojas.calendario),loadSheet(cfg.id,cfg.hojas.resultados),loadSheet(cfg.id,cfg.hojas.tabla),loadSheet(cfg.id,cfg.hojas.jugadores)]);if(token!==requestToken)return;DATA[cat]=buildData(cal,res,tab,jug);render();setLoading(false)}catch(e){console.error(e);setLoading(false);showError('No se pudieron actualizar los datos desde Google Sheets. Revisa que el archivo esté compartido para cualquier usuario con el vínculo.');}
+  try{
+    let cal,res,tab,jug;
+    if(cfg.publicado){
+      const wb=await loadPublishedWorkbook(cfg.publicado);
+      const faltantes=Object.values(cfg.hojas).filter(n=>!wb[n]);
+      if(faltantes.length) throw new Error('No se encontraron estas hojas publicadas: '+faltantes.join(', '));
+      cal={rows:rowsFromPublished(wb[cfg.hojas.calendario]).map(r=>({c:r.map(v=>({v:v,f:v}))}))};
+      res={rows:rowsFromPublished(wb[cfg.hojas.resultados]).map(r=>({c:r.map(v=>({v:v,f:v}))}))};
+      tab={rows:rowsFromPublished(wb[cfg.hojas.tabla]).map(r=>({c:r.map(v=>({v:v,f:v}))}))};
+      jug={rows:rowsFromPublished(wb[cfg.hojas.jugadores]).map(r=>({c:r.map(v=>({v:v,f:v}))}))};
+    }else{
+      [cal,res,tab,jug]=await Promise.all([loadSheet(cfg.id,cfg.hojas.calendario),loadSheet(cfg.id,cfg.hojas.resultados),loadSheet(cfg.id,cfg.hojas.tabla),loadSheet(cfg.id,cfg.hojas.jugadores)]);
+    }
+    if(token!==requestToken)return;
+    DATA[cat]=buildData(cal,res,tab,jug);render();setLoading(false);
+  }catch(e){
+    console.error(e);setLoading(false);
+    showError('No se pudieron actualizar los datos de '+cfg.nombre+'. Detalle: '+(e&&e.message?e.message:'error desconocido')+'.');
+  }
 }
 function setLoading(on){const p=$('#statusPill');if(p)p.textContent=on?'ACTUALIZANDO…':(DATA[cat]?'EN VIVO':'SIN DATOS')}
 function showError(msg){const el=$('#liveError');if(el){el.textContent=msg;el.hidden=false}}
