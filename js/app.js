@@ -276,11 +276,32 @@ function celda(c) {
   if (!c) return '';
   const v = c.v;
   if (typeof v === 'string') {
-    const m = /^Date\((\d+),(\d+),(\d+)/.exec(v);
-    if (m) return m[1] + '-' + p2(+m[2] + 1) + '-' + p2(+m[3]);
+    const m = /^Date\((\d+),(\d+),(\d+)(?:,(\d+),(\d+)(?:,(\d+))?)?\)/.exec(v);
+    if (m) {
+      const y = +m[1], mo = +m[2], d = +m[3];
+      const h = m[4] != null ? +m[4] : null;
+      const min = m[5] != null ? +m[5] : null;
+      // 1899 o 1900 es la época base de Excel y Google Sheets para celdas con solo hora
+      if (y === 1899 || y === 1900) {
+        if (c.f) return c.f;
+        if (h != null) return p2(h) + ':' + p2(min || 0);
+        return '';
+      }
+      if (h != null && (h > 0 || min > 0)) {
+        return y + '-' + p2(mo + 1) + '-' + p2(d) + ' ' + p2(h) + ':' + p2(min);
+      }
+      return y + '-' + p2(mo + 1) + '-' + p2(d);
+    }
     return v;
   }
-  if (typeof Date !== 'undefined' && v instanceof Date) return v.getFullYear() + '-' + p2(v.getMonth() + 1) + '-' + p2(v.getDate());
+  if (typeof Date !== 'undefined' && v instanceof Date) {
+    const y = v.getFullYear();
+    if (y === 1899 || y === 1900) {
+      if (c.f) return c.f;
+      return p2(v.getHours()) + ':' + p2(v.getMinutes());
+    }
+    return y + '-' + p2(v.getMonth() + 1) + '-' + p2(v.getDate());
+  }
   if (Array.isArray(v)) return p2(v[0]) + ':' + p2(v[1]);
   if (v == null || v === '') return (c.f != null && c.f !== '') ? c.f : '';
   return v;
@@ -581,16 +602,37 @@ function estadisticas(d) {
 /* ---------- FORMATO ---------- */
 
 function fechaTxt(s) {
+  if (!s || /1899-12-30/.test(s)) return '';
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || '');
   if (!m) return clean(s);
+  if (+m[1] === 1899 || +m[1] === 1900) return '';
   const d = new Date(+m[1], +m[2] - 1, +m[3]);
   return d.toLocaleDateString('es-CO', { weekday: 'short', day: 'numeric', month: 'short' }).replace(/[.,]/g, '');
 }
 
 function horaTxt(s) {
-  const m = /^(\d{1,2}):(\d{2})/.exec(s || '');
-  if (!m) return clean(s);
-  let h = +m[1]; const ap = h >= 12 ? 'p. m.' : 'a. m.'; h = h % 12 || 12;
+  if (!s || /1899-12-30/.test(s)) return '';
+  const t = clean(s);
+  // Si viene en formato Google Visualization Date(1899,11,30,16,0,0)
+  const mDate = /^Date\(\d+,\d+,\d+,(\d+),(\d+)/.exec(t);
+  if (mDate) {
+    let h = +mDate[1];
+    const ap = h >= 12 ? 'p. m.' : 'a. m.';
+    h = h % 12 || 12;
+    return h + ':' + mDate[2] + ' ' + ap;
+  }
+  // Si ya tiene indicador a. m. / p. m. / am / pm
+  const mAmPm = /^(\d{1,2}):(\d{2})\s*([ap]\.?\s*m\.?)/i.exec(t);
+  if (mAmPm) {
+    const ap = mAmPm[3].toLowerCase().startsWith('p') ? 'p. m.' : 'a. m.';
+    return (+mAmPm[1]) + ':' + mAmPm[2] + ' ' + ap;
+  }
+  // Formato 24h militar "16:00" o "16:00:00"
+  const m = /^(\d{1,2}):(\d{2})/.exec(t);
+  if (!m) return t;
+  let h = +m[1];
+  const ap = h >= 12 ? 'p. m.' : 'a. m.';
+  h = h % 12 || 12;
   return h + ':' + m[2] + ' ' + ap;
 }
 
@@ -680,8 +722,11 @@ const lista = (arr, n, val, sub, msg) => arr.length ? arr.slice(0, n).map(x => f
 
 function matchHtml(x) {
   const etiqueta = `JORNADA ${x.round || '—'} · PARTIDO ${x.match || '—'}`;
+  const f = fechaTxt(x.date);
+  const h = horaTxt(x.time);
+  const infoHorario = (f ? esc(f) : 'Fecha por definir') + (h ? ' · ' + esc(h) : ' · Hora por definir');
   return `<div class="meta" style="margin-top:14px"><b>${etiqueta}</b> ${chip(x.note)}</div>` +
-    `<div class="match"><div class="team">${badgeHtml(x.home)}${esc(x.home) || 'Por definir'}</div><div><div class="score">VS</div><div class="vs">${esc(fechaTxt(x.date))}${x.time ? ' · ' + esc(horaTxt(x.time)) : ''}</div></div><div class="team">${badgeHtml(x.away)}${esc(x.away) || 'Por definir'}</div></div>` +
+    `<div class="match"><div class="team">${badgeHtml(x.home)}${esc(x.home) || 'Por definir'}</div><div><div class="score">VS</div><div class="vs">${infoHorario}</div></div><div class="team">${badgeHtml(x.away)}${esc(x.away) || 'Por definir'}</div></div>` +
     `<div class="meta">${esc(x.venue) || 'Cancha por definir'}</div>`;
 }
 
@@ -780,8 +825,11 @@ function renderComp(panel) {
     `<div class="round"><div>JORNADA ${esc(j) || '—'}</div>${rs.map(x => {
       const jugado = panel === 'resultados' || (x.score && x.score !== '-');
       const marcador = panel === 'resultados' ? `${x.hg ?? '-'} - ${x.ag ?? '-'}` : (jugado ? esc(x.score) : 'VS');
-      const hora = x.time ? `<span class="hr">${esc(horaTxt(x.time))}</span>` : '<span class="hr">Hora por definir</span>';
-      return `<div class="game"><div class="gf"><small>${esc(fechaTxt(x.date)) || 'Fecha por definir'} ${hora}</small></div><div class="home">${teamTag(x.home, true)}</div><div class="score">${marcador}</div><div class="away">${teamTag(x.away, false)}</div><div class="gl"><small>${esc(x.venue) || 'Cancha por definir'}</small>${x.note ? '<br>' + chip(x.note) : ''}</div></div>`;
+      const h = horaTxt(x.time);
+      const hora = h ? `<span class="hr">${esc(h)}</span>` : '<span class="hr">Hora por definir</span>';
+      const f = fechaTxt(x.date);
+      const fecha = f ? esc(f) : 'Fecha por definir';
+      return `<div class="game"><div class="gf"><small>${fecha} ${hora}</small></div><div class="home">${teamTag(x.home, true)}</div><div class="score">${marcador}</div><div class="away">${teamTag(x.away, false)}</div><div class="gl"><small>${esc(x.venue) || 'Cancha por definir'}</small>${x.note ? '<br>' + chip(x.note) : ''}</div></div>`;
     }).join('')}</div>`).join('') + '</div>';
 }
 
