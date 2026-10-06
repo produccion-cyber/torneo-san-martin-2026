@@ -1,0 +1,53 @@
+================================================================================
+ RECUERDOS Y GALERÍA OFICIAL · TORNEO SAN MARTÍN 2026
+================================================================================
+
+INSTRUCCIONES DE USO:
+1. Guarda tus fotos en la carpeta 'img/recuerdos/' (por ejemplo: foto1.jpg, foto_admin.jpg).
+2. Si tienes videos en YouTube, puedes pegar el enlace completo (ej: https://youtu.be/... o https://www.youtube.com/watch?v=...).
+3. Puedes organizar los recuerdos por Jornada y Partido siguiendo esta estructura simple:
+
+[JORNADA 1]
+FECHA: 3 de octubre de 2026
+PARTIDO: REAL SAN MARTIN FC vs ADMIN UNITED FC
+FOTO: foto_inaugural.jpg | Saludo protocolario de ambos equipos antes del pitazo inicial.
+FOTO: festejo_gol.jpg | Celebración de gol de Admin United.
+VIDEO: https://youtu.be/cjn7Y9CnVTQ | Resumen de las mejores jugadas de la primera fecha.
+
+PARTIDO: LOS PROBIÓTICOS FC vs ULTIMA MILLA FC
+FOTO: foto_probioticos.jpg | Nómina completa de Los Probióticos FC en la jornada 1.
+FOTO: foto_milla.jpg | Nómina de Ultima Milla FC lista para el encuentro.
+
+[JORNADA 2]
+FECHA: 10 de octubre de 2026
+PARTIDO: MONARCA FC vs INTER LÁCTEOS FC
+FOTO: foto_femenino_j2.jpg | Gran debut de la categoría Femenina.
+
+================================================================================
+NOTAS:
+- Puedes agregar tantas fotos o videos como desees.
+- Si dejas el archivo con tus anotaciones, el sistema las integrará ordenadamente en la pestaña RECUERDOS.
+================================================================================
+
+[JORNADA 1]
+FECHA: 3 de octubre de 2026
+PARTIDO: REAL SAN MARTIN FC vs ADMIN UNITED FC
+FOTO: DSC02718.jpg | NÓMINA COMPLETA ADMIN UNITED FC
+FOTO: DSC02728.jpg | NÓMINA COMPLETA REAL SAN MARTIN FC
+VIDEO: 
+
+PARTIDO: LOS PROBIÓTICOS FC vs ULTIMA MILLA FC
+FOTO: DSC02735.jpg | NÓMINA COMPLETA ULTIMA MILLA FC
+FOTO: DSC02742.jpg | NÓMINA COMPLETA LOS PROBIÓTICOS FC
+VIDEO: 
+
+PARTIDO: REAL SAN MARTIN FC vs 
+FOTO: DSC03001.jpg | NÓMINA COMPLETA BAYERN MUU FC
+
+
+
+
+
+
+
+
