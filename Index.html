@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#04101f">
+  <title>Torneo San Martín 2026</title>
+  <meta name="description" content="Plataforma oficial del Torneo de Fútbol 5 San Martín Lácteos 2026. Calendario, resultados, posiciones, plantillas, estadísticas y manual del torneo.">
+  <meta property="og:title" content="Torneo San Martín 2026">
+  <meta property="og:description" content="Plataforma oficial del Torneo de Fútbol 5 San Martín Lácteos 2026. Calendario, resultados, posiciones, plantillas, estadísticas y manual del torneo.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+  <!-- Barra superior estética -->
+  <div class="top-stripe"></div>
+
+  <!-- Cabecera principal -->
+  <header class="site-header">
+    <a href="#/inicio" class="brand-link" aria-label="Ir al inicio del Torneo San Martín 2026">
+      <img class="header-logo-company" src="img/LOGO SAN MARTIN LACTEOS S.A.S.jpg" alt="Logo San Martín Lácteos" loading="lazy">
+      <img class="header-logo-mascot" src="img/TOROS ICONO DEL TORNEO.jpg" alt="Mascota oficial Toros San Martín 2026" loading="lazy">
+      <div class="header-titles">
+        <span class="header-subtitle">SAN MARTÍN LÁCTEOS S.A.S.</span>
+        <strong class="header-maintitle">
+          <span class="header-title-text">TORNEO SAN MARTÍN</span>
+          <span class="gold-badge">2026</span>
+        </strong>
+      </div>
+    </a>
+    <button id="btnMenu" class="btn-menu" aria-label="Abrir menú" aria-expanded="false">
+      <span class="menu-icon-bars" aria-hidden="true">☰</span>
+    </button>
+  </header>
+
+  <!-- Menú lateral / desplegable para móvil -->
+  <div id="navBackdrop" class="nav-backdrop" hidden></div>
+  <nav id="mainNav" class="main-nav" aria-label="Menú principal" hidden>
+    <div class="nav-header">
+      <span class="nav-title">MENÚ PRINCIPAL</span>
+      <button id="btnCloseNav" class="btn-close-nav" aria-label="Cerrar menú">✕</button>
+    </div>
+    <ul class="nav-list">
+      <li><a href="#/inicio" class="nav-link" data-route="inicio">INICIO</a></li>
+      <li><a href="#/masculino" class="nav-link" data-route="masculino">MASCULINO</a></li>
+      <li><a href="#/femenino" class="nav-link" data-route="femenino">FEMENINO</a></li>
+      <li><a href="#/recuerdos" class="nav-link" data-route="recuerdos">RECUERDOS</a></li>
+      <li><a href="#/torneo" class="nav-link" data-route="torneo">TORNEO</a></li>
+    </ul>
+    <div class="nav-footer">
+      <small>FÚTBOL 5 · EDICIÓN OFICIAL 2026</small>
+    </div>
+  </nav>
+
+  <!-- Barra de estado de conexión de datos -->
+  <aside class="status-strip" aria-live="polite">
+    <div class="status-container">
+      <span id="dataStatusIndicator" class="status-pill status-loading">
+        <span class="status-dot"></span>
+        <span id="dataStatusText">CONECTANDO CON PLANILLAS…</span>
+      </span>
+      <span id="dataStatusTime" class="status-time"></span>
+    </div>
+    <div id="dataStatusAlert" class="status-alert" hidden></div>
+  </aside>
+
+  <!-- Contenido principal -->
+  <main id="mainContent" class="main-content">
+
+    <!-- ========================================== -->
+    <!-- 1. SECCIÓN INICIO (GENERAL)                -->
+    <!-- ========================================== -->
+    <section id="view-inicio" class="app-view active" aria-label="Inicio general del torneo">
+      
+      <!-- Hero Dinámico V1 Mejorado con Afiche Oficial Integrado -->
+      <section class="hero-banner-v1">
+        <div class="hero-v1-content">
+          <div class="hero-v1-copy">
+            <div class="hero-live-pill">
+              <span class="live-dot-pulse"></span>
+              <span class="hero-edition-tag">TORNEO OFICIAL 2026 · FÚTBOL 5</span>
+              <span class="badge-tag tag-masculino">EN VIVO</span>
+            </div>
+            <h1 class="hero-v1-title">LA COMPETENCIA<br><em class="hero-accent-text">COMIENZA AQUÍ.</em></h1>
+            <p class="hero-v1-desc">El punto de encuentro oficial de San Martín Lácteos S.A.S. Sigue el torneo minuto a minuto: partidos programados, resultados oficiales, tabla de posiciones, nóminas y estadísticas individuales.</p>
+            <div class="hero-v1-actions">
+              <a href="#/torneo" class="btn-hero-ghost">📋 CONSULTAR MANUAL</a>
+            </div>
+            <div class="hero-badges-row">
+              <div class="hero-mascot-pill">
+                <img src="img/TOROS ICONO DEL TORNEO.jpg" alt="Toros Icono Oficial 2026" class="hero-mascot-avatar">
+                <span class="hero-mascot-text">TOROS SAN MARTÍN · 2026</span>
+              </div>
+              <div class="hero-slogan-pill">
+                <span>🤝 Primero las personas, después el resultado</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-v1-poster-wrap">
+            <div class="hero-poster-card" id="cardPosterHero">
+              <div class="poster-card-topbar">
+                <span class="poster-gold-seal">★ AFICHE OFICIAL 2026 ★</span>
+              </div>
+              <div class="poster-img-container">
+                <img class="hero-poster-img" src="img/AFICHE TORNEO 2026.jpg" alt="Afiche Oficial del Torneo de Fútbol 5 San Martín Lácteos 2026" fetchpriority="high">
+              </div>
+              <div class="poster-card-badge">EDICIÓN 2026 · MASCULINO Y FEMENINO</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tira de métricas del torneo -->
+        <div class="hero-stats-strip">
+          <div class="hero-stat-cell">
+            <strong class="stat-number">8</strong>
+            <span class="stat-label">EQUIPOS</span>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat-cell">
+            <strong class="stat-number">23</strong>
+            <span class="stat-label">PARTIDOS TOTALES</span>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat-cell">
+            <strong class="stat-number">2</strong>
+            <span class="stat-label">CATEGORÍAS</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Botones de acceso a ramas -->
+      <div class="branch-access-grid">
+        <a href="#/masculino" class="branch-access-btn btn-masculino">
+          <span class="branch-access-arrow">⚽</span>
+          ENTRAR AL TORNEO MASCULINO
+        </a>
+        <a href="#/femenino" class="branch-access-btn btn-femenino">
+          <span class="branch-access-arrow">⚽</span>
+          ENTRAR AL TORNEO FEMENINO
+        </a>
+      </div>
+
+      <!-- 4 Tarjetas de resumen general sumadas -->
+      <div class="summary-cards-grid">
+        <article class="stat-box">
+          <span class="stat-box-label">PARTIDOS JUGADOS</span>
+          <div class="stat-box-value" id="homeSumJugados">0</div>
+          <span class="stat-box-sub" id="homeSumJugadosTotal">de 23 programados</span>
+        </article>
+
+        <article class="stat-box">
+          <span class="stat-box-label">PARTIDOS PENDIENTES</span>
+          <div class="stat-box-value" id="homeSumPendientes">23</div>
+          <span class="stat-box-sub">por disputarse</span>
+        </article>
+
+        <article class="stat-box">
+          <span class="stat-box-label">GOLES REGISTRADOS</span>
+          <div class="stat-box-value" id="homeSumGoles">0</div>
+          <span class="stat-box-sub" id="homeSumPromedio">0.0 por partido</span>
+        </article>
+
+        <article class="stat-box stat-box-leaders">
+          <span class="stat-box-label">LÍDERES ACTUALES</span>
+          <div class="leaders-lines">
+            <div class="leader-line" id="homeLeaderMasc">
+              <span class="badge-tag tag-masculino">Masculino</span>
+              <div class="leader-team-info">
+                <span class="leader-team-shield" id="homeLeaderMascShield"></span>
+                <span class="leader-team-name" id="homeLeaderMascName">Sin partidos jugados</span>
+              </div>
+              <strong class="leader-team-pts" id="homeLeaderMascPts"></strong>
+            </div>
+            <div class="leader-line" id="homeLeaderFem">
+              <span class="badge-tag tag-femenino">Femenino</span>
+              <div class="leader-team-info">
+                <span class="leader-team-shield" id="homeLeaderFemShield"></span>
+                <span class="leader-team-name" id="homeLeaderFemName">Sin partidos jugados</span>
+              </div>
+              <strong class="leader-team-pts" id="homeLeaderFemPts"></strong>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Barra de avance general -->
+      <div class="progress-box">
+        <div class="progress-info">
+          <span class="progress-label">AVANCE DEL TORNEO</span>
+          <strong class="progress-stats" id="homeProgressText">0 de 23 partidos jugados (0%)</strong>
+        </div>
+        <div class="progress-bar-track">
+          <div id="homeProgressBar" class="progress-bar-fill" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Próximos Encuentros -->
+      <section class="section-block" aria-label="Próximos encuentros">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">PRÓXIMOS ENCUENTROS</h2>
+            <p class="section-subtitle">Por fecha y hora · masculino y femenino</p>
+          </div>
+          <div class="branch-legend">
+            <span class="legend-item"><i class="dot dot-masc"></i> Masculino</span>
+            <span class="legend-item"><i class="dot dot-fem"></i> Femenino</span>
+          </div>
+        </div>
+        
+        <div id="homeNextMatchesList" class="matches-stream">
+          <p class="empty-state-msg">Cargando programación oficial…</p>
+        </div>
+
+        <div class="section-action-center">
+          <a href="#/calendario" class="btn-more-action">Ver calendario completo →</a>
+        </div>
+      </section>
+
+      <!-- Últimos Resultados Oficiales -->
+      <section class="section-block" aria-label="Últimos resultados oficiales">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">ÚLTIMOS RESULTADOS OFICIALES</h2>
+            <p class="section-subtitle">Marcadores oficiales verificados</p>
+          </div>
+        </div>
+
+        <div id="homeLatestResultsList" class="results-stream">
+          <p class="empty-state-msg">Aún no se han disputado partidos oficiales.</p>
+        </div>
+
+        <div class="section-action-center">
+          <a href="#/calendario" class="btn-more-action" data-panel="resultados">Ver todos los resultados →</a>
+        </div>
+      </section>
+
+      <!-- Fair Play · Equipos más deportivos -->
+      <section class="section-block" aria-label="Juego limpio y Fair Play">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">FAIR PLAY · MÁS DEPORTIVOS</h2>
+            <p class="section-subtitle">Primeros en comportamiento y disciplina deportiva</p>
+          </div>
+        </div>
+
+        <div class="fairplay-summary-grid">
+          <a href="#/masculino/estadisticas" class="fairplay-card-link" data-sub="estadisticas" data-tab="fairplay" data-branch="masculino">
+            <div class="fairplay-card-head">
+              <span class="badge-tag tag-masculino">Masculino</span>
+              <span class="fairplay-card-goto">Ver tabla Fair Play →</span>
+            </div>
+            <div class="fairplay-card-body" id="homeFairMascBody">
+              <span class="empty-state-msg">Se mostrará cuando haya partidos</span>
+            </div>
+          </a>
+
+          <a href="#/femenino/estadisticas" class="fairplay-card-link" data-sub="estadisticas" data-tab="fairplay" data-branch="femenino">
+            <div class="fairplay-card-head">
+              <span class="badge-tag tag-femenino">Femenino</span>
+              <span class="fairplay-card-goto">Ver tabla Fair Play →</span>
+            </div>
+            <div class="fairplay-card-body" id="homeFairFemBody">
+              <span class="empty-state-msg">Se mostrará cuando haya partidos</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- Presentaciones Oficiales -->
+      <section class="section-block" aria-label="Presentaciones oficiales">
+        <div class="section-header">
+          <h2 class="section-title">PRESENTACIONES OFICIALES</h2>
+          <p class="section-subtitle">Videos oficiales de lanzamiento 2026</p>
+        </div>
+
+        <div class="presentations-grid">
+          <div class="presentation-mini-card masc">
+            <div class="pres-mini-copy">
+              <span class="badge-tag tag-masculino">EDICIÓN MASCULINA</span>
+              <h3>VIVE EL TORNEO MASCULINO</h3>
+              <p>5 equipos listos para la gloria deportiva.</p>
+              <a href="#/masculino/presentacion" class="btn-pres-go">Ver presentación →</a>
+            </div>
+          </div>
+
+          <div class="presentation-mini-card fem">
+            <div class="pres-mini-copy">
+              <span class="badge-tag tag-femenino">EDICIÓN FEMENINA</span>
+              <h3>VIVE EL TORNEO FEMENINO</h3>
+              <p>3 escuadras disputando la corona oficial.</p>
+              <a href="#/femenino/presentacion" class="btn-pres-go">Ver presentación →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Últimos Recuerdos (si existen) -->
+      <section id="homeRecuerdosBlock" class="section-block" aria-label="Últimos recuerdos" hidden>
+        <div class="section-header">
+          <h2 class="section-title">ÚLTIMOS RECUERDOS</h2>
+          <p class="section-subtitle">Momentos destacados de las jornadas</p>
+        </div>
+        <div id="homeRecuerdosStream" class="recuerdos-h-stream"></div>
+      </section>
+
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 2. ESPACIO DE RAMA (MASCULINO Y FEMENINO) -->
+    <!-- ========================================== -->
+    <section id="view-rama" class="app-view" aria-label="Espacio de categoría deportiva">
+
+      <!-- Selector de rama MUY NOTORIO (fijo) -->
+      <div class="branch-selector-bar">
+        <div class="branch-toggle-control" role="tablist" aria-label="Seleccionar rama del torneo">
+          <button id="btnRamaMasc" class="branch-pill-btn active-masc" role="tab" aria-selected="true" data-target-branch="masculino">
+            MASCULINO
+          </button>
+          <button id="btnRamaFem" class="branch-pill-btn" role="tab" aria-selected="false" data-target-branch="femenino">
+            FEMENINO
+          </button>
+        </div>
+      </div>
+
+      <!-- Barra de sub-secciones fija bajo el menú -->
+      <nav class="subsections-bar" aria-label="Subsecciones de la rama">
+        <div class="subsections-scroll">
+          <button class="sub-tab-btn active" data-sub="resumen">RESUMEN</button>
+          <button class="sub-tab-btn" data-sub="calendario">CALENDARIO</button>
+          <button class="sub-tab-btn" data-sub="resultados">RESULTADOS</button>
+          <button class="sub-tab-btn" data-sub="posiciones">POSICIONES</button>
+          <button class="sub-tab-btn" data-sub="equipos">EQUIPOS</button>
+          <button class="sub-tab-btn" data-sub="estadisticas">ESTADÍSTICAS</button>
+          <button class="sub-tab-btn" data-sub="presentacion">PRESENTACIÓN</button>
+        </div>
+      </nav>
+
+      <!-- Encabezado de la rama actual -->
+      <div class="branch-banner">
+        <div class="branch-banner-text">
+          <small class="branch-edition-badge" id="branchBadge">TORNEO OFICIAL 2026</small>
+          <h1 class="branch-title" id="branchMainTitle">CATEGORÍA MASCULINA</h1>
+          <p class="branch-desc" id="branchDescription">Programación, clasificación oficial y estadísticas en tiempo real.</p>
+        </div>
+      </div>
+
+      <!-- Contenedor dinámico de subsecciones -->
+      <div class="subsection-content-container">
+
+        <!-- SUB-SECCIÓN: RESUMEN -->
+        <div id="sub-resumen" class="sub-panel active">
+          <!-- Próximo partido de la rama -->
+          <div class="sub-block">
+            <h3 class="sub-block-title">PRÓXIMO PARTIDO</h3>
+            <div id="branchNextMatchCard" class="branch-next-card"></div>
+          </div>
+
+          <!-- Clasificación de la rama -->
+          <div class="sub-block">
+            <div class="sub-block-head">
+              <h3 class="sub-block-title">CLASIFICACIÓN OFICIAL</h3>
+              <button class="btn-link-action" data-jump-sub="posiciones">Ver tabla completa →</button>
+            </div>
+            <div class="table-responsive-box" id="branchMiniStandings"></div>
+          </div>
+
+          <!-- Últimos resultados de la rama -->
+          <div class="sub-block">
+            <div class="sub-block-head">
+              <h3 class="sub-block-title">ÚLTIMOS RESULTADOS</h3>
+              <button class="btn-link-action" data-jump-sub="resultados">Ver todos los resultados →</button>
+            </div>
+            <div id="branchLatestResultsList" class="results-stream"></div>
+          </div>
+
+          <!-- Los 3 mejores de estadísticas -->
+          <div class="sub-block">
+            <div class="sub-block-head">
+              <h3 class="sub-block-title">DESTACADOS DEL TORNEO</h3>
+              <button class="btn-link-action" data-jump-sub="estadisticas">Ver estadísticas →</button>
+            </div>
+            <div class="top-three-grid">
+              <article class="top-three-card">
+                <header class="top-three-header">
+                  <strong>⚽ GOLEADORES</strong>
+                </header>
+                <div id="branchTopScorersMini" class="top-three-body"></div>
+              </article>
+
+              <article class="top-three-card">
+                <header class="top-three-header">
+                  <strong>🅰️ ASISTENCIAS</strong>
+                </header>
+                <div id="branchTopAssistsMini" class="top-three-body"></div>
+              </article>
+
+              <article class="top-three-card">
+                <header class="top-three-header">
+                  <strong>🧤 VALLA MENOS VENCIDA</strong>
+                </header>
+                <div id="branchTopKeepersMini" class="top-three-body"></div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-SECCIÓN: CALENDARIO -->
+        <div id="sub-calendario" class="sub-panel">
+          <div class="sub-block-head">
+            <h3 class="sub-block-title">CALENDARIO OFICIAL POR JORNADAS</h3>
+          </div>
+          <div id="branchCalendarRounds" class="calendar-rounds-stream"></div>
+        </div>
+
+        <!-- SUB-SECCIÓN: RESULTADOS -->
+        <div id="sub-resultados" class="sub-panel">
+          <div class="sub-block-head">
+            <h3 class="sub-block-title">RESULTADOS OFICIALES</h3>
+          </div>
+          <div id="branchResultsOfficialList" class="results-stream"></div>
+        </div>
+
+        <!-- SUB-SECCIÓN: POSICIONES -->
+        <div id="sub-posiciones" class="sub-panel">
+          <div class="sub-block-head">
+            <h3 class="sub-block-title">TABLA OFICIAL DE POSICIONES</h3>
+          </div>
+          <div class="table-responsive-box" id="branchFullStandings"></div>
+        </div>
+
+        <!-- SUB-SECCIÓN: EQUIPOS Y PLANTILLAS -->
+        <div id="sub-equipos" class="sub-panel">
+          <div class="sub-block-head">
+            <h3 class="sub-block-title">EQUIPOS PARTICIPANTES</h3>
+            <div class="team-filter-wrap">
+              <label for="selectTeamFilter" class="sr-only">Filtrar por equipo</label>
+              <select id="selectTeamFilter" class="form-select">
+                <option value="all">Todos los equipos</option>
+              </select>
+            </div>
+          </div>
+          
+          <div id="branchTeamsGrid" class="teams-cards-grid"></div>
+
+          <div class="roster-section-head">
+            <h3 class="sub-block-title">PLANTILLA DE JUGADORES</h3>
+            <p class="section-subtitle">Dorsal, posición oficial y estadísticas individuales</p>
+          </div>
+          <div id="branchRosterGrid" class="roster-cards-grid"></div>
+        </div>
+
+        <!-- SUB-SECCIÓN: ESTADÍSTICAS -->
+        <div id="sub-estadisticas" class="sub-panel">
+          <!-- Selector interno de estadísticas -->
+          <div class="stats-internal-bar">
+            <button class="stats-tab-btn active" data-stat-tab="goleadores">GOLEADORES</button>
+            <button class="stats-tab-btn" data-stat-tab="asistencias">ASISTENCIAS</button>
+            <button class="stats-tab-btn" data-stat-tab="valla">VALLA MENOS VENCIDA</button>
+            <button class="stats-tab-btn" data-stat-tab="mvp">MVP</button>
+            <button class="stats-tab-btn" data-stat-tab="disciplina">DISCIPLINA</button>
+            <button class="stats-tab-btn" data-stat-tab="fairplay">FAIR PLAY</button>
+            <button class="stats-tab-btn" data-stat-tab="generales">GENERALES</button>
+          </div>
+
+          <div class="stats-panel-box" id="statPanelGoleadores"></div>
+          <div class="stats-panel-box" id="statPanelAsistencias" hidden></div>
+          <div class="stats-panel-box" id="statPanelValla" hidden></div>
+          <div class="stats-panel-box" id="statPanelMvp" hidden></div>
+          <div class="stats-panel-box" id="statPanelDisciplina" hidden></div>
+          <div class="stats-panel-box" id="statPanelFairplay" hidden></div>
+          <div class="stats-panel-box" id="statPanelGenerales" hidden></div>
+        </div>
+
+        <!-- SUB-SECCIÓN: PRESENTACIÓN -->
+        <div id="sub-presentacion" class="sub-panel">
+          <div class="video-container-vertical">
+            <div id="videoBranchCover" class="video-poster-box">
+              <img src="img/TOROS ICONO DEL TORNEO.jpg" alt="Icono oficial Toros" class="video-poster-mascot" loading="lazy">
+              <span class="video-poster-badge" id="videoBranchBadge">PRESENTACIÓN OFICIAL</span>
+              <h2 class="video-poster-title" id="videoBranchTitle">VIVE EL TORNEO 2026</h2>
+              <p class="video-poster-desc" id="videoBranchDesc">Experiencia audiovisual oficial de la categoría.</p>
+              <button id="btnPlayVideoBranch" class="btn-play-trigger" aria-label="Reproducir video oficial">
+                ▶ VER VIDEO
+              </button>
+            </div>
+            <div id="videoBranchPlayerFrame" class="video-player-frame" hidden></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 3. CALENDARIO GENERAL                      -->
+    <!-- ========================================== -->
+    <section id="view-calendario" class="app-view" aria-label="Calendario y resultados generales">
+      <div class="pagehead-box">
+        <span class="pagehead-pre">COMPETICIÓN GENERAL</span>
+        <h1 class="pagehead-title">CALENDARIO Y RESULTADOS</h1>
+        <p class="pagehead-desc">Consulta la programación completa y todos los resultados oficiales de ambas ramas.</p>
+      </div>
+
+      <!-- Filtros de vista y categoría -->
+      <div class="general-filters-bar">
+        <div class="btn-switch-group">
+          <button class="switch-btn active" id="btnGenViewCal">CALENDARIO</button>
+          <button class="switch-btn" id="btnGenViewRes">RESULTADOS</button>
+        </div>
+        <div class="btn-switch-group">
+          <button class="switch-btn active" id="btnGenFilterAll">Todos</button>
+          <button class="switch-btn" id="btnGenFilterMasc">Masculino</button>
+          <button class="switch-btn" id="btnGenFilterFem">Femenino</button>
+        </div>
+      </div>
+
+      <div id="generalMatchesContainer" class="general-stream-box"></div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 4. RECUERDOS (GALERÍA)                    -->
+    <!-- ========================================== -->
+    <section id="view-recuerdos" class="app-view" aria-label="Galería de recuerdos fotográficos">
+      <div class="pagehead-box">
+        <span class="pagehead-pre">GALERÍA OFICIAL</span>
+        <h1 class="pagehead-title">RECUERDOS DEL TORNEO</h1>
+        <p class="pagehead-desc">Imágenes y momentos memorables de las jornadas disputadas.</p>
+      </div>
+
+      <div class="recuerdos-filters-bar">
+        <button class="filter-pill-btn active" data-recuerdos-filter="all">Todos</button>
+        <button class="filter-pill-btn" data-recuerdos-filter="masculino">Masculino</button>
+        <button class="filter-pill-btn" data-recuerdos-filter="femenino">Femenino</button>
+        <button class="filter-pill-btn" data-recuerdos-filter="torneo">Torneo</button>
+      </div>
+
+      <div id="recuerdosContainer" class="recuerdos-content-box">
+        <div class="empty-state-card">
+          <span class="empty-state-icon">📷</span>
+          <h3>Pronto subiremos los recuerdos de los partidos</h3>
+          <p>La organización está recopilando las mejores fotografías de cada fecha y encuentro.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 5. TORNEO Y MANUAL OFICIAL                 -->
+    <!-- ========================================== -->
+    <section id="view-torneo" class="app-view" aria-label="Documentación oficial y manual del torneo">
+      
+      <div class="pagehead-box">
+        <span class="pagehead-pre">06 · DOCUMENTACIÓN OFICIAL</span>
+        <h1 class="pagehead-title">MANUAL DEL TORNEO <em>2026.</em></h1>
+        <p class="pagehead-desc">Primero las personas, después el resultado.</p>
+      </div>
+
+      <!-- Afiche dentro del manual -->
+      <div class="afiche-block">
+        <img class="afiche-img" src="img/AFICHE TORNEO 2026.jpg" alt="Afiche Oficial Torneo San Martín 2026" loading="lazy">
+        <div class="afiche-caption">
+          <small class="badge-tag">CAMPEONATO OFICIAL 2026</small>
+          <h2>TORNEO FÚTBOL 5 <em>SAN MARTÍN LÁCTEOS</em></h2>
+          <p>Integración deportiva, juego limpio y compañerismo en las categorías Masculina y Femenina. Consulta a continuación el reglamento oficial, premiación y régimen disciplinario.</p>
+        </div>
+      </div>
+
+      <!-- Manual completo íntegro sin resumir ni cambiar textos -->
+      <article class="manual-book">
+        <div class="manual-book-cover">
+          <div class="manual-seal-wrap">
+            <img class="seal-logo" src="img/LOGO SAN MARTIN LACTEOS S.A.S.jpg" alt="San Martín Lácteos" onerror="this.style.display='none';this.parentNode.textContent='SM'">
+          </div>
+          <small class="manual-cover-sub">FÚTBOL 5 · SAN MARTÍN</small>
+          <h2 class="manual-cover-title">MANUAL DEL <em>TORNEO 2026</em></h2>
+          <blockquote class="manual-cover-quote">“Un torneo para competir, compartir y fortalecer el compañerismo.”</blockquote>
+          <span class="manual-cover-ver">DOCUMENTO OFICIAL · VERSIÓN 1.0</span>
+        </div>
+
+        <div class="manual-book-body">
+          <div class="manual-block highlight-block">
+            <span class="manual-num">00</span>
+            <h3>🛡️ PRIMERO LAS PERSONAS, <em>DESPUÉS EL RESULTADO.</em></h3>
+            <p><strong>Un torneo para competir, compartir y fortalecer el compañerismo.</strong></p>
+          </div>
+
+          <div class="manual-block">
+            <span class="manual-num">01</span>
+            <h3>🏆 EL TORNEO</h3>
+            <p><strong>Objetivo</strong><br>Actividad deportiva interna de carácter recreativo, integrativo y competitivo.</p>
+            <div class="manual-chips-grid">
+              <span>🤝 Compañerismo</span>
+              <span>⚽ Competencia sana</span>
+              <span>🙌 Integración</span>
+              <span>🏆 Juego limpio</span>
+            </div>
+            <div class="manual-twocol-grid">
+              <div><strong>👨 MASCULINA</strong><br>5 equipos · Todos contra todos</div>
+              <div><strong>👩 FEMENINA</strong><br>3 equipos · Todos contra todos</div>
+            </div>
+          </div>
+
+          <div class="manual-block">
+            <span class="manual-num">02</span>
+            <h3>⚽ REGLAS DE JUEGO</h3>
+            <div class="manual-ruleline"><strong>MODALIDAD</strong><span>Fútbol 5</span></div>
+            <ul class="manual-rules-list">
+              <li>5 jugadores en cancha</li>
+              <li>Uniforme y dorsal oficial</li>
+              <li>Jugadores registrados</li>
+              <li>Árbitro durante el partido</li>
+              <li>Cambios según las condiciones establecidas por la organización</li>
+            </ul>
+            <h4>PUNTUACIÓN</h4>
+            <div class="manual-points-grid">
+              <span class="point-win">🟢 Victoria <strong>3 pts</strong></span>
+              <span class="point-draw">⚪ Empate <strong>1 pt</strong></span>
+              <span class="point-loss">🔴 Derrota <strong>0 pts</strong></span>
+            </div>
+            <h4>DESEMPATES</h4>
+            <ol class="manual-tiebreak-list">
+              <li>Diferencia de goles</li>
+              <li>Goles a favor</li>
+              <li>Resultado entre los equipos involucrados</li>
+              <li>Fair Play</li>
+              <li>Criterio de la organización</li>
+            </ol>
+          </div>
+
+          <div class="manual-block">
+            <span class="manual-num">03</span>
+            <h3>👥 EQUIPOS Y JUGADORES</h3>
+            <p>Cada equipo tendrá una <strong>nómina oficial</strong>.</p>
+            <p>El jugador debe corresponder al equipo y utilizar el dorsal registrado.</p>
+            <div class="manual-danger-grid">
+              <span>❌ Participar con otro equipo</span>
+              <span>❌ Utilizar jugadores no registrados</span>
+              <span>❌ Cambiar un dorsal sin autorización</span>
+            </div>
+            <p>La información oficial alimentará las estadísticas del torneo.</p>
+          </div>
+
+          <div class="manual-block">
+            <span class="manual-num">04</span>
+            <h3>🟨 DISCIPLINA</h3>
+            <div class="manual-discipline-grid">
+              <div class="card-sanction yellow-sanction">
+                <span class="sanction-icon">🟨</span>
+                <small>TARJETA AMARILLA</small>
+                <strong>$5.000 COP</strong>
+                <p>Amonestación disciplinaria.</p>
+              </div>
+              <div class="card-sanction red-sanction">
+                <span class="sanction-icon">🟥</span>
+                <small>TARJETA ROJA</small>
+                <strong>$10.000 COP</strong>
+                <p>Expulsión del partido y posible sanción adicional según la situación.</p>
+              </div>
+            </div>
+            <div class="manual-violence-box">
+              <h4>🚨 CERO TOLERANCIA A LA VIOLENCIA</h4>
+              <p>El torneo es recreativo. <strong>Las agresiones no forman parte de la competencia.</strong></p>
+              <div class="manual-danger-grid">
+                <span>❌ Agresiones físicas</span>
+                <span>❌ Intentos de agresión</span>
+                <span>❌ Riñas</span>
+                <span>❌ Amenazas</span>
+                <span>❌ Intimidaciones</span>
+                <span>❌ Conductas ofensivas graves, verbales o físicas</span>
+              </div>
+              <div class="manual-expel-banner">
+                ⛔ EXPULSIÓN INMEDIATA
+                <small>Cualquier participante que protagonice una agresión física o una riña será expulsado inmediatamente del torneo.</small>
+              </div>
+              <p>La organización podrá adoptar medidas adicionales cuando la gravedad de los hechos lo amerite.</p>
+            </div>
+          </div>
+
+          <div class="manual-block">
+            <span class="manual-num">05</span>
+            <h3>🤝 FAIR PLAY</h3>
+            <p>Queremos competir, pero también disfrutar el torneo.</p>
+            <div class="manual-respect-grid">
+              <span>Respeto al rival.</span>
+              <span>Respeto al compañero.</span>
+              <span>Respeto al árbitro.</span>
+              <span>Respeto a la organización.</span>
+            </div>
+            <p>El comportamiento deportivo hará parte de las estadísticas de <strong>Fair Play</strong>.</p>
+          </div>
+
+          <div class="manual-block">
+            <span class="manual-num">06</span>
+            <h3>🛡️ SEGURIDAD</h3>
+            <h4>LA SALUD ESTÁ POR ENCIMA DEL PARTIDO</h4>
+            <p>La organización podrá detener un partido cuando exista una situación que pueda comprometer la integridad de los participantes.</p>
+            <div class="manual-risk-steps">
+              <span>DETENIDO</span> → <span>EVALUADO</span> → <span>SUSPENDIDO</span> → <span>REPROGRAMADO</span>
+            </div>
+            <h4>🚨 SITUACIÓN DE RIESGO</h4>
+            <blockquote class="manual-risk-quote">Si durante el desarrollo del torneo se presentan dos o más personas lesionadas en circunstancias que evidencien un riesgo para la salud o integridad de los participantes, la organización procederá a cancelar el torneo.</blockquote>
+            <div class="manual-final-quote">La competencia nunca estará por encima de las personas.</div>
+          </div>
+
+          <div class="manual-block">
+            <span class="manual-num">07</span>
+            <h3>📅 ORGANIZACIÓN</h3>
+            <div class="manual-twocol-grid">
+              <div>
+                <h4>⏰ PUNTUALIDAD</h4>
+                <p>Los equipos deberán presentarse con anticipación suficiente para iniciar el partido a la hora programada.</p>
+              </div>
+              <div>
+                <h4>🌧️ SUSPENSIÓN</h4>
+                <p>Podrá suspenderse o reprogramarse por condiciones climáticas, estado de la cancha, situaciones médicas, seguridad o fuerza mayor.</p>
+              </div>
+            </div>
+            <h4>🚫 INASISTENCIA</h4>
+            <p>Las consecuencias por inasistencia serán las establecidas por la organización y comunicadas a los equipos.</p>
+          </div>
+
+          <div class="manual-block">
+            <span class="manual-num">08</span>
+            <h3>📊 COMPETENCIA EN LA PLATAFORMA</h3>
+            <div class="manual-features-grid">
+              <span>📅 <strong>CALENDARIO</strong><small>Próximos partidos y jornadas.</small></span>
+              <span>📋 <strong>RESULTADOS</strong><small>Marcadores oficiales.</small></span>
+              <span>🏆 <strong>TABLA</strong><small>Posiciones y puntos.</small></span>
+              <span>⚽ <strong>GOLEADORES</strong><small>Ranking individual de goles.</small></span>
+              <span>📈 <strong>ESTADÍSTICAS</strong><small>Información de jugadores y equipos.</small></span>
+              <span>👕 <strong>EQUIPOS</strong><small>Escudo, uniforme, jugadores y dorsales.</small></span>
+            </div>
+          </div>
+
+          <div class="manual-block">
+            <span class="manual-num">09</span>
+            <h3>🏅 PREMIACIÓN</h3>
+            <div class="manual-awards-grid">
+              <span>🥇 <strong>CAMPEÓN</strong></span>
+              <span>🥈 <strong>SUBCAMPEÓN</strong></span>
+              <span>⚽ <strong>GOLEADOR</strong></span>
+              <span>🧤 <strong>VALLA MENOS VENCIDA</strong></span>
+              <span>🤝 <strong>FAIR PLAY</strong></span>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+  </main>
+
+  <!-- Modal / Hoja para Ficha del Partido -->
+  <div id="modalPartido" class="modal-backdrop" hidden>
+    <div class="modal-sheet" role="dialog" aria-modal="true" aria-labelledby="modalPartidoTitulo">
+      <div class="modal-handle-bar">
+        <span class="modal-handle"></span>
+        <button id="btnCloseModalPartido" class="btn-close-modal" aria-label="Cerrar ficha del partido">✕</button>
+      </div>
+      <div id="modalPartidoBody" class="modal-body-content">
+        <!-- Contenido dinámico de la ficha -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Lightbox para Afiche Oficial -->
+  <div id="modalAfiche" class="modal-backdrop" hidden>
+    <div class="modal-afiche-container" role="dialog" aria-modal="true" aria-label="Afiche Oficial del Torneo 2026">
+      <div class="modal-afiche-card">
+        <div class="modal-afiche-topbar">
+          <div class="modal-afiche-titles">
+            <span class="modal-badge-gold">AFICHE OFICIAL · EDICIÓN 2026</span>
+            <strong class="modal-afiche-sub">TORNEO FÚTBOL 5 SAN MARTÍN LÁCTEOS S.A.S.</strong>
+          </div>
+          <button id="btnCloseModalAfiche" class="btn-close-modal" aria-label="Cerrar afiche">✕</button>
+        </div>
+        <div class="modal-afiche-img-wrap">
+          <img src="img/AFICHE TORNEO 2026.jpg" alt="Afiche Oficial Torneo San Martín 2026 en Alta Resolución" class="modal-afiche-img">
+        </div>
+        <div class="modal-afiche-foot">
+          <span>📍 Cra. 24 #18-46 · Categorías Masculina y Femenina · "Primero las personas, después el resultado"</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pie de página general -->
+  <footer class="site-footer">
+    <div class="footer-brand">
+      <img class="footer-logo-company" src="img/LOGO SAN MARTIN LACTEOS S.A.S.jpg" alt="San Martín Lácteos" loading="lazy">
+      <img class="footer-logo-mascot" src="img/TOROS ICONO DEL TORNEO.jpg" alt="Toros San Martín 2026" loading="lazy">
+      <strong>TORNEO SAN MARTÍN <span class="gold-txt">2026</span></strong>
+    </div>
+    <div class="footer-download-box">
+      <a href="/descargar-archivos" download="torneo-san-martin-2026-actualizado.zip" class="footer-download-btn">
+        📦 Descargar archivos actualizados para GitHub (.ZIP)
+      </a>
+    </div>
+    <span class="footer-copy">FÚTBOL 5 · SAN MARTÍN LÁCTEOS S.A.S. · PRIMERO LAS PERSONAS</span>
+  </footer>
+
+  <!-- Script principal de la aplicación -->
+  <script src="js/app.js"></script>
+</body>
+</html>
