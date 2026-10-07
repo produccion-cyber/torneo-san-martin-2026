@@ -435,7 +435,10 @@
         <!-- SUB-SECCIÓN: EQUIPOS Y PLANTILLAS -->
         <div id="sub-equipos" class="sub-panel">
           <div class="sub-block-head">
-            <h3 class="sub-block-title">EQUIPOS PARTICIPANTES</h3>
+            <div>
+              <h3 class="sub-block-title">EQUIPOS Y PLANTILLAS OFICIALES</h3>
+              <p class="section-subtitle">Presiona cualquier equipo para desplegar su plantilla de jugadores, dorsales y estadísticas</p>
+            </div>
             <div class="team-filter-wrap">
               <label for="selectTeamFilter" class="sr-only">Filtrar por equipo</label>
               <select id="selectTeamFilter" class="form-select">
@@ -445,12 +448,6 @@
           </div>
           
           <div id="branchTeamsGrid" class="teams-cards-grid"></div>
-
-          <div class="roster-section-head">
-            <h3 class="sub-block-title">PLANTILLA DE JUGADORES</h3>
-            <p class="section-subtitle">Dorsal, posición oficial y estadísticas individuales</p>
-          </div>
-          <div id="branchRosterGrid" class="roster-cards-grid"></div>
         </div>
 
         <!-- SUB-SECCIÓN: ESTADÍSTICAS -->
@@ -783,6 +780,37 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Modal Lightbox para Recuerdos Fotográficos -->
+  <div id="modalRecuerdo" class="modal-backdrop" hidden>
+    <div class="modal-afiche-container" role="dialog" aria-modal="true" aria-label="Fotografía del recuerdo">
+      <div class="modal-afiche-card">
+        <div class="modal-afiche-topbar">
+          <div class="modal-afiche-titles">
+            <span class="modal-badge-gold" id="modalRecuerdoMeta">GALERÍA OFICIAL · RECUERDOS</span>
+            <strong class="modal-afiche-sub" id="modalRecuerdoTitle">RECUERDO DEL TORNEO</strong>
+          </div>
+          <button id="btnCloseModalRecuerdo" class="btn-close-modal" aria-label="Cerrar fotografía">✕</button>
+        </div>
+        <div class="modal-afiche-img-wrap">
+          <img id="modalRecuerdoImg" src="" alt="Fotografía oficial del recuerdo" class="modal-afiche-img">
+        </div>
+        <div class="modal-afiche-foot" id="modalRecuerdoDesc">
+          <span>Torneo de Fútbol 5 San Martín Lácteos 2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nota flotante explicativa para abreviaciones de fútbol -->
+  <div id="abbrPopover" class="abbr-popover" role="tooltip" hidden>
+    <div class="abbr-popover-head">
+      <span class="abbr-popover-code" id="abbrPopoverCode">PJ</span>
+      <strong class="abbr-popover-title" id="abbrPopoverTitle">Partidos Jugados</strong>
+      <button type="button" id="btnCloseAbbrPopover" class="abbr-popover-close" aria-label="Cerrar explicación">✕</button>
+    </div>
+    <p class="abbr-popover-desc" id="abbrPopoverDesc">Explicación detallada de la abreviatura.</p>
   </div>
 
   <!-- Pie de página general -->
