@@ -1784,15 +1784,7 @@ a {
 
 .official-table th:first-child,
 .official-table td:first-child {
-  position: sticky;
-  left: 0;
-  z-index: 2;
-  background: inherit;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
-}
-
-.official-table th:first-child {
-  background: var(--navy);
+  padding-left: 12px;
 }
 
 .official-table tr:hover td {
@@ -2725,7 +2717,7 @@ a {
 
 @media (min-width: 600px) {
   .manual-awards-grid {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -3598,118 +3590,93 @@ a {
 }
 
 /* =========================================================
-   NOTAS FLOTANTES EXPLICATIVAS PARA ABREVIACIONES (TOOLTIPS)
+   NOTAS FLOTANTES EXPLICATIVAS PEQUEÑAS (MICRO-TOOLTIPS)
    ========================================================= */
 .abbr-help-hint {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: #f0f6fc;
-  border: 1px solid #cfe2f3;
-  color: #194769;
-  font-size: 12px;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 11px;
   font-weight: 600;
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
 .abbr-tip {
   cursor: pointer;
-  border-bottom: 1.5px dotted currentColor;
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  padding: 1px 3px;
-  border-radius: 3px;
-  transition: background 0.15s, color 0.15s;
+  border-bottom: 1px dashed currentColor;
+  display: inline;
+  padding: 0;
+  transition: color 0.15s, opacity 0.15s;
 }
 
 .abbr-tip:hover,
 .abbr-tip:active {
-  background: rgba(215, 173, 75, 0.25);
+  color: var(--gold);
 }
 
 .official-table th .abbr-tip {
-  border-bottom-color: var(--gold);
+  border-bottom-color: rgba(215, 173, 75, 0.85);
 }
 
-.abbr-tip-icon {
-  font-size: 10px;
-  opacity: 0.8;
-  color: var(--gold);
+.roster-mini-stats {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  text-align: right;
+}
+
+.roster-stat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: #f1f5f9;
+  border: 1px solid #dce5f0;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--navy);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.roster-stat-chip:hover,
+.roster-stat-chip:active {
+  background: #e2edf8;
+  border-color: var(--blue-elec);
 }
 
 .abbr-popover {
   position: fixed;
   z-index: 120;
-  width: min(310px, calc(100vw - 24px));
-  background: var(--navy);
+  max-width: 210px;
+  width: max-content;
+  background: rgba(4, 16, 31, 0.95);
   color: var(--white);
-  border: 1.5px solid var(--gold);
-  border-radius: var(--radius-md);
-  padding: 12px 14px;
-  box-shadow: 0 14px 34px rgba(2, 9, 20, 0.65);
-  animation: popAbbrIn 0.16s ease-out;
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  padding: 4px 9px;
+  font-size: 11px;
+  line-height: 1.25;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(2, 9, 20, 0.35);
+  pointer-events: none;
+  text-align: center;
+  animation: popAbbrIn 0.12s ease-out;
+}
+
+.abbr-popover strong {
+  color: var(--gold);
+  font-weight: 800;
 }
 
 @keyframes popAbbrIn {
-  from { opacity: 0; transform: translateY(4px) scale(0.98); }
+  from { opacity: 0; transform: translateY(3px) scale(0.97); }
   to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.abbr-popover-head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 6px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-}
-
-.abbr-popover-code {
-  background: var(--gold);
-  color: var(--navy);
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 900;
-  padding: 1px 7px;
-  border-radius: 4px;
-  letter-spacing: 0.5px;
-}
-
-.abbr-popover-title {
-  font-family: var(--font-display);
-  font-size: 17px;
-  font-weight: 800;
-  color: var(--white);
-  flex: 1;
-  line-height: 1.1;
-}
-
-.abbr-popover-close {
-  background: transparent;
-  border: 0;
-  color: #9ab4ce;
-  font-size: 16px;
-  width: 26px;
-  height: 26px;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.abbr-popover-close:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: var(--white);
-}
-
-.abbr-popover-desc {
-  font-size: 12.5px;
-  line-height: 1.45;
-  color: #d6e4f2;
-  margin: 0;
 }
 

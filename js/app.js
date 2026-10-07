@@ -660,95 +660,35 @@
     { jugador: 'Acosta', equipo: 'REAL SAN MARTIN FC', dorsal: '10', posicion: 'Capitán', pj: 2, goles: 0, asistencias: 1, ta: 0, tr: 0, mvp: 4, fairPlay: 0, branch: 'masculino' }
   ];
 
-  // Diccionario pedagógico de abreviaturas deportivas para cualquier persona
+  // Diccionario pedagógico compacto de abreviaturas e íconos deportivos
   const ABBR_DICTIONARY = {
-    POS: {
-      code: 'Pos',
-      title: 'Posición en la Tabla',
-      desc: 'Indica el puesto que ocupa actualmente el equipo en la clasificación general según sus puntos y diferencia de goles.'
-    },
-    PJ: {
-      code: 'PJ',
-      title: 'Partidos Jugados',
-      desc: 'Cantidad total de partidos oficiales que el equipo o jugador ya ha disputado hasta el momento en el torneo.'
-    },
-    PG: {
-      code: 'PG',
-      title: 'Partidos Ganados',
-      desc: 'Partidos en los que el equipo logró la victoria anotando más goles que su rival. Cada partido ganado suma 3 puntos.'
-    },
-    PE: {
-      code: 'PE',
-      title: 'Partidos Empatados',
-      desc: 'Partidos que finalizaron con la misma cantidad de goles para ambos equipos. Cada empate suma 1 punto.'
-    },
-    PP: {
-      code: 'PP',
-      title: 'Partidos Perdidos',
-      desc: 'Partidos en los que el equipo fue superado en goles por su rival. Las derrotas no suman puntos (0 puntos).'
-    },
-    GF: {
-      code: 'GF',
-      title: 'Goles a Favor',
-      desc: 'Total de goles que el equipo ha logrado anotar en la portería contraria a lo largo del campeonato.'
-    },
-    GC: {
-      code: 'GC',
-      title: 'Goles en Contra',
-      desc: 'Total de goles que el equipo ha recibido en su propia portería durante los partidos jugados.'
-    },
-    DG: {
-      code: 'DG',
-      title: 'Diferencia de Gol',
-      desc: 'Resultado de restar los Goles en Contra (GC) a los Goles a Favor (GF). Es el primer criterio para desempatar equipos con igual puntaje.'
-    },
-    PTS: {
-      code: 'PTS',
-      title: 'Puntos Totales',
-      desc: 'Puntaje acumulado del equipo en el torneo: Victoria = 3 puntos, Empate = 1 punto y Derrota = 0 puntos.'
-    },
-    PROM: {
-      code: 'Prom.',
-      title: 'Promedio por Partido',
-      desc: 'Cantidad de goles o asistencias dividida entre los Partidos Jugados (PJ), mostrando la efectividad por encuentro.'
-    },
-    GC_PJ: {
-      code: 'GC/PJ',
-      title: 'Promedio de Goles Recibidos',
-      desc: 'Goles en Contra (GC) divididos por Partidos Jugados (PJ). Entre más bajo sea este número, más segura es la portería (Valla Menos Vencida).'
-    },
-    MVP: {
-      code: 'MVP',
-      title: 'Jugador Más Valioso (MVP)',
-      desc: 'Sigla de "Most Valuable Player". Es el puntaje acumulado por el jugador más destacado según sus goles, asistencias y participación.'
-    },
-    TA: {
-      code: 'TA',
-      title: 'Tarjeta Amarilla',
-      desc: 'Amonestación disciplinaria preventiva mostrada por el árbitro. Según el manual del torneo, tiene una sanción de $5.000 COP.'
-    },
-    TR: {
-      code: 'TR',
-      title: 'Tarjeta Roja',
-      desc: 'Expulsión directa del partido por falta grave o doble amarilla. Según el manual del torneo, tiene una sanción de $10.000 COP.'
-    },
-    COP: {
-      code: 'COP',
-      title: 'Pesos Colombianos',
-      desc: 'Valor en moneda local correspondiente a las multas disciplinarias por tarjetas amarillas o rojas.'
-    },
-    REND: {
-      code: 'Rend.',
-      title: 'Rendimiento Deportivo (%)',
-      desc: 'Porcentaje de puntos obtenidos por el equipo sobre el total de puntos que ha puesto en juego hasta ahora.'
-    }
+    POS: { code: 'Pos', title: 'Posición actual en la tabla' },
+    PJ: { code: 'PJ', title: 'Partidos Jugados' },
+    PG: { code: 'PG', title: 'Partidos Ganados (3 pts)' },
+    PE: { code: 'PE', title: 'Partidos Empatados (1 pt)' },
+    PP: { code: 'PP', title: 'Partidos Perdidos (0 pts)' },
+    GF: { code: 'GF', title: 'Goles a Favor (anotados)' },
+    GC: { code: 'GC', title: 'Goles en Contra (recibidos)' },
+    DG: { code: 'DG', title: 'Diferencia de Gol (GF menos GC)' },
+    PTS: { code: 'PTS', title: 'Puntos Totales acumulados' },
+    PROM: { code: 'Prom.', title: 'Promedio por partido jugado' },
+    GC_PJ: { code: 'GC/PJ', title: 'Promedio de goles recibidos por partido' },
+    MVP: { code: 'MVP', title: 'Jugador Más Valioso del partido' },
+    TA: { code: 'TA', title: 'Tarjeta Amarilla (multa $5.000)' },
+    TR: { code: 'TR', title: 'Tarjeta Roja (multa $10.000)' },
+    COP: { code: 'COP', title: 'Valor en Pesos Colombianos' },
+    REND: { code: 'Rend.', title: 'Porcentaje de puntos obtenidos' },
+    GOLES_EMOJI: { code: '⚽', title: 'Goles anotados' },
+    ASIST_EMOJI: { code: '🅰️', title: 'Asistencias (pases de gol)' },
+    TA_EMOJI: { code: '🟨', title: 'Tarjetas amarillas' },
+    TR_EMOJI: { code: '🟥', title: 'Tarjetas rojas' }
   };
 
   function abbrHtml(key, customLabel = null) {
     const item = ABBR_DICTIONARY[key];
     if (!item) return escapeHtml(customLabel || key);
     const label = customLabel !== null ? customLabel : item.code;
-    return `<span class="abbr-tip" data-abbr="${escapeHtml(key)}" role="button" tabindex="0" aria-label="${escapeHtml(item.title)}: toca para ver explicación">${escapeHtml(label)}<i class="abbr-tip-icon" aria-hidden="true">ⓘ</i></span>`;
+    return `<span class="abbr-tip" data-abbr="${escapeHtml(key)}" role="button" tabindex="0" aria-label="${escapeHtml(item.title)}">${escapeHtml(label)}</span>`;
   }
 
   // Estado global en memoria
@@ -1052,9 +992,16 @@
         if (n === 'EQUIPO' && idx > visitCol) rosterEquipoCol = idx;
         if (n === 'JUGADOR') rosterJugadorCol = idx;
         if (n === 'DORSAL' || n === 'DORSALES') rosterDorsalCol = idx;
-        if (n.startsWith('POSICI')) rosterPosCol = idx;
+        if (n.startsWith('POSICI') && rosterPosCol === -1) rosterPosCol = idx;
       });
     }
+    // En Google Sheets gviz con headers=0, la columna numérica "Dorsal" (justo a la derecha de "Jugador")
+    // puede venir con encabezado vacío en la fila 0. Si no se detectó por texto, usar rosterJugadorCol + 1.
+    if (rosterDorsalCol === -1 && rosterJugadorCol !== -1) {
+      rosterDorsalCol = rosterJugadorCol + 1;
+    }
+
+    const basePlantilla = SHEETS_CONFIG[branchKey]?.plantillaBase || [];
 
     for (let i = headerIdx + 1; i < rows.length; i++) {
       const r = rows[i];
@@ -1090,7 +1037,16 @@
         const eq = cleanStr(r[rosterEquipoCol]);
         const jug = cleanStr(r[rosterJugadorCol]);
         if (eq && jug) {
-          const numDor = rosterDorsalCol !== -1 ? cleanStr(r[rosterDorsalCol]) : '';
+          let numDor = rosterDorsalCol !== -1 ? cleanStr(r[rosterDorsalCol]) : '';
+          if (!numDor && r[rosterJugadorCol + 4] !== undefined) {
+            numDor = cleanStr(r[rosterJugadorCol + 4]);
+          }
+          if (!numDor) {
+            const baseMatch = basePlantilla.find(
+              bp => normStr(bp.name) === normStr(jug) && normStr(bp.team) === normStr(eq)
+            );
+            if (baseMatch && baseMatch.number) numDor = baseMatch.number;
+          }
           const pos = rosterPosCol !== -1 ? cleanStr(r[rosterPosCol]) : '';
           roster.push({
             team: eq,
@@ -2198,28 +2154,33 @@
           const isExpanded = filterVal !== 'all' || APP_STATE.expandedTeams.has(normStr(eq));
           const capLabel = branchKey === 'femenino' ? 'Capitana' : 'Capitán';
 
+          const baseList = SHEETS_CONFIG[branchKey].plantillaBase || [];
           const rosterPlayersHtml = teamPlayers.length
             ? teamPlayers
                 .map(p => {
                   const stat = statsJug.find(
                     j => normStr(j.jugador) === normStr(p.name) && normStr(j.equipo) === normStr(p.team)
                   );
+                  const basePlayer = baseList.find(
+                    bp => normStr(bp.name) === normStr(p.name) && normStr(bp.team) === normStr(p.team)
+                  );
+                  const dorsalNum = cleanStr(p.number) || cleanStr(stat?.dorsal) || cleanStr(basePlayer?.number) || '—';
                   const goles = stat ? stat.goles : 0;
                   const asist = stat ? stat.asistencias : 0;
                   const ta = stat ? stat.ta : 0;
                   const tr = stat ? stat.tr : 0;
                   return `
                   <div class="roster-player-card">
-                    <div class="roster-dorsal">${escapeHtml(p.number || '—')}</div>
+                    <div class="roster-dorsal">${escapeHtml(dorsalNum)}</div>
                     <div class="roster-player-info">
                       <strong>${escapeHtml(p.name)}</strong>
-                      <small>${escapeHtml(p.role || 'Jugador')} · Dorsal #${escapeHtml(p.number || '—')}</small>
+                      <small>${escapeHtml(p.role || basePlayer?.role || 'Jugador')} · Dorsal #${escapeHtml(dorsalNum)}</small>
                     </div>
                     <div class="roster-mini-stats">
-                      <span title="Goles anotados">⚽ ${goles}</span>
-                      ${asist > 0 ? ` · <span title="Asistencias">🅰️ ${asist}</span>` : ''}
-                      ${ta > 0 ? ` · <span title="Tarjetas amarillas">${ta} 🟨</span>` : ''}
-                      ${tr > 0 ? ` · <span title="Tarjetas rojas">${tr} 🟥</span>` : ''}
+                      <span class="roster-stat-chip abbr-tip" data-abbr="GOLES_EMOJI" role="button" tabindex="0">⚽ ${goles}</span>
+                      <span class="roster-stat-chip abbr-tip" data-abbr="ASIST_EMOJI" role="button" tabindex="0">🅰️ ${asist}</span>
+                      ${ta > 0 ? `<span class="roster-stat-chip abbr-tip" data-abbr="TA_EMOJI" role="button" tabindex="0">${ta} 🟨</span>` : ''}
+                      ${tr > 0 ? `<span class="roster-stat-chip abbr-tip" data-abbr="TR_EMOJI" role="button" tabindex="0">${tr} 🟥</span>` : ''}
                     </div>
                   </div>
                 `;
@@ -3455,45 +3416,43 @@
       };
     }
 
-    // Notas flotantes para abreviaciones (PJ, PG, PE, PP, GF, GC, DG, PTS, etc.)
+    // Notas flotantes pequeñas para abreviaciones e íconos (PJ, PG, DG, PTS, ⚽, 🅰️, etc.)
     const abbrPopover = document.getElementById('abbrPopover');
-    const abbrCodeEl = document.getElementById('abbrPopoverCode');
-    const abbrTitleEl = document.getElementById('abbrPopoverTitle');
-    const abbrDescEl = document.getElementById('abbrPopoverDesc');
-    const btnCloseAbbr = document.getElementById('btnCloseAbbrPopover');
+    const abbrTextEl = document.getElementById('abbrPopoverText');
+    let abbrHideTimer = null;
 
     function hideAbbrPopover() {
+      if (abbrHideTimer) {
+        clearTimeout(abbrHideTimer);
+        abbrHideTimer = null;
+      }
       if (abbrPopover) abbrPopover.hidden = true;
     }
 
     function showAbbrPopover(triggerEl, key) {
       const info = ABBR_DICTIONARY[key];
-      if (!info || !abbrPopover) return;
-      abbrCodeEl.textContent = info.code;
-      abbrTitleEl.textContent = info.title;
-      abbrDescEl.textContent = info.desc;
+      if (!info || !abbrPopover || !abbrTextEl) return;
+      abbrTextEl.innerHTML = `<strong>${escapeHtml(info.code)}:</strong> ${escapeHtml(info.title)}`;
       abbrPopover.hidden = false;
 
       const rect = triggerEl.getBoundingClientRect();
-      const popWidth = Math.min(310, window.innerWidth - 24);
-      let left = rect.left + rect.width / 2 - popWidth / 2;
-      left = Math.max(12, Math.min(left, window.innerWidth - popWidth - 12));
+      const popWidth = abbrPopover.offsetWidth || 160;
+      const popHeight = abbrPopover.offsetHeight || 28;
 
-      let top = rect.bottom + 10;
-      const popHeight = abbrPopover.offsetHeight || 130;
-      if (top + popHeight > window.innerHeight - 12) {
-        top = Math.max(12, rect.top - popHeight - 10);
+      let left = rect.left + rect.width / 2 - popWidth / 2;
+      left = Math.max(8, Math.min(left, window.innerWidth - popWidth - 8));
+
+      // Ubicar siempre ARRIBA del elemento presionado para nunca tapar el texto de abajo
+      let top = rect.top - popHeight - 6;
+      if (top < 8) {
+        top = rect.bottom + 6;
       }
 
       abbrPopover.style.left = `${left}px`;
       abbrPopover.style.top = `${top}px`;
-    }
 
-    if (btnCloseAbbr) {
-      btnCloseAbbr.onclick = e => {
-        e.stopPropagation();
-        hideAbbrPopover();
-      };
+      if (abbrHideTimer) clearTimeout(abbrHideTimer);
+      abbrHideTimer = setTimeout(hideAbbrPopover, 2600);
     }
 
     document.addEventListener('click', e => {
@@ -3505,7 +3464,7 @@
         showAbbrPopover(abbrTrigger, key);
         return;
       }
-      if (abbrPopover && !abbrPopover.hidden && !e.target.closest('#abbrPopover')) {
+      if (abbrPopover && !abbrPopover.hidden) {
         hideAbbrPopover();
       }
     });
