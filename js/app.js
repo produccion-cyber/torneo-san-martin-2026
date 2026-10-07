@@ -146,6 +146,8 @@
         "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
         "marcador": "1 - 6",
         "observaciones": "Inicio T1: 16:18 | Fin T1: 16:38 |\nInicio T2: 16:45 | Fin T2: 5:05:00 p.m.",
+        "arbitro": "Ediwn Velásquez",
+        "fase": "",
         "branch": "masculino"
       },
       {
@@ -158,6 +160,8 @@
         "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
         "marcador": "6 - 10",
         "observaciones": "Inicio T1: 5:40 | Fin T1: 6:00 p.m. |\nInicio 2T: 6:07 p.m. | Fin T2: 6:27",
+        "arbitro": "Ediwn Velásquez",
+        "fase": "",
         "branch": "masculino"
       },
       {
@@ -170,6 +174,8 @@
         "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
         "marcador": "5 - 4",
         "observaciones": "Inicio T1: 6:40 | Fin T1: 7:00 |\nInicio T2: 7:05 | Fin T2: 7:25",
+        "arbitro": "Ediwn Velásquez",
+        "fase": "",
         "branch": "masculino"
       },
       {
@@ -182,6 +188,8 @@
         "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
         "marcador": "-",
         "observaciones": "",
+        "arbitro": "Ediwn Velásquez",
+        "fase": "",
         "branch": "masculino"
       },
       {
@@ -194,6 +202,8 @@
         "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
         "marcador": "-",
         "observaciones": "",
+        "arbitro": "Ediwn Velásquez",
+        "fase": "",
         "branch": "masculino"
       },
       {
@@ -206,6 +216,8 @@
         "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
         "marcador": "-",
         "observaciones": "",
+        "arbitro": "",
+        "fase": "",
         "branch": "masculino"
       },
       {
@@ -218,6 +230,8 @@
         "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
         "marcador": "-",
         "observaciones": "",
+        "arbitro": "",
+        "fase": "",
         "branch": "masculino"
       },
       {
@@ -230,6 +244,8 @@
         "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
         "marcador": "-",
         "observaciones": "",
+        "arbitro": "",
+        "fase": "",
         "branch": "masculino"
       },
       {
@@ -242,6 +258,8 @@
         "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
         "marcador": "-",
         "observaciones": "",
+        "arbitro": "",
+        "fase": "",
         "branch": "masculino"
       },
       {
@@ -254,6 +272,78 @@
         "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
         "marcador": "-",
         "observaciones": "",
+        "arbitro": "",
+        "fase": "",
+        "branch": "masculino"
+      },
+      {
+        "jornada": "5",
+        "partido": "11",
+        "fecha": "",
+        "hora": "",
+        "local": "Por definir",
+        "visitante": "Por definir",
+        "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
+        "marcador": "-",
+        "observaciones": "",
+        "arbitro": "",
+        "fase": "PLAY-IN: 4.º vs 5.º",
+        "branch": "masculino"
+      },
+      {
+        "jornada": "6",
+        "partido": "12",
+        "fecha": "",
+        "hora": "",
+        "local": "Por definir",
+        "visitante": "Por definir",
+        "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
+        "marcador": "-",
+        "observaciones": "",
+        "arbitro": "",
+        "fase": "SEMIFINAL 1",
+        "branch": "masculino"
+      },
+      {
+        "jornada": "6",
+        "partido": "13",
+        "fecha": "",
+        "hora": "",
+        "local": "Por definir",
+        "visitante": "Por definir",
+        "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
+        "marcador": "-",
+        "observaciones": "",
+        "arbitro": "",
+        "fase": "SEMIFINAL 2",
+        "branch": "masculino"
+      },
+      {
+        "jornada": "7",
+        "partido": "14",
+        "fecha": "",
+        "hora": "",
+        "local": "Por definir",
+        "visitante": "Por definir",
+        "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
+        "marcador": "-",
+        "observaciones": "",
+        "arbitro": "",
+        "fase": "TERCER PUESTO",
+        "branch": "masculino"
+      },
+      {
+        "jornada": "7",
+        "partido": "15",
+        "fecha": "",
+        "hora": "",
+        "local": "Por definir",
+        "visitante": "Por definir",
+        "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
+        "marcador": "-",
+        "observaciones": "",
+        "arbitro": "",
+        "fase": "GRAN FINAL",
         "branch": "masculino"
       }
     ],
@@ -459,6 +549,8 @@
         "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
         "marcador": "-",
         "observaciones": "",
+        "arbitro": "Edwin Velásquez",
+        "fase": "",
         "branch": "femenino"
       },
       {
@@ -471,6 +563,8 @@
         "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
         "marcador": "-",
         "observaciones": "",
+        "arbitro": "",
+        "fase": "",
         "branch": "femenino"
       },
       {
@@ -483,6 +577,8 @@
         "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
         "marcador": "-",
         "observaciones": "",
+        "arbitro": "",
+        "fase": "",
         "branch": "femenino"
       },
       {
@@ -495,6 +591,8 @@
         "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
         "marcador": "-",
         "observaciones": "",
+        "arbitro": "",
+        "fase": "",
         "branch": "femenino"
       },
       {
@@ -507,6 +605,8 @@
         "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
         "marcador": "-",
         "observaciones": "",
+        "arbitro": "",
+        "fase": "",
         "branch": "femenino"
       },
       {
@@ -519,6 +619,36 @@
         "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
         "marcador": "-",
         "observaciones": "",
+        "arbitro": "",
+        "fase": "",
+        "branch": "femenino"
+      },
+      {
+        "jornada": "6",
+        "partido": "7",
+        "fecha": "",
+        "hora": "",
+        "local": "Por definir",
+        "visitante": "Por definir",
+        "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
+        "marcador": "-",
+        "observaciones": "",
+        "arbitro": "",
+        "fase": "PLAY-IN: 2.º vs 3.º",
+        "branch": "femenino"
+      },
+      {
+        "jornada": "6",
+        "partido": "8",
+        "fecha": "",
+        "hora": "",
+        "local": "Por definir",
+        "visitante": "Por definir",
+        "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
+        "marcador": "-",
+        "observaciones": "",
+        "arbitro": "",
+        "fase": "GRAN FINAL",
         "branch": "femenino"
       }
     ],
@@ -953,6 +1083,8 @@
     let canchaCol = 8;
     let marcadorCol = 9;
     let obsCol = 10;
+    let arbitroCol = -1;
+    let fasesCol = -1;
 
     // Detectar fila de encabezados buscando «Local» y «Visitante»
     for (let i = 0; i < Math.min(10, rows.length); i++) {
@@ -966,6 +1098,8 @@
         if (val === 'CANCHA') canchaCol = cIdx;
         if (val === 'MARCADOR') marcadorCol = cIdx;
         if (val.includes('OBSERVAC')) obsCol = cIdx;
+        if (val.startsWith('ARBITR') || val === 'ARBITRO' || val === 'JUEZ') arbitroCol = cIdx;
+        if (val.startsWith('FASE') || val === 'FASES') fasesCol = cIdx;
       });
       if (lCol !== -1 && vCol !== -1) {
         headerIdx = i;
@@ -975,6 +1109,8 @@
       }
     }
 
+    if (arbitroCol === -1) arbitroCol = 11;
+    if (fasesCol === -1) fasesCol = 12;
     if (headerIdx === -1) headerIdx = 0;
 
     const list = [];
@@ -1007,11 +1143,19 @@
       const r = rows[i];
       const local = cleanStr(r[localCol]);
       const visit = cleanStr(r[visitCol]);
+      const jornada = cleanStr(r[0]) || '';
+      const num = cleanStr(r[1]) || '';
+      const arbitro = (arbitroCol !== -1 && r[arbitroCol] !== undefined) ? cleanStr(r[arbitroCol]) : '';
+      const fase = (fasesCol !== -1 && r[fasesCol] !== undefined) ? cleanStr(r[fasesCol]) : '';
 
-      // Detener lectura de partidos si termina el primer bloque
-      if (local && visit) {
-        const jornada = cleanStr(r[0]) || '1';
-        const num = cleanStr(r[1]) || String(list.length + 1);
+      // Determinar si es una fila de partido válida
+      const hasTeams = Boolean(local || visit);
+      const hasFase = Boolean(fase);
+      const isMatchRow = hasTeams || hasFase || (num && (r[2] || r[3] || cleanStr(r[canchaCol]) || cleanStr(r[marcadorCol])));
+
+      if (isMatchRow) {
+        const finalJor = jornada || (fase ? 'Final' : String(list.length + 1));
+        const finalNum = num || String(list.length + 1);
         const fecha = r[2] || '';
         const hora = cleanStr(r[3]) || '';
         const cancha = cleanStr(r[canchaCol]) || '';
@@ -1019,15 +1163,17 @@
         const obs = cleanStr(r[obsCol]) || '';
 
         list.push({
-          jornada,
-          partido: num,
+          jornada: finalJor,
+          partido: finalNum,
           fecha,
           hora,
-          local,
-          visitante: visit,
+          local: local || 'Por definir',
+          visitante: visit || 'Por definir',
           cancha,
           marcador,
           observaciones: obs,
+          arbitro,
+          fase,
           branch: branchKey
         });
       }
@@ -1621,7 +1767,7 @@
       const tagClass = isFem ? "tag-femenino" : "tag-masculino";
 
       html += `
-        <div class="match-row-card ${branchClass} ${isFirstMatch ? "highlight-next" : ""}">
+        <div class="match-row-card ${branchClass} ${isFirstMatch ? "highlight-next" : ""}" data-match-partido="${escapeHtml(m.partido || '')}" data-match-branch="${escapeHtml(m.branch || '')}" tabindex="0" role="button" aria-label="Ver ficha del partido ${escapeHtml(m.local)} vs ${escapeHtml(m.visitante)}">
           <div class="next-badge-row">
             <div class="match-time-tag-box">
               <span class="match-index-pill">PARTIDO ${idx + 1}</span>
@@ -1647,7 +1793,8 @@
 
           <div class="match-meta-line">
             <span class="venue-info-text">📍 ${escapeHtml(cancha.direccion)}</span>
-            ${cancha.mapsUrl ? `<a href="${cancha.mapsUrl}" target="_blank" rel="noopener noreferrer" class="btn-maps-action">Google Maps ↗</a>` : ""}
+            ${m.arbitro ? `<span class="match-referee-tag">👨‍⚖️ <strong>Árbitro:</strong> ${escapeHtml(m.arbitro)}</span>` : '<span class="match-referee-tag referee-pending">👨‍⚖️ Árbitro por designar</span>'}
+            ${cancha.mapsUrl ? `<a href="${cancha.mapsUrl}" target="_blank" rel="noopener noreferrer" class="btn-maps-action" onclick="event.stopPropagation()">Google Maps ↗</a>` : ""}
           </div>
         </div>
       `;
@@ -1655,6 +1802,7 @@
 
     html += `</div>`;
     listEl.innerHTML = html;
+    attachMatchCardClicks(listEl, nextMatchday);
   }
 
   function renderHomeLatestResults(mascRes, femRes) {
@@ -1810,7 +1958,7 @@
     if (pend) {
       const cancha = parseCanchaInfo(pend.cancha);
       cardEl.innerHTML = `
-        <div class="match-row-card highlight-next ${branchKey === 'masculino' ? 'match-masc' : 'match-fem'}">
+        <div class="match-row-card highlight-next ${branchKey === 'masculino' ? 'match-masc' : 'match-fem'}" data-match-partido="${escapeHtml(pend.partido || '')}" data-match-branch="${escapeHtml(branchKey)}" tabindex="0" role="button" aria-label="Ver ficha del partido ${escapeHtml(pend.local)} vs ${escapeHtml(pend.visitante)}">
           <div class="next-badge-row">
             <span class="badge-siguiente">PRÓXIMO · ${escapeHtml(pend.hora || 'Hora por definir')}</span>
             <span class="relative-time-text">${escapeHtml(formatMatchDate(pend.fecha, ''))}</span>
@@ -1828,10 +1976,12 @@
           </div>
           <div class="match-meta-line">
             <span>📍 ${escapeHtml(cancha.direccion)}</span>
-            ${cancha.mapsUrl ? `<a href="${cancha.mapsUrl}" target="_blank" rel="noopener noreferrer" class="btn-maps-action">Ver en Maps ↗</a>` : ''}
+            ${pend.arbitro ? `<span class="match-referee-tag">👨‍⚖️ <strong>Árbitro:</strong> ${escapeHtml(pend.arbitro)}</span>` : '<span class="match-referee-tag referee-pending">👨‍⚖️ Árbitro por designar</span>'}
+            ${cancha.mapsUrl ? `<a href="${cancha.mapsUrl}" target="_blank" rel="noopener noreferrer" class="btn-maps-action" onclick="event.stopPropagation()">Ver en Maps ↗</a>` : ''}
           </div>
         </div>
       `;
+      attachMatchCardClicks(cardEl, [pend]);
     } else {
       cardEl.innerHTML = '<p class="empty-state-msg">No hay partidos pendientes en esta categoría.</p>';
     }
@@ -1961,6 +2111,278 @@
     }
   }
 
+  function isMysteryTeam(name) {
+    const n = normStr(name);
+    return (
+      !n ||
+      n === '?' ||
+      n.includes('DEFINIR') ||
+      n.includes('DETERMINAR') ||
+      n.startsWith('GANADOR') ||
+      n.startsWith('PERDEDOR') ||
+      /^[0-9]+[º°.]/.test(n)
+    );
+  }
+
+  function getMysteryHint(m, side) {
+    const fase = (m.fase || '').toUpperCase();
+    const isFem = m.branch === 'femenino';
+    const isLocal = side === 'local' || side === 'home';
+
+    if (fase.includes('PLAY-IN')) {
+      if (fase.includes('2') || fase.includes('3')) {
+        return isLocal ? '2.º Puesto Fase Regular' : '3.º Puesto Fase Regular';
+      }
+      return isLocal ? '4.º Puesto Fase Regular' : '5.º Puesto Fase Regular';
+    }
+    if (fase.includes('SEMIFINAL 1')) {
+      return isLocal ? '1.º Puesto Fase Regular' : 'Ganador Play-In (4.º vs 5.º)';
+    }
+    if (fase.includes('SEMIFINAL 2')) {
+      return isLocal ? '2.º Puesto Fase Regular' : '3.º Puesto Fase Regular';
+    }
+    if (fase.includes('TERCER PUESTO')) {
+      return isLocal ? 'Perdedor Semifinal 1' : 'Perdedor Semifinal 2';
+    }
+    if (fase.includes('GRAN FINAL')) {
+      if (isFem) {
+        return isLocal ? '1.º Puesto Fase Regular' : 'Ganador Play-In (2.º vs 3.º)';
+      }
+      return isLocal ? 'Ganador Semifinal 1' : 'Ganador Semifinal 2';
+    }
+    return 'Por definir';
+  }
+
+  function renderMatchCardHtml(m, branchKey) {
+    const cancha = parseCanchaInfo(m.cancha);
+    const branchClass = branchKey === 'masculino' ? 'match-masc' : 'match-fem';
+    const hasMarcador = cleanStr(m.marcador) && cleanStr(m.marcador) !== '-';
+
+    const faseStr = cleanStr(m.fase);
+    const faseUpper = faseStr.toUpperCase();
+    const isGranFinal = faseUpper.includes('GRAN FINAL');
+    const isTercerPuesto = faseUpper.includes('TERCER PUESTO');
+    const isPlayIn = faseUpper.includes('PLAY-IN');
+    const isSemi = faseUpper.includes('SEMIFINAL');
+
+    let phaseCardClass = '';
+    let phaseBannerHtml = '';
+
+    if (isGranFinal) {
+      phaseCardClass = 'match-card-gran-final';
+      phaseBannerHtml = `
+        <div class="phase-banner-header phase-banner-gran-final">
+          <span class="trophy-pulse">🏆</span>
+          <span class="final-title-glow">GRAN FINAL OFICIAL 2026 · POR EL CAMPEONATO</span>
+          <span class="trophy-pulse">🏆</span>
+        </div>
+      `;
+    } else if (isTercerPuesto) {
+      phaseCardClass = 'match-card-tercer-puesto';
+      phaseBannerHtml = `
+        <div class="phase-banner-header phase-banner-tercer-puesto">
+          <span>🥉</span>
+          <span>TERCER PUESTO · DEFINICIÓN DEL PODIO</span>
+          <span>🥉</span>
+        </div>
+      `;
+    } else if (isSemi) {
+      phaseCardClass = 'match-card-semifinal';
+      phaseBannerHtml = `
+        <div class="phase-banner-header phase-banner-semifinal">
+          <span>⚡</span>
+          <span>${escapeHtml(faseStr)} · RUTA AL TÍTULO</span>
+          <span>⚡</span>
+        </div>
+      `;
+    } else if (isPlayIn) {
+      phaseCardClass = 'match-card-playin';
+      phaseBannerHtml = `
+        <div class="phase-banner-header phase-banner-playin">
+          <span>🔥</span>
+          <span>${escapeHtml(faseStr)} · ELIMINACIÓN DIRECTA</span>
+          <span>🔥</span>
+        </div>
+      `;
+    }
+
+    const localIsMystery = isMysteryTeam(m.local);
+    const visitIsMystery = isMysteryTeam(m.visitante);
+    const localHint = localIsMystery ? getMysteryHint(m, 'local') : '';
+    const visitHint = visitIsMystery ? getMysteryHint(m, 'visitante') : '';
+
+    return `
+      <div class="match-row-card ${branchClass} ${phaseCardClass}" data-match-partido="${escapeHtml(m.partido || '')}" data-match-branch="${escapeHtml(branchKey)}" tabindex="0" role="button" aria-label="Ver ficha del partido ${escapeHtml(m.local)} vs ${escapeHtml(m.visitante)}">
+        ${phaseBannerHtml}
+
+        <div class="match-teams-row">
+          <div class="team-side home ${localIsMystery ? 'is-mystery' : ''}">
+            ${getTeamShieldHtml(m.local)}
+            <div class="team-info-col">
+              <span class="team-name">${escapeHtml(m.local)}</span>
+              ${localHint ? `<span class="team-mystery-hint">${localHint}</span>` : ''}
+            </div>
+          </div>
+
+          <div class="match-middle-box">
+            ${hasMarcador ? `<span class="match-score-pill">${escapeHtml(m.marcador)}</span>` : '<span class="match-vs-tag">vs</span>'}
+          </div>
+
+          <div class="team-side away ${visitIsMystery ? 'is-mystery' : ''}">
+            <div class="team-info-col team-info-col-away">
+              <span class="team-name">${escapeHtml(m.visitante)}</span>
+              ${visitHint ? `<span class="team-mystery-hint">${visitHint}</span>` : ''}
+            </div>
+            ${getTeamShieldHtml(m.visitante)}
+          </div>
+        </div>
+
+        ${isGranFinal ? `
+          <div class="final-excitement-ribbon">
+            <span>🏆</span> <strong>DEFINICIÓN DEL TÍTULO · MEDALLA DE ORO Y COPA 2026</strong> <span>🏆</span>
+          </div>
+        ` : isTercerPuesto ? `
+          <div class="tercer-puesto-ribbon">
+            <span>🥉</span> <strong>DISPUTA POR EL PODIO · MEDALLA DE BRONCE</strong> <span>🥉</span>
+          </div>
+        ` : ''}
+
+        <div class="match-meta-line">
+          <div class="match-meta-left">
+            <span>📅 ${escapeHtml(formatMatchDate(m.fecha, m.hora))}</span>
+            <span>📍 ${escapeHtml(cancha.direccion)}</span>
+            ${m.arbitro ? `<span class="match-referee-tag">👨‍⚖️ <strong>Árbitro:</strong> ${escapeHtml(m.arbitro)}</span>` : '<span class="match-referee-tag referee-pending">👨‍⚖️ Árbitro por designar</span>'}
+          </div>
+          ${cancha.mapsUrl ? `<a href="${cancha.mapsUrl}" target="_blank" rel="noopener noreferrer" class="btn-maps-action" onclick="event.stopPropagation()">Maps ↗</a>` : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  function openMatchModal(m) {
+    const modalPartido = document.getElementById('modalPartido');
+    const modalBody = document.getElementById('modalPartidoBody');
+    if (!modalPartido || !modalBody) return;
+
+    const cancha = parseCanchaInfo(m.cancha);
+    const hasMarcador = cleanStr(m.marcador) && cleanStr(m.marcador) !== '-';
+    const isFem = m.branch === 'femenino';
+    const branchName = isFem ? 'TORNEO FEMENINO' : 'TORNEO MASCULINO';
+    const faseUpper = (m.fase || '').toUpperCase();
+    const isGranFinal = faseUpper.includes('GRAN FINAL');
+    const isTercerPuesto = faseUpper.includes('TERCER PUESTO');
+    const isPlayIn = faseUpper.includes('PLAY-IN');
+    const isSemi = faseUpper.includes('SEMIFINAL');
+
+    let phaseBadgeHtml = '';
+    if (isGranFinal) {
+      phaseBadgeHtml = `<div class="phase-banner-header phase-banner-gran-final"><span class="trophy-pulse">🏆</span> <span class="final-title-glow">GRAN FINAL OFICIAL 2026</span> <span class="trophy-pulse">🏆</span></div>`;
+    } else if (isTercerPuesto) {
+      phaseBadgeHtml = `<div class="phase-banner-header phase-banner-tercer-puesto"><span>🥉</span> TERCER PUESTO · DEFINICIÓN DEL PODIO <span>🥉</span></div>`;
+    } else if (isSemi) {
+      phaseBadgeHtml = `<div class="phase-banner-header phase-banner-semifinal"><span>⚡</span> ${escapeHtml(m.fase)} · RUTA AL TÍTULO</div>`;
+    } else if (isPlayIn) {
+      phaseBadgeHtml = `<div class="phase-banner-header phase-banner-playin"><span>🔥</span> ${escapeHtml(m.fase)} · ELIMINACIÓN DIRECTA</div>`;
+    } else {
+      phaseBadgeHtml = `<div class="modal-match-category-pill">${escapeHtml(branchName)} · JORNADA ${escapeHtml(m.jornada || '1')}</div>`;
+    }
+
+    const localIsMystery = isMysteryTeam(m.local);
+    const visitIsMystery = isMysteryTeam(m.visitante);
+    const localHint = localIsMystery ? getMysteryHint(m, 'local') : '';
+    const visitHint = visitIsMystery ? getMysteryHint(m, 'visitante') : '';
+
+    modalBody.innerHTML = `
+      <div class="modal-match-detail-card ${isGranFinal ? 'match-card-gran-final' : isTercerPuesto ? 'match-card-tercer-puesto' : ''}">
+        ${phaseBadgeHtml}
+        
+        <div class="modal-teams-head">
+          <div class="modal-team-side ${localIsMystery ? 'is-mystery' : ''}">
+            ${getTeamShieldHtml(m.local, 'shield-large')}
+            <strong class="modal-team-name">${escapeHtml(m.local)}</strong>
+            ${localHint ? `<span class="team-mystery-hint">${localHint}</span>` : ''}
+          </div>
+          <div class="modal-vs-center">
+            ${hasMarcador ? `<div class="modal-score-box"><span class="modal-score-val">${escapeHtml(m.marcador)}</span><small class="modal-pending-tag">MARCADOR OFICIAL</small></div>` : `<div class="modal-vs-circle">VS</div><small class="modal-pending-tag">POR JUGAR</small>`}
+          </div>
+          <div class="modal-team-side ${visitIsMystery ? 'is-mystery' : ''}">
+            ${getTeamShieldHtml(m.visitante, 'shield-large')}
+            <strong class="modal-team-name">${escapeHtml(m.visitante)}</strong>
+            ${visitHint ? `<span class="team-mystery-hint">${visitHint}</span>` : ''}
+          </div>
+        </div>
+
+        ${isGranFinal ? `
+          <div class="final-excitement-ribbon">
+            <span>🏆</span> <strong>DEFINICIÓN DEL CAMPEÓN ABSOLUTO 2026</strong> · ¡EL TROFEO ESTÁ EN JUEGO! <span>🏆</span>
+          </div>
+        ` : isTercerPuesto ? `
+          <div class="tercer-puesto-ribbon">
+            <span>🥉</span> <strong>DISPUTA POR EL BRONCE</strong> · EL TERCER LUGAR DEL TORNEO <span>🥉</span>
+          </div>
+        ` : ''}
+
+        <div class="modal-meta-grid">
+          <div class="modal-meta-item">
+            <span class="meta-icon">📅</span>
+            <div class="meta-content">
+              <span class="meta-label">Fecha y Hora</span>
+              <strong class="meta-value">${escapeHtml(formatMatchDate(m.fecha, m.hora))}</strong>
+            </div>
+          </div>
+
+          <div class="modal-meta-item">
+            <span class="meta-icon">📍</span>
+            <div class="meta-content">
+              <span class="meta-label">Escenario Deportivo</span>
+              <strong class="meta-value">${escapeHtml(cancha.direccion)}</strong>
+              ${cancha.mapsUrl ? `<a href="${cancha.mapsUrl}" target="_blank" rel="noopener noreferrer" class="btn-maps-action modal-maps-link">Abrir en Google Maps ↗</a>` : ''}
+            </div>
+          </div>
+
+          <div class="modal-meta-item modal-referee-highlight">
+            <span class="meta-icon">👨‍⚖️</span>
+            <div class="meta-content">
+              <span class="meta-label">Árbitro Oficial</span>
+              <strong class="meta-value">${m.arbitro ? escapeHtml(m.arbitro) : '<em style="color:#64748b;font-weight:400">Por designar por la organización</em>'}</strong>
+              <small class="meta-sub">Máxima autoridad arbitral asignada para este encuentro</small>
+            </div>
+          </div>
+
+          ${m.observaciones ? `
+          <div class="modal-meta-item modal-obs-full">
+            <span class="meta-icon">📋</span>
+            <div class="meta-content">
+              <span class="meta-label">Planilla y Observaciones</span>
+              <p class="meta-obs-body">${escapeHtml(m.observaciones)}</p>
+            </div>
+          </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+
+    modalPartido.hidden = false;
+  }
+
+  function attachMatchCardClicks(container, matchesList) {
+    if (!container) return;
+    container.querySelectorAll('.match-row-card').forEach(card => {
+      card.onclick = () => {
+        const num = card.getAttribute('data-match-partido');
+        const branch = card.getAttribute('data-match-branch');
+        const match = matchesList.find(m => String(m.partido) === String(num) && (!branch || m.branch === branch));
+        if (match) openMatchModal(match);
+      };
+      card.onkeydown = (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.click();
+        }
+      };
+    });
+  }
+
   function renderBranchCalendar(branchKey, data) {
     const cont = document.getElementById('branchCalendarRounds');
     if (!cont) return;
@@ -1973,48 +2395,36 @@
 
     const rounds = new Map();
     matches.forEach(m => {
-      const jor = m.jornada || 'Jornada 1';
+      const jor = m.jornada || '1';
       if (!rounds.has(jor)) rounds.set(jor, []);
       rounds.get(jor).push(m);
     });
 
     let html = '';
     for (const [jor, list] of rounds.entries()) {
+      const hasFinales = list.some(m => (m.fase || '').toUpperCase().includes('FINAL'));
+      const hasSemi = list.some(m => (m.fase || '').toUpperCase().includes('SEMIFINAL'));
+      const hasPlayIn = list.some(m => (m.fase || '').toUpperCase().includes('PLAY-IN'));
+
+      let roundSubTitle = 'FASE REGULAR';
+      if (hasFinales) roundSubTitle = 'FASE FINAL · DEFINICIÓN DEL PODIO Y GRAN FINAL 🏆';
+      else if (hasSemi) roundSubTitle = 'FASE FINAL · SEMIFINALES ⚡';
+      else if (hasPlayIn) roundSubTitle = 'FASE REGULAR Y PLAY-IN 🔥';
+
       html += `
-        <div class="day-group">
-          <h3 class="day-header">JORNADA ${escapeHtml(jor)}</h3>
+        <div class="day-group ${hasFinales ? 'day-group-finales' : ''}">
+          <div class="day-header-wrap">
+            <h3 class="day-header">JORNADA ${escapeHtml(jor)}</h3>
+            <span class="day-round-subtitle ${hasFinales ? 'subtitle-gold' : ''}">${roundSubTitle}</span>
+          </div>
           ${list
-            .map(m => {
-              const cancha = parseCanchaInfo(m.cancha);
-              const branchClass = branchKey === 'masculino' ? 'match-masc' : 'match-fem';
-              const hasMarcador = cleanStr(m.marcador) && cleanStr(m.marcador) !== '-';
-              return `
-              <div class="match-row-card ${branchClass}">
-                <div class="match-teams-row">
-                  <div class="team-side home">
-                    ${getTeamShieldHtml(m.local)}
-                    <span class="team-name">${escapeHtml(m.local)}</span>
-                  </div>
-                  <div class="match-middle-box">
-                    ${hasMarcador ? `<span class="match-score-pill">${escapeHtml(m.marcador)}</span>` : '<span class="match-vs-tag">vs</span>'}
-                  </div>
-                  <div class="team-side away">
-                    <span class="team-name">${escapeHtml(m.visitante)}</span>
-                    ${getTeamShieldHtml(m.visitante)}
-                  </div>
-                </div>
-                <div class="match-meta-line">
-                  <span>📅 ${escapeHtml(formatMatchDate(m.fecha, m.hora))} · 📍 ${escapeHtml(cancha.direccion)}</span>
-                  ${cancha.mapsUrl ? `<a href="${cancha.mapsUrl}" target="_blank" rel="noopener noreferrer" class="btn-maps-action">Ver en Maps ↗</a>` : ''}
-                </div>
-              </div>
-            `;
-            })
+            .map(m => renderMatchCardHtml(m, branchKey))
             .join('')}
         </div>
       `;
     }
     cont.innerHTML = html;
+    attachMatchCardClicks(cont, matches);
   }
 
   function renderBranchResults(branchKey, data) {
@@ -2842,33 +3252,9 @@
     }
 
     cont.innerHTML = matches
-      .map(m => {
-        const branchClass = m.branch === 'masculino' ? 'match-masc' : 'match-fem';
-        const isPlayed = view === 'res' || (cleanStr(m.marcador) && cleanStr(m.marcador) !== '-');
-        return `
-        <div class="match-row-card ${branchClass}">
-          <div class="match-teams-row">
-            <div class="team-side home">
-              ${getTeamShieldHtml(m.local)}
-              <span class="team-name">${escapeHtml(m.local)}</span>
-            </div>
-            <div class="match-middle-box">
-              ${isPlayed
-                ? `<span class="match-score-pill">${m.golesLocal !== undefined ? `${m.golesLocal} - ${m.golesVisita}` : escapeHtml(m.marcador)}</span>`
-                : '<span class="match-vs-tag">vs</span>'}
-            </div>
-            <div class="team-side away">
-              <span class="team-name">${escapeHtml(m.visitante)}</span>
-              ${getTeamShieldHtml(m.visitante)}
-            </div>
-          </div>
-          <div class="match-meta-line">
-            <span>📅 ${escapeHtml(formatMatchDate(m.fecha, m.hora))} · Jornada ${escapeHtml(m.jornada || '1')}</span>
-          </div>
-        </div>
-      `;
-      })
+      .map(m => renderMatchCardHtml(m, m.branch || 'masculino'))
       .join('');
+    attachMatchCardClicks(cont, matches);
   }
 
   // =========================================================

@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const SHEETS_IDS = {
   masculino: '1mCMBHkh_Kg98IdgbKu8fPpqh8it_OCAn_aqA2BDSE1E',
@@ -14,9 +14,13 @@ const SHEETS_IDS = {
 };
 const HOJAS = ['CALENDARIO', 'RESULTADOS', 'TABLA_POSICIONES', 'JUGADORES'];
 
+let cacheData = null;
+let cacheTime = 0;
+const CACHE_TTL_MS = 30000;
+
 async function fetchGvizSheetMatrix(sheetId, sheetName) {
   const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}&headers=0`;
-  const resp = await fetch(url);
+  const resp = await fetch(url, { signal: AbortSignal.timeout(10000) });
   if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
   const text = await resp.text();
   const match = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\);?/);
@@ -34,6 +38,11 @@ async function fetchGvizSheetMatrix(sheetId, sheetName) {
 }
 
 app.get('/api/tournament-data', async (req, res) => {
+  const now = Date.now();
+  if (cacheData && (now - cacheTime < CACHE_TTL_MS)) {
+    return res.json({ success: true, data: cacheData, cached: true });
+  }
+
   try {
     const data = { masculino: {}, femenino: {} };
     await Promise.all(
@@ -42,13 +51,18 @@ app.get('/api/tournament-data', async (req, res) => {
           try {
             data[branch][hoja] = await fetchGvizSheetMatrix(id, hoja);
           } catch (e) {
-            data[branch][hoja] = [];
+            data[branch][hoja] = cacheData?.[branch]?.[hoja] || [];
           }
         })
       )
     );
+    cacheData = data;
+    cacheTime = now;
     res.json({ success: true, data });
   } catch (err) {
+    if (cacheData) {
+      return res.json({ success: true, data: cacheData, cached: true, stale: true });
+    }
     res.status(500).json({ success: false, error: err.message });
   }
 });

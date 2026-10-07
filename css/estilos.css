@@ -1796,7 +1796,21 @@ a {
   font-variant-numeric: tabular-nums;
 }
 
-.official-table .pts-cell {
+.official-table th.pts-cell {
+  text-align: right;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--white);
+}
+
+.official-table th.pts-cell .abbr-tip {
+  color: var(--gold);
+  border-bottom: 1px dashed rgba(215, 173, 75, 0.85);
+}
+
+.official-table td.pts-cell {
   text-align: right;
   font-family: var(--font-display);
   font-size: 18px;
@@ -2800,6 +2814,458 @@ a {
   padding: 20px 18px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+}
+
+/* =========================================================
+   FASES DE ELIMINACIÓN, FINALES Y ÁRBITROS
+   ========================================================= */
+
+.day-header-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.day-round-subtitle {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.day-round-subtitle.subtitle-gold {
+  color: #b8860b;
+}
+
+.day-group.day-group-finales {
+  border-left: 3px solid var(--gold);
+  padding-left: 10px;
+}
+
+/* Banners superiores para las tarjetas de partidos con Fase */
+.phase-banner-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  margin: -12px -12px 12px -12px;
+  text-align: center;
+}
+
+/* 1. PLAY-IN */
+.phase-banner-playin {
+  background: linear-gradient(135deg, #e65100, #ff6b35);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(230, 81, 0, 0.25);
+}
+
+.match-card-playin {
+  border-color: #ff6b35 !important;
+  background: linear-gradient(180deg, #fffaf5 0%, #ffffff 100%) !important;
+}
+
+/* 2. SEMIFINAL */
+.phase-banner-semifinal {
+  background: linear-gradient(135deg, #0d47a1, #1e88e5);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(13, 71, 161, 0.25);
+}
+
+.match-card-semifinal {
+  border-color: #1e88e5 !important;
+  background: linear-gradient(180deg, #f7faff 0%, #ffffff 100%) !important;
+}
+
+/* 3. TERCER PUESTO (FINAL DEL PODIO) */
+.phase-banner-tercer-puesto {
+  background: linear-gradient(135deg, #7a3c08 0%, #cd7f32 50%, #8d4925 100%);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 3px 12px rgba(205, 127, 50, 0.35);
+}
+
+.match-card-tercer-puesto {
+  border: 2px solid #cd7f32 !important;
+  background: linear-gradient(180deg, #fffbf7 0%, #ffffff 100%) !important;
+  box-shadow: 0 4px 20px rgba(205, 127, 50, 0.22) !important;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.match-card-tercer-puesto:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(205, 127, 50, 0.35) !important;
+}
+
+.tercer-puesto-ribbon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(205, 127, 50, 0.12);
+  border: 1px solid rgba(205, 127, 50, 0.35);
+  color: #7a3c08;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 5px 10px;
+  border-radius: 6px;
+  margin: 10px 0 6px 0;
+  text-align: center;
+}
+
+/* 4. GRAN FINAL (MÁXIMA EMOCIÓN Y GLORIA) */
+.phase-banner-gran-final {
+  background: linear-gradient(135deg, #04101f 0%, #152c48 50%, #04101f 100%);
+  border-bottom: 2px solid var(--gold);
+  color: var(--gold);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 3px 14px rgba(215, 173, 75, 0.45);
+}
+
+.phase-banner-gran-final .final-title-glow {
+  color: #ffe082;
+  font-weight: 900;
+  letter-spacing: 1px;
+  animation: goldPulse 2.5s infinite ease-in-out;
+}
+
+@keyframes goldPulse {
+  0%, 100% { opacity: 1; text-shadow: 0 0 6px rgba(255, 215, 0, 0.6); }
+  50% { opacity: 0.9; text-shadow: 0 0 14px rgba(255, 215, 0, 0.95); }
+}
+
+.trophy-pulse {
+  display: inline-block;
+  animation: trophyBob 1.8s infinite ease-in-out;
+}
+
+@keyframes trophyBob {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-2px) scale(1.15); }
+}
+
+.match-card-gran-final {
+  border: 2px solid var(--gold) !important;
+  background: linear-gradient(180deg, #fdfbf5 0%, #ffffff 100%) !important;
+  box-shadow: 0 6px 30px rgba(215, 173, 75, 0.35), 0 0 0 1px rgba(215, 173, 75, 0.25) !important;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.match-card-gran-final::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #d7ad4b, #fff4cc, #d7ad4b, #fff4cc);
+  background-size: 200% 100%;
+  animation: goldShimmer 3s infinite linear;
+}
+
+@keyframes goldShimmer {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+.match-card-gran-final:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 36px rgba(215, 173, 75, 0.5) !important;
+}
+
+.final-excitement-ribbon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(215, 173, 75, 0.16);
+  border: 1px solid rgba(215, 173, 75, 0.45);
+  color: #8b6814;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 6px 12px;
+  border-radius: 6px;
+  margin: 10px 0 6px 0;
+  text-align: center;
+}
+
+/* Incógnita en los versus cuando los equipos no están definidos */
+.team-side.is-mystery .neutral-shield {
+  border: 2px dashed #94a3b8;
+  background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+  color: #475569;
+  font-size: 18px;
+  font-weight: 900;
+  animation: mysteryPulse 2.8s infinite ease-in-out;
+}
+
+@keyframes mysteryPulse {
+  0%, 100% { transform: scale(1); border-color: #94a3b8; }
+  50% { transform: scale(1.08); border-color: var(--gold); }
+}
+
+.team-info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.team-info-col-away {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.team-mystery-hint {
+  font-size: 10px;
+  font-weight: 700;
+  color: #0d47a1;
+  background: #e3f2fd;
+  border: 1px solid #bbdefb;
+  padding: 1px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.match-card-gran-final .team-mystery-hint {
+  color: #78350f;
+  background: #fef3c7;
+  border-color: #fde68a;
+}
+
+/* Árbitro Oficial */
+.match-referee-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #1e293b;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.match-referee-tag strong {
+  color: #0f172a;
+}
+
+.match-referee-tag.referee-pending {
+  color: #64748b;
+  border-style: dashed;
+  background: #f8fafc;
+}
+
+.referee-highlight-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e293b;
+  padding-top: 8px;
+  border-top: 1px dashed #e2e8f0;
+  margin-top: 8px;
+}
+
+/* Cursor interactivo para tarjetas de partido */
+.match-row-card {
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.match-row-card:hover {
+  transform: translateY(-1px);
+}
+
+/* Detalle del Partido en Modal */
+.modal-match-detail-card {
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  padding: 16px;
+}
+
+.modal-match-category-pill {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--navy);
+  background: #eef4f9;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.modal-teams-head {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 8px;
+  background: #f8fafc;
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+}
+
+.modal-team-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.modal-team-name {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1.2;
+}
+
+.shield-large {
+  width: 52px !important;
+  height: 52px !important;
+  font-size: 24px !important;
+}
+
+.modal-vs-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.modal-vs-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 900;
+  display: grid;
+  place-items: center;
+}
+
+.modal-score-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.modal-score-val {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--navy);
+  background: #ffffff;
+  border: 2px solid var(--gold);
+  padding: 4px 14px;
+  border-radius: 6px;
+}
+
+.modal-pending-tag {
+  font-size: 10px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.modal-meta-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.modal-meta-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.modal-meta-item .meta-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.modal-meta-item .meta-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.modal-meta-item .meta-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.modal-meta-item .meta-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.modal-meta-item .meta-sub {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.modal-referee-highlight {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.modal-referee-highlight .meta-value {
+  color: #0f172a;
+  font-size: 15px;
+}
+
+.modal-obs-full {
+  background: #fdfbf7;
+  border-color: #fde68a;
+}
+
+.meta-obs-body {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #334155;
+  white-space: pre-line;
+  margin: 4px 0 0 0;
+}
+
+.modal-maps-link {
+  display: inline-block;
+  margin-top: 6px;
+  width: fit-content;
 }
 
 /* =========================================================
