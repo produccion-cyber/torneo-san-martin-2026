@@ -640,57 +640,6 @@
   }
 };
 
-  const INITIAL_JUGADORES_MASC = [
-    { jugador: 'Sanchez', equipo: 'ULTIMA MILLA FC', dorsal: '10', posicion: 'Cualquier posición', pj: 1, goles: 4, asistencias: 2, ta: 0, tr: 0, mvp: 17, fairPlay: 0, branch: 'masculino' },
-    { jugador: 'Bohorquez', equipo: 'REAL SAN MARTIN FC', dorsal: '7', posicion: 'Mediocampista, Delantero', pj: 2, goles: 4, asistencias: 0, ta: 0, tr: 0, mvp: 14, fairPlay: 0, branch: 'masculino' },
-    { jugador: 'Viloria', equipo: 'LOS PROBIÓTICOS FC', dorsal: '7', posicion: 'Capitán', pj: 1, goles: 3, asistencias: 2, ta: 0, tr: 0, mvp: 14, fairPlay: 0, branch: 'masculino' },
-    { jugador: 'Urrea', equipo: 'ADMIN UNITED FC', dorsal: '2', posicion: 'Defensa', pj: 1, goles: 3, asistencias: 0, ta: 0, tr: 0, mvp: 10, fairPlay: 0, branch: 'masculino' },
-    { jugador: 'Navarro A.', equipo: 'LOS PROBIÓTICOS FC', dorsal: '10', posicion: 'Delantero', pj: 1, goles: 3, asistencias: 0, ta: 0, tr: 0, mvp: 10, fairPlay: 0, branch: 'masculino' },
-    { jugador: 'Velazquez', equipo: 'ULTIMA MILLA FC', dorsal: '6', posicion: 'Portero', pj: 1, goles: 2, asistencias: 2, ta: 0, tr: 0, mvp: 11, fairPlay: 0, branch: 'masculino' },
-    { jugador: 'Rivera', equipo: 'ULTIMA MILLA FC', dorsal: '7', posicion: 'Capitán', pj: 1, goles: 2, asistencias: 1, ta: 0, tr: 0, mvp: 9, fairPlay: 0, branch: 'masculino' },
-    { jugador: 'Albino', equipo: 'BAYERN MUU FC', dorsal: '11', posicion: 'Capitán', pj: 1, goles: 2, asistencias: 1, ta: 0, tr: 0, mvp: 9, fairPlay: 0, branch: 'masculino' },
-    { jugador: 'Pérez', equipo: 'ULTIMA MILLA FC', dorsal: '16', posicion: 'Cualquier posición', pj: 1, goles: 2, asistencias: 0, ta: 0, tr: 0, mvp: 7, fairPlay: 0, branch: 'masculino' },
-    { jugador: 'Atehortua', equipo: 'ADMIN UNITED FC', dorsal: '74', posicion: 'Delantero', pj: 1, goles: 1, asistencias: 4, ta: 0, tr: 0, mvp: 12, fairPlay: 0, branch: 'masculino' },
-    { jugador: 'Soto H.', equipo: 'REAL SAN MARTIN FC', dorsal: '80', posicion: 'Mediocampista', pj: 2, goles: 1, asistencias: 1, ta: 0, tr: 0, mvp: 7, fairPlay: 0, branch: 'masculino' },
-    { jugador: 'Delprado', equipo: 'BAYERN MUU FC', dorsal: '7', posicion: 'Delantero', pj: 1, goles: 1, asistencias: 1, ta: 0, tr: 0, mvp: 6, fairPlay: 0, branch: 'masculino' },
-    { jugador: 'Urrego', equipo: 'BAYERN MUU FC', dorsal: '9', posicion: 'Mediocampista', pj: 1, goles: 1, asistencias: 1, ta: 0, tr: 0, mvp: 6, fairPlay: 0, branch: 'masculino' },
-    { jugador: 'Echeverry', equipo: 'REAL SAN MARTIN FC', dorsal: '17', posicion: 'Defensa, Mediocampista', pj: 2, goles: 1, asistencias: 0, ta: 0, tr: 0, mvp: 5, fairPlay: 0, branch: 'masculino' },
-    { jugador: 'Orozco A.', equipo: 'ADMIN UNITED FC', dorsal: '6', posicion: 'Medio Campista', pj: 1, goles: 1, asistencias: 0, ta: 0, tr: 0, mvp: 4, fairPlay: 0, branch: 'masculino' },
-    { jugador: 'Rios', equipo: 'ADMIN UNITED FC', dorsal: '99', posicion: 'Defensa, Portero', pj: 1, goles: 1, asistencias: 0, ta: 0, tr: 0, mvp: 4, fairPlay: 0, branch: 'masculino' },
-    { jugador: 'Acosta', equipo: 'REAL SAN MARTIN FC', dorsal: '10', posicion: 'Capitán', pj: 2, goles: 0, asistencias: 1, ta: 0, tr: 0, mvp: 4, fairPlay: 0, branch: 'masculino' }
-  ];
-
-  // Diccionario pedagógico compacto de abreviaturas e íconos deportivos
-  const ABBR_DICTIONARY = {
-    POS: { code: 'Pos', title: 'Posición actual en la tabla' },
-    PJ: { code: 'PJ', title: 'Partidos Jugados' },
-    PG: { code: 'PG', title: 'Partidos Ganados (3 pts)' },
-    PE: { code: 'PE', title: 'Partidos Empatados (1 pt)' },
-    PP: { code: 'PP', title: 'Partidos Perdidos (0 pts)' },
-    GF: { code: 'GF', title: 'Goles a Favor (anotados)' },
-    GC: { code: 'GC', title: 'Goles en Contra (recibidos)' },
-    DG: { code: 'DG', title: 'Diferencia de Gol (GF menos GC)' },
-    PTS: { code: 'PTS', title: 'Puntos Totales acumulados' },
-    PROM: { code: 'Prom.', title: 'Promedio por partido jugado' },
-    GC_PJ: { code: 'GC/PJ', title: 'Promedio de goles recibidos por partido' },
-    MVP: { code: 'MVP', title: 'Jugador Más Valioso del partido' },
-    TA: { code: 'TA', title: 'Tarjeta Amarilla (multa $5.000)' },
-    TR: { code: 'TR', title: 'Tarjeta Roja (multa $10.000)' },
-    COP: { code: 'COP', title: 'Valor en Pesos Colombianos' },
-    REND: { code: 'Rend.', title: 'Porcentaje de puntos obtenidos' },
-    GOLES_EMOJI: { code: '⚽', title: 'Goles anotados' },
-    ASIST_EMOJI: { code: '🅰️', title: 'Asistencias (pases de gol)' },
-    TA_EMOJI: { code: '🟨', title: 'Tarjetas amarillas' },
-    TR_EMOJI: { code: '🟥', title: 'Tarjetas rojas' }
-  };
-
-  function abbrHtml(key, customLabel = null) {
-    const item = ABBR_DICTIONARY[key];
-    if (!item) return escapeHtml(customLabel || key);
-    const label = customLabel !== null ? customLabel : item.code;
-    return `<span class="abbr-tip" data-abbr="${escapeHtml(key)}" role="button" tabindex="0" aria-label="${escapeHtml(item.title)}">${escapeHtml(label)}</span>`;
-  }
-
   // Estado global en memoria
   const APP_STATE = {
     currentRoute: 'inicio',
@@ -699,15 +648,13 @@
     currentStatTab: 'goleadores',
     genFilter: 'all',
     genView: 'cal',
-    teamFilter: 'all',
-    expandedTeams: new Set(),
     lastSyncTime: null,
     data: {
       masculino: {
         calendario: JSON.parse(JSON.stringify(INITIAL_SEED_DATA.masculino.calendario || [])),
         resultados: JSON.parse(JSON.stringify(INITIAL_SEED_DATA.masculino.resultados || [])),
         posiciones: JSON.parse(JSON.stringify(INITIAL_SEED_DATA.masculino.posiciones || [])),
-        jugadores: JSON.parse(JSON.stringify(INITIAL_JUGADORES_MASC)),
+        jugadores: [],
         plantilla: SHEETS_CONFIG.masculino.plantillaBase.slice()
       },
       femenino: {
@@ -992,16 +939,9 @@
         if (n === 'EQUIPO' && idx > visitCol) rosterEquipoCol = idx;
         if (n === 'JUGADOR') rosterJugadorCol = idx;
         if (n === 'DORSAL' || n === 'DORSALES') rosterDorsalCol = idx;
-        if (n.startsWith('POSICI') && rosterPosCol === -1) rosterPosCol = idx;
+        if (n.startsWith('POSICI')) rosterPosCol = idx;
       });
     }
-    // En Google Sheets gviz con headers=0, la columna numérica "Dorsal" (justo a la derecha de "Jugador")
-    // puede venir con encabezado vacío en la fila 0. Si no se detectó por texto, usar rosterJugadorCol + 1.
-    if (rosterDorsalCol === -1 && rosterJugadorCol !== -1) {
-      rosterDorsalCol = rosterJugadorCol + 1;
-    }
-
-    const basePlantilla = SHEETS_CONFIG[branchKey]?.plantillaBase || [];
 
     for (let i = headerIdx + 1; i < rows.length; i++) {
       const r = rows[i];
@@ -1037,16 +977,7 @@
         const eq = cleanStr(r[rosterEquipoCol]);
         const jug = cleanStr(r[rosterJugadorCol]);
         if (eq && jug) {
-          let numDor = rosterDorsalCol !== -1 ? cleanStr(r[rosterDorsalCol]) : '';
-          if (!numDor && r[rosterJugadorCol + 4] !== undefined) {
-            numDor = cleanStr(r[rosterJugadorCol + 4]);
-          }
-          if (!numDor) {
-            const baseMatch = basePlantilla.find(
-              bp => normStr(bp.name) === normStr(jug) && normStr(bp.team) === normStr(eq)
-            );
-            if (baseMatch && baseMatch.number) numDor = baseMatch.number;
-          }
+          const numDor = rosterDorsalCol !== -1 ? cleanStr(r[rosterDorsalCol]) : '';
           const pos = rosterPosCol !== -1 ? cleanStr(r[rosterPosCol]) : '';
           roster.push({
             team: eq,
@@ -1242,7 +1173,7 @@
       const ta = parseNum(r[jCol + 7]);
       const tr = parseNum(r[jCol + 8]);
       const mvp = parseNum(r[jCol + 9]);
-      const fairPlay = (ta * 5000) + (tr * 10000);
+      const fairPlay = parseNum(r[jCol + 10]);
 
       list.push({
         jugador,
@@ -1495,56 +1426,6 @@
 
     // Fair Play
     renderHomeFairPlay();
-
-    // Últimos recuerdos en Inicio
-    renderHomeRecuerdosPreview();
-  }
-
-  function computeBranchFairPlaySummary(branchKey) {
-    const cfg = SHEETS_CONFIG[branchKey];
-    const branchData = APP_STATE.data[branchKey];
-    const jugadosCount = (branchData.resultados || []).filter(r => r.estado === 'Jugado').length;
-    const equipos = cfg.equipos || [];
-    const posMap = {};
-    (branchData.posiciones || []).forEach(p => {
-      posMap[normStr(p.equipo)] = p;
-    });
-
-    const teamsMap = {};
-    equipos.forEach(eq => {
-      const p = posMap[normStr(eq)];
-      teamsMap[normStr(eq)] = {
-        equipo: eq,
-        pj: p ? p.pj : 0,
-        amarillas: 0,
-        rojas: 0,
-        multa: 0
-      };
-    });
-
-    (branchData.jugadores || []).forEach(j => {
-      const key = normStr(j.equipo);
-      if (!teamsMap[key]) {
-        teamsMap[key] = { equipo: j.equipo, pj: j.pj || 0, amarillas: 0, rojas: 0, multa: 0 };
-      }
-      teamsMap[key].amarillas += j.ta || 0;
-      teamsMap[key].rojas += j.tr || 0;
-      teamsMap[key].multa += ((j.ta || 0) * 5000) + ((j.tr || 0) * 10000);
-    });
-
-    const list = Object.values(teamsMap).sort((a, b) => a.multa - b.multa || a.rojas - b.rojas || a.amarillas - b.amarillas);
-    const totalTarjetas = list.reduce((acc, t) => acc + t.amarillas + t.rojas, 0);
-    const minMulta = list.length ? list[0].multa : 0;
-    const leaders = list.filter(t => t.multa === minMulta);
-
-    return {
-      jugadosCount,
-      totalTarjetas,
-      allZeroCards: totalTarjetas === 0,
-      allTied: leaders.length === list.length,
-      leaders,
-      list
-    };
   }
 
   function renderHomeNextMatches(mascCal, femCal, mascRes, femRes) {
@@ -1698,63 +1579,59 @@
     const femBody = document.getElementById('homeFairFemBody');
     if (!mascBody || !femBody) return;
 
-    const renderBranchFairCardBody = (branchKey, container) => {
-      const fp = computeBranchFairPlaySummary(branchKey);
-      if (fp.jugadosCount === 0) {
-        container.innerHTML = `<span class="empty-state-msg">Se mostrará cuando haya partidos</span>`;
-        return;
-      }
+    const mascJug = (APP_STATE.data.masculino.jugadores || []).filter(j => j.pj > 0);
+    const femJug = (APP_STATE.data.femenino.jugadores || []).filter(j => j.pj > 0);
 
-      if (fp.allZeroCards || fp.allTied) {
-        const shieldsHtml = fp.list.map(t => getTeamShieldHtml(t.equipo)).join('');
-        container.innerHTML = `
-          <div class="fairplay-all-good">
-            <div class="fairplay-shields-strip">
-              ${shieldsHtml}
-            </div>
-            <div class="fairplay-motto-box">
-              <span>🤝</span>
-              <div>
-                <strong>¡Todos los equipos van muy bien!</strong><br>
-                Sin tarjetas registradas hasta el momento: juego limpio y respeto ejemplar en toda la categoría.
-              </div>
-            </div>
-          </div>
-        `;
-        return;
+    const calcFairTeam = jugList => {
+      const teams = {};
+      jugList.forEach(j => {
+        if (!teams[j.equipo]) teams[j.equipo] = { amarillas: 0, rojas: 0, fairTotal: 0, count: 0 };
+        teams[j.equipo].amarillas += j.ta || 0;
+        teams[j.equipo].rojas += j.tr || 0;
+        teams[j.equipo].fairTotal += j.fairPlay || 0;
+        teams[j.equipo].count += 1;
+      });
+      let bestTeam = null;
+      let minScore = 99999;
+      for (const [t, data] of Object.entries(teams)) {
+        const score = data.fairTotal > 0 ? data.fairTotal : (data.amarillas * 5000 + data.rojas * 10000);
+        if (score < minScore) {
+          minScore = score;
+          bestTeam = { equipo: t, ...data };
+        }
       }
-
-      if (fp.leaders.length > 1) {
-        const shieldsHtml = fp.leaders.map(t => getTeamShieldHtml(t.equipo)).join('');
-        const names = fp.leaders.map(t => escapeHtml(t.equipo)).join(', ');
-        container.innerHTML = `
-          <div class="fairplay-all-good">
-            <div class="fairplay-shields-strip">${shieldsHtml}</div>
-            <div class="fairplay-motto-box">
-              <span>🌟</span>
-              <div>
-                <strong>Liderato compartido en Juego Limpio:</strong> ${names} (${fp.leaders[0].amarillas} 🟨 · ${fp.leaders[0].rojas} 🟥).
-              </div>
-            </div>
-          </div>
-        `;
-        return;
-      }
-
-      const best = fp.leaders[0];
-      container.innerHTML = `
-        <div class="fairplay-team-row">
-          <div class="leader-team-info">
-            ${getTeamShieldHtml(best.equipo)}
-            <strong class="leader-team-name">${escapeHtml(best.equipo)}</strong>
-          </div>
-          <span class="cards-penalty">${best.amarillas} 🟨 · ${best.rojas} 🟥</span>
-        </div>
-      `;
+      return bestTeam;
     };
 
-    renderBranchFairCardBody('masculino', mascBody);
-    renderBranchFairCardBody('femenino', femBody);
+    const bestMasc = calcFairTeam(mascJug);
+    if (bestMasc) {
+      mascBody.innerHTML = `
+        <div class="fairplay-team-row">
+          <div class="leader-team-info">
+            ${getTeamShieldHtml(bestMasc.equipo)}
+            <strong class="leader-team-name">${escapeHtml(bestMasc.equipo)}</strong>
+          </div>
+          <span class="cards-penalty">${bestMasc.amarillas} 🟨 · ${bestMasc.rojas} 🟥</span>
+        </div>
+      `;
+    } else {
+      mascBody.innerHTML = `<span class="empty-state-msg">Se mostrará cuando haya partidos</span>`;
+    }
+
+    const bestFem = calcFairTeam(femJug);
+    if (bestFem) {
+      femBody.innerHTML = `
+        <div class="fairplay-team-row">
+          <div class="leader-team-info">
+            ${getTeamShieldHtml(bestFem.equipo)}
+            <strong class="leader-team-name">${escapeHtml(bestFem.equipo)}</strong>
+          </div>
+          <span class="cards-penalty">${bestFem.amarillas} 🟨 · ${bestFem.rojas} 🟥</span>
+        </div>
+      `;
+    } else {
+      femBody.innerHTML = `<span class="empty-state-msg">Se mostrará cuando haya partidos</span>`;
+    }
   }
 
   // =========================================================
@@ -1871,35 +1748,18 @@
     renderTopThreeMini(branchKey, data);
   }
 
-  function getTeamKeeperName(branchKey, teamName) {
-    const plantilla = APP_STATE.data[branchKey]?.plantilla?.length
-      ? APP_STATE.data[branchKey].plantilla
-      : SHEETS_CONFIG[branchKey].plantillaBase;
-    const keepers = plantilla.filter(
-      p => normStr(p.team) === normStr(teamName) && normStr(p.role).includes('PORTER')
-    );
-    if (keepers.length) return keepers.map(k => k.name).join(' / ');
-    return '';
-  }
-
   function renderTopThreeMini(branchKey, data) {
     const jug = data.jugadores || [];
 
     const scorersEl = document.getElementById('branchTopScorersMini');
-    const topScorers = [...jug].filter(j => j.goles > 0).sort((a, b) => b.goles - a.goles || a.pj - b.pj).slice(0, 3);
+    const topScorers = [...jug].filter(j => j.goles > 0).sort((a, b) => b.goles - a.goles).slice(0, 3);
     if (topScorers.length) {
       scorersEl.innerHTML = topScorers
         .map(
           (s, idx) => `
         <div class="top-three-row">
           <span class="top-rank-pos">${idx + 1}</span>
-          <div class="top-player-cell">
-            ${getTeamShieldHtml(s.equipo)}
-            <div class="top-player-text">
-              <strong>${escapeHtml(s.jugador)}</strong>
-              <small>${escapeHtml(s.equipo)}</small>
-            </div>
-          </div>
+          <span class="top-player-name">${escapeHtml(s.jugador)} <small>(${escapeHtml(s.equipo)})</small></span>
           <strong class="top-stat-val">${s.goles}</strong>
         </div>
       `
@@ -1910,20 +1770,14 @@
     }
 
     const assistsEl = document.getElementById('branchTopAssistsMini');
-    const topAssists = [...jug].filter(j => j.asistencias > 0).sort((a, b) => b.asistencias - a.asistencias || a.pj - b.pj).slice(0, 3);
+    const topAssists = [...jug].filter(j => j.asistencias > 0).sort((a, b) => b.asistencias - a.asistencias).slice(0, 3);
     if (topAssists.length) {
       assistsEl.innerHTML = topAssists
         .map(
           (a, idx) => `
         <div class="top-three-row">
           <span class="top-rank-pos">${idx + 1}</span>
-          <div class="top-player-cell">
-            ${getTeamShieldHtml(a.equipo)}
-            <div class="top-player-text">
-              <strong>${escapeHtml(a.jugador)}</strong>
-              <small>${escapeHtml(a.equipo)}</small>
-            </div>
-          </div>
+          <span class="top-player-name">${escapeHtml(a.jugador)} <small>(${escapeHtml(a.equipo)})</small></span>
           <strong class="top-stat-val">${a.asistencias}</strong>
         </div>
       `
@@ -1938,22 +1792,13 @@
     if (posList.length) {
       keepersEl.innerHTML = posList
         .map(
-          (p, idx) => {
-            const keeperName = getTeamKeeperName(branchKey, p.equipo);
-            return `
+          (p, idx) => `
         <div class="top-three-row">
           <span class="top-rank-pos">${idx + 1}</span>
-          <div class="top-player-cell">
-            ${getTeamShieldHtml(p.equipo)}
-            <div class="top-player-text">
-              <strong>${escapeHtml(keeperName ? keeperName : p.equipo)}</strong>
-              <small>${escapeHtml(keeperName ? `${p.equipo} · ${p.gc} GC` : `${p.gc} goles recibidos`)}</small>
-            </div>
-          </div>
+          <span class="top-player-name">${escapeHtml(p.equipo)}</span>
           <strong class="top-stat-val">${(p.gc / p.pj).toFixed(1)}</strong>
         </div>
-      `;
-          }
+      `
         )
         .join('');
     } else {
@@ -2067,25 +1912,21 @@
     }
 
     let html = `
-      <div class="abbr-help-hint">
-        <span>💡</span>
-        <span>¿No conoces alguna abreviación (${abbrHtml('PJ')}, ${abbrHtml('PG')}, ${abbrHtml('DG')}, ${abbrHtml('PTS')}…)? <strong>Presiónala</strong> para ver qué significa.</span>
-      </div>
       <table class="official-table">
         <thead>
           <tr>
-            <th>${abbrHtml('POS', 'Pos')}</th>
+            <th>Pos</th>
             <th>Equipo</th>
-            <th class="num-cell">${abbrHtml('PJ')}</th>
+            <th class="num-cell">PJ</th>
             ${!isMini ? `
-              <th class="num-cell">${abbrHtml('PG')}</th>
-              <th class="num-cell">${abbrHtml('PE')}</th>
-              <th class="num-cell">${abbrHtml('PP')}</th>
-              <th class="num-cell">${abbrHtml('GF')}</th>
-              <th class="num-cell">${abbrHtml('GC')}</th>
+              <th class="num-cell">PG</th>
+              <th class="num-cell">PE</th>
+              <th class="num-cell">PP</th>
+              <th class="num-cell">GF</th>
+              <th class="num-cell">GC</th>
             ` : ''}
-            <th class="num-cell">${abbrHtml('DG')}</th>
-            <th class="pts-cell">${abbrHtml('PTS')}</th>
+            <th class="num-cell">DG</th>
+            <th class="pts-cell">PTS</th>
           </tr>
         </thead>
         <tbody>
@@ -2123,573 +1964,236 @@
 
   function renderBranchTeams(branchKey, data) {
     const teamsGrid = document.getElementById('branchTeamsGrid');
+    const rosterGrid = document.getElementById('branchRosterGrid');
     const selectFilter = document.getElementById('selectTeamFilter');
-    if (!teamsGrid || !selectFilter) return;
+    if (!teamsGrid || !rosterGrid || !selectFilter) return;
 
     const equipos = SHEETS_CONFIG[branchKey].equipos;
     const plantilla = data.plantilla.length ? data.plantilla : SHEETS_CONFIG[branchKey].plantillaBase;
     const statsJug = data.jugadores || [];
 
-    selectFilter.innerHTML = '<option value="all">Todos los equipos (toca un equipo para ver su plantilla)</option>' +
+    selectFilter.innerHTML = '<option value="all">Todos los equipos</option>' +
       equipos.map(eq => `<option value="${escapeHtml(eq)}">${escapeHtml(eq)}</option>`).join('');
 
-    if (APP_STATE.teamFilter && equipos.some(e => normStr(e) === normStr(APP_STATE.teamFilter))) {
-      selectFilter.value = APP_STATE.teamFilter;
-    } else {
-      APP_STATE.teamFilter = 'all';
-      selectFilter.value = 'all';
-    }
+    teamsGrid.innerHTML = equipos
+      .map(eq => {
+        const stand = (data.posiciones || []).find(p => normStr(p.equipo) === normStr(eq));
+        const cap = plantilla.find(p => normStr(p.team) === normStr(eq) && normStr(p.role).includes('CAPIT'))?.name || 'Por definir';
+        return `
+        <div class="team-card-item" onclick="document.getElementById('selectTeamFilter').value='${escapeHtml(eq)}'; document.getElementById('selectTeamFilter').dispatchEvent(new Event('change'));">
+          <div class="team-card-top">
+            ${getTeamShieldHtml(eq)}
+            <div>
+              <h3 class="team-card-title">${escapeHtml(eq)}</h3>
+              <p class="team-card-captain">Capitán: <strong>${escapeHtml(cap)}</strong></p>
+            </div>
+          </div>
+          <div class="team-card-stats">
+            <div>PJ: <strong>${stand ? stand.pj : 0}</strong></div>
+            <div>PTS: <strong>${stand ? stand.pts : 0}</strong></div>
+            <div>DG: <strong>${stand ? stand.dg : 0}</strong></div>
+          </div>
+        </div>
+      `;
+      })
+      .join('');
 
-    function renderCards() {
-      const filterVal = APP_STATE.teamFilter || 'all';
-      const visibleTeams = filterVal === 'all'
-        ? equipos
-        : equipos.filter(eq => normStr(eq) === normStr(filterVal));
+    function updateRoster(filterVal) {
+      const filtered = filterVal === 'all'
+        ? plantilla
+        : plantilla.filter(p => normStr(p.team) === normStr(filterVal));
 
-      teamsGrid.innerHTML = visibleTeams
-        .map(eq => {
-          const stand = (data.posiciones || []).find(p => normStr(p.equipo) === normStr(eq));
-          const teamPlayers = plantilla.filter(p => normStr(p.team) === normStr(eq));
-          const cap = teamPlayers.find(p => normStr(p.role).includes('CAPIT'))?.name || 'Por definir';
-          const isExpanded = filterVal !== 'all' || APP_STATE.expandedTeams.has(normStr(eq));
-          const capLabel = branchKey === 'femenino' ? 'Capitana' : 'Capitán';
+      if (!filtered.length) {
+        rosterGrid.innerHTML = '<p class="empty-state-msg">No hay jugadores registrados para este equipo.</p>';
+        return;
+      }
 
-          const baseList = SHEETS_CONFIG[branchKey].plantillaBase || [];
-          const rosterPlayersHtml = teamPlayers.length
-            ? teamPlayers
-                .map(p => {
-                  const stat = statsJug.find(
-                    j => normStr(j.jugador) === normStr(p.name) && normStr(j.equipo) === normStr(p.team)
-                  );
-                  const basePlayer = baseList.find(
-                    bp => normStr(bp.name) === normStr(p.name) && normStr(bp.team) === normStr(p.team)
-                  );
-                  const dorsalNum = cleanStr(p.number) || cleanStr(stat?.dorsal) || cleanStr(basePlayer?.number) || '—';
-                  const goles = stat ? stat.goles : 0;
-                  const asist = stat ? stat.asistencias : 0;
-                  const ta = stat ? stat.ta : 0;
-                  const tr = stat ? stat.tr : 0;
-                  return `
-                  <div class="roster-player-card">
-                    <div class="roster-dorsal">${escapeHtml(dorsalNum)}</div>
-                    <div class="roster-player-info">
-                      <strong>${escapeHtml(p.name)}</strong>
-                      <small>${escapeHtml(p.role || basePlayer?.role || 'Jugador')} · Dorsal #${escapeHtml(dorsalNum)}</small>
-                    </div>
-                    <div class="roster-mini-stats">
-                      <span class="roster-stat-chip abbr-tip" data-abbr="GOLES_EMOJI" role="button" tabindex="0">⚽ ${goles}</span>
-                      <span class="roster-stat-chip abbr-tip" data-abbr="ASIST_EMOJI" role="button" tabindex="0">🅰️ ${asist}</span>
-                      ${ta > 0 ? `<span class="roster-stat-chip abbr-tip" data-abbr="TA_EMOJI" role="button" tabindex="0">${ta} 🟨</span>` : ''}
-                      ${tr > 0 ? `<span class="roster-stat-chip abbr-tip" data-abbr="TR_EMOJI" role="button" tabindex="0">${tr} 🟥</span>` : ''}
-                    </div>
-                  </div>
-                `;
-                })
-                .join('')
-            : '<p class="empty-state-msg">No hay integrantes registrados para este equipo.</p>';
-
+      rosterGrid.innerHTML = filtered
+        .map(p => {
+          const stat = statsJug.find(j => normStr(j.jugador) === normStr(p.name) && normStr(j.equipo) === normStr(p.team));
           return `
-          <div class="team-card-item ${isExpanded ? 'expanded' : ''}" data-team-card="${escapeHtml(eq)}">
-            <div class="team-card-header-row">
-              <div class="team-card-top">
-                ${getTeamShieldHtml(eq)}
-                <div>
-                  <h3 class="team-card-title">${escapeHtml(eq)}</h3>
-                  <p class="team-card-captain">${capLabel}: <strong>${escapeHtml(cap)}</strong> · ${teamPlayers.length} integrantes</p>
-                </div>
-              </div>
-              <span class="team-toggle-pill">
-                ${isExpanded ? '▲ Ocultar plantilla' : `👥 Ver plantilla (${teamPlayers.length}) ▼`}
-              </span>
+          <div class="roster-player-card">
+            <div class="roster-dorsal">${escapeHtml(p.number || '—')}</div>
+            <div class="roster-player-info">
+              <strong>${escapeHtml(p.name)}</strong>
+              <small>${escapeHtml(p.role || 'Jugador')} · ${escapeHtml(p.team)}</small>
             </div>
-
-            <div class="team-card-stats">
-              <div>${abbrHtml('PJ')}: <strong>${stand ? stand.pj : 0}</strong></div>
-              <div>${abbrHtml('PTS')}: <strong>${stand ? stand.pts : 0}</strong></div>
-              <div>${abbrHtml('DG')}: <strong>${stand ? (stand.dg > 0 ? `+${stand.dg}` : stand.dg) : 0}</strong></div>
-              <div>${abbrHtml('GF')}: <strong>${stand ? stand.gf : 0}</strong></div>
-              <div>${abbrHtml('GC')}: <strong>${stand ? stand.gc : 0}</strong></div>
+            <div class="roster-mini-stats">
+              <span>⚽ ${stat ? stat.goles : 0}</span>
+              ${stat && stat.ta ? ` · <span>${stat.ta} 🟨</span>` : ''}
             </div>
-
-            ${isExpanded ? `
-              <div class="team-inline-roster" onclick="event.stopPropagation()">
-                <div class="team-inline-roster-head">
-                  <h4>📋 PLANTILLA DE JUGADORES · ${escapeHtml(eq)}</h4>
-                  <span>${teamPlayers.length} jugadores inscritos · Dorsal, posición y estadísticas</span>
-                </div>
-                <div class="team-inline-roster-grid">
-                  ${rosterPlayersHtml}
-                </div>
-              </div>
-            ` : ''}
           </div>
         `;
         })
         .join('');
-
-      teamsGrid.querySelectorAll('[data-team-card]').forEach(cardEl => {
-        cardEl.onclick = e => {
-          if (e.target.closest('.abbr-tip') || e.target.closest('.team-inline-roster')) return;
-          const eqName = cardEl.getAttribute('data-team-card');
-          const key = normStr(eqName);
-          if (APP_STATE.teamFilter !== 'all') {
-            APP_STATE.teamFilter = 'all';
-            selectFilter.value = 'all';
-            APP_STATE.expandedTeams.clear();
-            return renderCards();
-          }
-          if (APP_STATE.expandedTeams.has(key)) {
-            APP_STATE.expandedTeams.delete(key);
-          } else {
-            APP_STATE.expandedTeams.add(key);
-          }
-          renderCards();
-        };
-      });
     }
 
-    selectFilter.onchange = e => {
-      const val = e.target.value;
-      APP_STATE.teamFilter = val;
-      if (val !== 'all') {
-        APP_STATE.expandedTeams.add(normStr(val));
-      }
-      renderCards();
-    };
-
-    renderCards();
-  }
-
-  function renderEmptyStatsWithShields(branchKey, icon, title, message) {
-    const equipos = SHEETS_CONFIG[branchKey].equipos || [];
-    return `
-      <div class="empty-state-card">
-        <span class="empty-state-icon">${icon}</span>
-        <h3>${escapeHtml(title)}</h3>
-        <p>${escapeHtml(message)}</p>
-        <div class="empty-shields-showcase">
-          ${equipos.map(eq => `
-            <span class="empty-shield-chip">
-              ${getTeamShieldHtml(eq)}
-              <span>${escapeHtml(eq)}</span>
-            </span>
-          `).join('')}
-        </div>
-      </div>
-    `;
+    selectFilter.onchange = e => updateRoster(e.target.value);
+    updateRoster('all');
   }
 
   function renderBranchStats(branchKey, data) {
     const jug = data.jugadores || [];
     const pos = data.posiciones || [];
-    const equipos = SHEETS_CONFIG[branchKey].equipos || [];
 
-    // 1. GOLEADORES
+    // Goleadores
     const goleadoresEl = document.getElementById('statPanelGoleadores');
     const scorers = [...jug].filter(j => j.goles > 0).sort((a, b) => b.goles - a.goles || a.pj - b.pj);
     if (scorers.length) {
-      const top3 = scorers.slice(0, 3);
       goleadoresEl.innerHTML = `
-        <div class="stats-podium-grid">
-          ${top3.map((s, idx) => `
-            <div class="stats-podium-card ${idx === 0 ? 'rank-1' : ''}">
-              <div class="stats-podium-left">
-                ${getTeamShieldHtml(s.equipo)}
-                <div class="stats-podium-info">
-                  <span class="stats-podium-rank">${idx === 0 ? '🥇 #1 LÍDER' : idx === 1 ? '🥈 #2' : '🥉 #3'}</span>
-                  <strong class="stats-podium-name">${escapeHtml(s.jugador)}</strong>
-                  <span class="stats-podium-team">${escapeHtml(s.equipo)} · #${escapeHtml(s.dorsal || '—')}</span>
-                </div>
-              </div>
-              <div class="stats-podium-val">
-                ${s.goles}
-                <small>GOLES</small>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-        <div class="abbr-help-hint">
-          <span>💡</span>
-          <span>Presiona cualquier abreviación (${abbrHtml('PJ')}, ${abbrHtml('PROM')}) para ver qué significa.</span>
-        </div>
-        <div class="table-responsive-box">
-          <table class="official-table">
-            <thead>
+        <table class="official-table">
+          <thead>
+            <tr>
+              <th>#</th><th>Jugador</th><th>Equipo</th><th class="num-cell">PJ</th><th class="pts-cell">Goles</th><th class="num-cell">Prom.</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${scorers
+              .map(
+                (s, i) => `
               <tr>
-                <th>${abbrHtml('POS', '#')}</th>
-                <th>Jugador</th>
-                <th>Equipo</th>
-                <th class="num-cell">${abbrHtml('PJ')}</th>
-                <th class="pts-cell">Goles ⚽</th>
-                <th class="num-cell">${abbrHtml('PROM')}</th>
+                <td><strong>${i + 1}</strong></td>
+                <td><strong>${escapeHtml(s.jugador)}</strong></td>
+                <td>${escapeHtml(s.equipo)}</td>
+                <td class="num-cell">${s.pj}</td>
+                <td class="pts-cell">${s.goles}</td>
+                <td class="num-cell">${s.pj > 0 ? (s.goles / s.pj).toFixed(1) : '—'}</td>
               </tr>
-            </thead>
-            <tbody>
-              ${scorers
-                .map(
-                  (s, i) => `
-                <tr>
-                  <td><strong>${i + 1}</strong></td>
-                  <td>
-                    <div class="table-player-cell">
-                      <strong>${escapeHtml(s.jugador)}</strong>
-                      ${s.dorsal ? `<span class="player-dorsal-pill">#${escapeHtml(s.dorsal)}</span>` : ''}
-                    </div>
-                  </td>
-                  <td>
-                    <div class="table-team-cell">
-                      ${getTeamShieldHtml(s.equipo)}
-                      <span>${escapeHtml(s.equipo)}</span>
-                    </div>
-                  </td>
-                  <td class="num-cell">${s.pj}</td>
-                  <td class="pts-cell">${s.goles}</td>
-                  <td class="num-cell">${s.pj > 0 ? (s.goles / s.pj).toFixed(1) : '—'}</td>
-                </tr>
-              `
-                )
-                .join('')}
-            </tbody>
-          </table>
-        </div>
+            `
+              )
+              .join('')}
+          </tbody>
+        </table>
       `;
     } else {
-      goleadoresEl.innerHTML = renderEmptyStatsWithShields(
-        branchKey,
-        '⚽',
-        'Tabla de Goleadores Oficial',
-        'Aún no se han registrado goles en esta categoría. La tabla con los escudos y artilleros se activará en cuanto se jueguen los primeros encuentros.'
-      );
+      goleadoresEl.innerHTML = '<p class="empty-state-msg">Aún no hay goles oficiales registrados.</p>';
     }
 
-    // 2. ASISTENCIAS
+    // Asistencias
     const asistEl = document.getElementById('statPanelAsistencias');
-    const assists = [...jug].filter(j => j.asistencias > 0).sort((a, b) => b.asistencias - a.asistencias || a.pj - b.pj);
+    const assists = [...jug].filter(j => j.asistencias > 0).sort((a, b) => b.asistencias - a.asistencias);
     if (assists.length) {
-      const top3 = assists.slice(0, 3);
       asistEl.innerHTML = `
-        <div class="stats-podium-grid">
-          ${top3.map((a, idx) => `
-            <div class="stats-podium-card ${idx === 0 ? 'rank-1' : ''}">
-              <div class="stats-podium-left">
-                ${getTeamShieldHtml(a.equipo)}
-                <div class="stats-podium-info">
-                  <span class="stats-podium-rank">${idx === 0 ? '🥇 #1 LÍDER' : idx === 1 ? '🥈 #2' : '🥉 #3'}</span>
-                  <strong class="stats-podium-name">${escapeHtml(a.jugador)}</strong>
-                  <span class="stats-podium-team">${escapeHtml(a.equipo)} · #${escapeHtml(a.dorsal || '—')}</span>
-                </div>
-              </div>
-              <div class="stats-podium-val">
-                ${a.asistencias}
-                <small>ASIST.</small>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-        <div class="table-responsive-box">
-          <table class="official-table">
-            <thead>
+        <table class="official-table">
+          <thead>
+            <tr>
+              <th>#</th><th>Jugador</th><th>Equipo</th><th class="pts-cell">Asistencias</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${assists
+              .map(
+                (a, i) => `
               <tr>
-                <th>${abbrHtml('POS', '#')}</th>
-                <th>Jugador</th>
-                <th>Equipo</th>
-                <th class="num-cell">${abbrHtml('PJ')}</th>
-                <th class="pts-cell">Asistencias 🅰️</th>
-                <th class="num-cell">${abbrHtml('PROM')}</th>
+                <td><strong>${i + 1}</strong></td>
+                <td><strong>${escapeHtml(a.jugador)}</strong></td>
+                <td>${escapeHtml(a.equipo)}</td>
+                <td class="pts-cell">${a.asistencias}</td>
               </tr>
-            </thead>
-            <tbody>
-              ${assists
-                .map(
-                  (a, i) => `
-                <tr>
-                  <td><strong>${i + 1}</strong></td>
-                  <td>
-                    <div class="table-player-cell">
-                      <strong>${escapeHtml(a.jugador)}</strong>
-                      ${a.dorsal ? `<span class="player-dorsal-pill">#${escapeHtml(a.dorsal)}</span>` : ''}
-                    </div>
-                  </td>
-                  <td>
-                    <div class="table-team-cell">
-                      ${getTeamShieldHtml(a.equipo)}
-                      <span>${escapeHtml(a.equipo)}</span>
-                    </div>
-                  </td>
-                  <td class="num-cell">${a.pj}</td>
-                  <td class="pts-cell">${a.asistencias}</td>
-                  <td class="num-cell">${a.pj > 0 ? (a.asistencias / a.pj).toFixed(1) : '—'}</td>
-                </tr>
-              `
-                )
-                .join('')}
-            </tbody>
-          </table>
-        </div>
+            `
+              )
+              .join('')}
+          </tbody>
+        </table>
       `;
     } else {
-      asistEl.innerHTML = renderEmptyStatsWithShields(
-        branchKey,
-        '🅰️',
-        'Ranking de Asistencias',
-        'Aún no hay asistencias registradas en esta categoría. Se actualizará automáticamente tras disputarse los partidos.'
-      );
+      asistEl.innerHTML = '<p class="empty-state-msg">Aún no hay asistencias registradas.</p>';
     }
 
-    // 3. VALLA MENOS VENCIDA
+    // Valla menos vencida
     const vallaEl = document.getElementById('statPanelValla');
-    const keepersTeams = [...pos].filter(p => p.pj > 0).sort((a, b) => a.gc / a.pj - b.gc / b.pj || a.gc - b.gc);
+    const keepersTeams = [...pos].filter(p => p.pj > 0).sort((a, b) => a.gc / a.pj - b.gc / b.pj);
     if (keepersTeams.length) {
-      vallaEl.innerHTML = `
-        <div class="abbr-help-hint">
-          <span>🧤</span>
-          <span>La <strong>Valla Menos Vencida</strong> premia al equipo y portero con menor promedio de goles recibidos (${abbrHtml('GC_PJ')}).</span>
-        </div>
-        <div class="table-responsive-box">
-          ${keepersTeams
-            .map((k, i) => {
-              const keeperName = getTeamKeeperName(branchKey, k.equipo);
-              return `
-            <div class="keeper-stat-row">
-              <div class="keeper-info-left">
-                <span class="top-rank-pos">${i + 1}</span>
-                ${getTeamShieldHtml(k.equipo)}
-                <div>
-                  <strong>${escapeHtml(k.equipo)}</strong>
-                  <small class="keeper-meta-sub">
-                    ${keeperName ? `🧤 Portero: <strong>${escapeHtml(keeperName)}</strong> · ` : ''}
-                    ${k.gc} ${abbrHtml('GC')} en ${k.pj} ${abbrHtml('PJ')}
-                  </small>
-                </div>
-              </div>
-              <div class="keeper-stat-right">
-                <strong class="keeper-prom-value">${(k.gc / k.pj).toFixed(1)}</strong>
-                <span class="keeper-prom-label">${abbrHtml('GC_PJ')}</span>
-              </div>
+      vallaEl.innerHTML = keepersTeams
+        .map(
+          (k, i) => `
+        <div class="keeper-stat-row">
+          <div class="keeper-info-left">
+            <span class="top-rank-pos">${i + 1}</span>
+            ${getTeamShieldHtml(k.equipo)}
+            <div>
+              <strong>${escapeHtml(k.equipo)}</strong>
+              <small class="keeper-meta-sub">${k.gc} GC · ${k.pj} PJ</small>
             </div>
-          `;
-            })
-            .join('')}
+          </div>
+          <div class="keeper-stat-right">
+            <strong class="keeper-prom-value">${(k.gc / k.pj).toFixed(1)}</strong>
+            <span class="keeper-prom-label">GC/PJ</span>
+          </div>
         </div>
-      `;
+      `
+        )
+        .join('');
     } else {
-      vallaEl.innerHTML = renderEmptyStatsWithShields(
-        branchKey,
-        '🧤',
-        'Valla Menos Vencida',
-        'Se mostrará el ranking de las porterías más seguras con sus escudos en cuanto se disputen los partidos.'
-      );
+      vallaEl.innerHTML = '<p class="empty-state-msg">Se mostrará cuando se disputen los partidos.</p>';
     }
 
-    // 4. MVP
+    // MVP
     const mvpEl = document.getElementById('statPanelMvp');
-    const mvpList = [...jug].filter(j => j.mvp > 0).sort((a, b) => b.mvp - a.mvp || b.goles - a.goles);
+    const mvpList = [...jug].filter(j => j.mvp > 0).sort((a, b) => b.mvp - a.mvp);
     if (mvpList.length) {
-      const top3 = mvpList.slice(0, 3);
       mvpEl.innerHTML = `
-        <div class="stats-podium-grid">
-          ${top3.map((m, idx) => `
-            <div class="stats-podium-card ${idx === 0 ? 'rank-1' : ''}">
-              <div class="stats-podium-left">
-                ${getTeamShieldHtml(m.equipo)}
-                <div class="stats-podium-info">
-                  <span class="stats-podium-rank">${idx === 0 ? '⭐ #1 MVP LÍDER' : idx === 1 ? '🥈 #2 MVP' : '🥉 #3 MVP'}</span>
-                  <strong class="stats-podium-name">${escapeHtml(m.jugador)}</strong>
-                  <span class="stats-podium-team">${escapeHtml(m.equipo)} · #${escapeHtml(m.dorsal || '—')}</span>
-                </div>
-              </div>
-              <div class="stats-podium-val">
-                ${m.mvp}
-                <small>PTS MVP</small>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-        <div class="table-responsive-box">
-          <table class="official-table">
-            <thead>
+        <table class="official-table">
+          <thead><tr><th>#</th><th>Jugador</th><th>Equipo</th><th class="pts-cell">MVP Score</th></tr></thead>
+          <tbody>
+            ${mvpList
+              .map(
+                (m, i) => `
               <tr>
-                <th>${abbrHtml('POS', '#')}</th>
-                <th>Jugador</th>
-                <th>Equipo</th>
-                <th class="num-cell">${abbrHtml('PJ')}</th>
-                <th class="num-cell">Goles</th>
-                <th class="num-cell">Asist.</th>
-                <th class="pts-cell">Puntaje ${abbrHtml('MVP')}</th>
+                <td><strong>${i + 1}</strong></td>
+                <td><strong>${escapeHtml(m.jugador)}</strong></td>
+                <td>${escapeHtml(m.equipo)}</td>
+                <td class="pts-cell">${m.mvp}</td>
               </tr>
-            </thead>
-            <tbody>
-              ${mvpList
-                .map(
-                  (m, i) => `
-                <tr>
-                  <td><strong>${i + 1}</strong></td>
-                  <td>
-                    <div class="table-player-cell">
-                      <strong>${escapeHtml(m.jugador)}</strong>
-                      ${m.dorsal ? `<span class="player-dorsal-pill">#${escapeHtml(m.dorsal)}</span>` : ''}
-                    </div>
-                  </td>
-                  <td>
-                    <div class="table-team-cell">
-                      ${getTeamShieldHtml(m.equipo)}
-                      <span>${escapeHtml(m.equipo)}</span>
-                    </div>
-                  </td>
-                  <td class="num-cell">${m.pj}</td>
-                  <td class="num-cell">${m.goles}</td>
-                  <td class="num-cell">${m.asistencias}</td>
-                  <td class="pts-cell">${m.mvp}</td>
-                </tr>
-              `
-                )
-                .join('')}
-            </tbody>
-          </table>
-        </div>
+            `
+              )
+              .join('')}
+          </tbody>
+        </table>
       `;
     } else {
-      mvpEl.innerHTML = renderEmptyStatsWithShields(
-        branchKey,
-        '⭐',
-        'Ranking Jugador Más Valioso (MVP)',
-        'Los puntajes MVP individuales se mostrarán tras disputarse cada jornada oficial.'
-      );
+      mvpEl.innerHTML = '<p class="empty-state-msg">Puntajes MVP disponibles tras cada fecha.</p>';
     }
 
-    // 5. DISCIPLINA
+    // Disciplina
     const discEl = document.getElementById('statPanelDisciplina');
     const discList = [...jug].filter(j => j.ta > 0 || j.tr > 0).sort((a, b) => b.tr * 10000 + b.ta * 5000 - (a.tr * 10000 + a.ta * 5000));
     if (discList.length) {
       discEl.innerHTML = `
-        <div class="table-responsive-box">
-          <table class="official-table">
-            <thead>
-              <tr>
-                <th>Jugador</th>
-                <th>Equipo</th>
-                <th class="num-cell">${abbrHtml('TA')} ($5k)</th>
-                <th class="num-cell">${abbrHtml('TR')} ($10k)</th>
-                <th class="pts-cell">Multa ${abbrHtml('COP')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${discList
-                .map(
-                  d => `
-                <tr>
-                  <td>
-                    <div class="table-player-cell">
-                      <strong>${escapeHtml(d.jugador)}</strong>
-                      ${d.dorsal ? `<span class="player-dorsal-pill">#${escapeHtml(d.dorsal)}</span>` : ''}
-                    </div>
-                  </td>
-                  <td>
-                    <div class="table-team-cell">
-                      ${getTeamShieldHtml(d.equipo)}
-                      <span>${escapeHtml(d.equipo)}</span>
-                    </div>
-                  </td>
-                  <td class="num-cell">${d.ta} 🟨</td>
-                  <td class="num-cell">${d.tr} 🟥</td>
-                  <td class="pts-cell">$${((d.ta * 5000) + (d.tr * 10000)).toLocaleString('es-CO')}</td>
-                </tr>
-              `
-                )
-                .join('')}
-            </tbody>
-          </table>
-        </div>
-      `;
-    } else {
-      discEl.innerHTML = `
-        <div class="stats-hero-banner fairplay-excelente">
-          <div class="stats-hero-top">
-            <span class="stats-hero-icon">🛡️</span>
-            <h3 class="stats-hero-title">¡DISCIPLINA IMPECABLE! CERO TARJETAS REGISTRADAS</h3>
-          </div>
-          <p class="stats-hero-desc">
-            Hasta el momento ningún jugador ha recibido Tarjetas Amarillas (${abbrHtml('TA')}) ni Tarjetas Rojas (${abbrHtml('TR')}). ¡Felicitaciones a todos los equipos por su conducta ejemplar!
-          </p>
-        </div>
-        <div class="empty-shields-showcase">
-          ${equipos.map(eq => `
-            <span class="empty-shield-chip">
-              ${getTeamShieldHtml(eq)}
-              <span>${escapeHtml(eq)} · 0 🟨 0 🟥</span>
-            </span>
-          `).join('')}
-        </div>
-      `;
-    }
-
-    // 6. FAIR PLAY
-    const fairEl = document.getElementById('statPanelFairplay');
-    const fpSummary = computeBranchFairPlaySummary(branchKey);
-    const bannerTitle = fpSummary.jugadosCount === 0
-      ? '¡COMPROMISO TOTAL CON EL JUEGO LIMPIO!'
-      : fpSummary.allZeroCards
-        ? '¡HASTA EL MOMENTO TODOS LOS EQUIPOS TIENEN UN FAIR PLAY EXCELENTE!'
-        : 'CLASIFICACIÓN OFICIAL DE FAIR PLAY';
-    const bannerDesc = fpSummary.jugadosCount === 0
-      ? 'Cuando se disputen los partidos de la categoría se evaluará aquí el comportamiento deportivo. Todos los equipos inician con un Fair Play impecable.'
-      : fpSummary.allZeroCards
-        ? 'No se han sacado tarjetas en lo que va del torneo: todos los equipos van igual de bien, compitiendo con respeto y compañerismo. ¡Primero las personas, después el resultado!'
-        : 'El índice de Fair Play evalúa las amonestaciones oficiales de cada equipo. Entre menor puntaje de penalización, más deportivo es el equipo.';
-
-    fairEl.innerHTML = `
-      <div class="stats-hero-banner fairplay-excelente">
-        <div class="stats-hero-top">
-          <span class="stats-hero-icon">🤝</span>
-          <h3 class="stats-hero-title">${bannerTitle}</h3>
-        </div>
-        <p class="stats-hero-desc">${bannerDesc}</p>
-      </div>
-      <div class="table-responsive-box">
         <table class="official-table">
-          <thead>
-            <tr>
-              <th>${abbrHtml('POS', '#')}</th>
-              <th>Equipo</th>
-              <th class="num-cell">${abbrHtml('PJ')}</th>
-              <th class="num-cell">${abbrHtml('TA')} 🟨</th>
-              <th class="num-cell">${abbrHtml('TR')} 🟥</th>
-              <th class="num-cell">Estado Fair Play</th>
-              <th class="pts-cell">Sanción ${abbrHtml('COP')}</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Jugador</th><th>Equipo</th><th class="num-cell">TA ($5k)</th><th class="num-cell">TR ($10k)</th><th class="pts-cell">Multa COP</th></tr></thead>
           <tbody>
-            ${fpSummary.list
-              .map((item, idx) => {
-                const isClean = item.amarillas === 0 && item.rojas === 0;
-                return `
+            ${discList
+              .map(
+                d => `
               <tr>
-                <td><strong>${ fpSummary.allZeroCards ? '1' : idx + 1 }</strong></td>
-                <td>
-                  <div class="table-team-cell">
-                    ${getTeamShieldHtml(item.equipo)}
-                    <strong>${escapeHtml(item.equipo)}</strong>
-                  </div>
-                </td>
-                <td class="num-cell">${item.pj}</td>
-                <td class="num-cell">${item.amarillas} 🟨</td>
-                <td class="num-cell">${item.rojas} 🟥</td>
-                <td class="num-cell">
-                  <span class="fairplay-status-pill ${isClean ? '' : 'has-cards'}">
-                    ${isClean ? '🌟 Excelente · Sin tarjetas' : '⚠️ Con amonestaciones'}
-                  </span>
-                </td>
-                <td class="pts-cell">$${item.multa.toLocaleString('es-CO')}</td>
+                <td><strong>${escapeHtml(d.jugador)}</strong></td>
+                <td>${escapeHtml(d.equipo)}</td>
+                <td class="num-cell">${d.ta} 🟨</td>
+                <td class="num-cell">${d.tr} 🟥</td>
+                <td class="pts-cell">$${((d.ta * 5000) + (d.tr * 10000)).toLocaleString('es-CO')}</td>
               </tr>
-            `;
-              })
+            `
+              )
               .join('')}
           </tbody>
         </table>
+      `;
+    } else {
+      discEl.innerHTML = '<p class="empty-state-msg">Sin amonestaciones registradas (¡Excelente juego limpio!).</p>';
+    }
+
+    // Fair Play
+    const fairEl = document.getElementById('statPanelFairplay');
+    fairEl.innerHTML = `
+      <div class="empty-state-card">
+        <span class="empty-state-icon">🤝</span>
+        <h3>Juego Limpio Oficial</h3>
+        <p>El índice de Fair Play evalúa las amonestaciones oficiales. Entre menor puntaje, más deportivo es el equipo.</p>
       </div>
     `;
 
-    // 7. GENERALES
+    // Generales
     const genEl = document.getElementById('statPanelGenerales');
     let totalGoles = 0;
     let totalJugados = 0;
@@ -2699,50 +2203,10 @@
     });
     genEl.innerHTML = `
       <div class="summary-cards-grid">
-        <div class="stat-box"><span class="stat-box-label">PARTIDOS JUGADOS</span><div class="stat-box-value">${totalJugados}</div><span class="stat-box-sub">de ${SHEETS_CONFIG[branchKey].totalPartidos} programados</span></div>
-        <div class="stat-box"><span class="stat-box-label">GOLES TOTALES</span><div class="stat-box-value">${totalGoles}</div><span class="stat-box-sub">anotados en la rama</span></div>
-        <div class="stat-box"><span class="stat-box-label">PROMEDIO DE GOL</span><div class="stat-box-value">${totalJugados > 0 ? (totalGoles / totalJugados).toFixed(1) : '0.0'}</div><span class="stat-box-sub">goles por partido</span></div>
-        <div class="stat-box"><span class="stat-box-label">EQUIPOS OFICIALES</span><div class="stat-box-value">${equipos.length}</div><span class="stat-box-sub">en competencia</span></div>
-      </div>
-      <div class="table-responsive-box">
-        <table class="official-table">
-          <thead>
-            <tr>
-              <th>Equipo</th>
-              <th class="num-cell">${abbrHtml('PJ')}</th>
-              <th class="num-cell">${abbrHtml('PG')}</th>
-              <th class="num-cell">${abbrHtml('GF')}</th>
-              <th class="num-cell">${abbrHtml('GC')}</th>
-              <th class="num-cell">${abbrHtml('DG')}</th>
-              <th class="pts-cell">${abbrHtml('PTS')}</th>
-              <th class="num-cell">${abbrHtml('REND')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${(pos.length ? pos : equipos.map(eq => ({ equipo: eq, pj: 0, pg: 0, gf: 0, gc: 0, dg: 0, pts: 0 })))
-              .map(s => {
-                const rend = s.pj > 0 ? Math.round((s.pts / (s.pj * 3)) * 100) + '%' : '0%';
-                return `
-              <tr>
-                <td>
-                  <div class="table-team-cell">
-                    ${getTeamShieldHtml(s.equipo)}
-                    <strong>${escapeHtml(s.equipo)}</strong>
-                  </div>
-                </td>
-                <td class="num-cell">${s.pj}</td>
-                <td class="num-cell">${s.pg}</td>
-                <td class="num-cell">${s.gf}</td>
-                <td class="num-cell">${s.gc}</td>
-                <td class="num-cell">${s.dg > 0 ? `+${s.dg}` : s.dg}</td>
-                <td class="pts-cell">${s.pts}</td>
-                <td class="num-cell"><strong>${rend}</strong></td>
-              </tr>
-            `;
-              })
-              .join('')}
-          </tbody>
-        </table>
+        <div class="stat-box"><span class="stat-box-label">PARTIDOS JUGADOS</span><div class="stat-box-value">${totalJugados}</div></div>
+        <div class="stat-box"><span class="stat-box-label">GOLES TOTALES</span><div class="stat-box-value">${totalGoles}</div></div>
+        <div class="stat-box"><span class="stat-box-label">PROMEDIO DE GOL</span><div class="stat-box-value">${totalJugados > 0 ? (totalGoles / totalJugados).toFixed(1) : '0.0'}</div></div>
+        <div class="stat-box"><span class="stat-box-label">EQUIPOS</span><div class="stat-box-value">${SHEETS_CONFIG[branchKey].equipos.length}</div></div>
       </div>
     `;
   }
@@ -2767,47 +2231,25 @@
       poster.hidden = true;
       frame.hidden = false;
 
-      const videoSource = cleanStr(cfg.video);
+      const videoSource = cfg.video || '';
       const isLocal = videoSource.endsWith('.mp4') || videoSource.endsWith('.webm') || videoSource.includes('/');
-      const ytWatchUrl = `https://www.youtube.com/watch?v=${encodeURIComponent(videoSource)}`;
 
       if (isLocal) {
         frame.innerHTML = `
-          <div class="video-player-topbar">
-            <button type="button" class="btn-video-back" id="btnBackVideoCover">← Volver</button>
-          </div>
-          <div class="video-iframe-wrap">
-            <video controls autoplay playsinline>
-              <source src="${escapeHtml(videoSource)}" type="video/mp4">
-              Tu navegador no soporta reproducción de video.
-            </video>
-          </div>
+          <video controls autoplay playsinline style="width: 100%; height: 100%; border-radius: var(--radius-sm); object-fit: cover;">
+            <source src="${escapeHtml(videoSource)}" type="video/mp4">
+            Tu navegador no soporta reproducción de video.
+          </video>
         `;
       } else {
         frame.innerHTML = `
-          <div class="video-player-topbar">
-            <button type="button" class="btn-video-back" id="btnBackVideoCover">← Volver</button>
-            <a href="${ytWatchUrl}" target="_blank" rel="noopener noreferrer" class="btn-video-yt">Abrir en YouTube ↗</a>
-          </div>
-          <div class="video-iframe-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/${encodeURIComponent(videoSource)}?autoplay=1&playsinline=1&rel=0"
-              title="Video Presentación Oficial ${escapeHtml(cfg.nombre)}"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen>
-            </iframe>
-          </div>
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/${cfg.video}?autoplay=1&playsinline=1&rel=0&modestbranding=1"
+            title="Video Presentación Oficial ${cfg.nombre}"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
         `;
-      }
-
-      const btnBack = document.getElementById('btnBackVideoCover');
-      if (btnBack) {
-        btnBack.onclick = () => {
-          frame.hidden = true;
-          frame.innerHTML = '';
-          poster.hidden = false;
-        };
       }
     };
   }
@@ -2874,211 +2316,104 @@
   // =========================================================
   // GALERÍA OFICIAL DE RECUERDOS DEL TORNEO
   // =========================================================
-  const DEFAULT_RECUERDOS_SEED = [
-    {
-      id: 1,
-      src: 'img/recuerdos/DSC02718.jpg',
-      title: 'NÓMINA COMPLETA ADMIN UNITED FC',
-      category: 'masculino',
-      jornada: 'JORNADA 1',
-      date: '3 de octubre de 2026',
-      partido: 'REAL SAN MARTIN FC vs ADMIN UNITED FC',
-      teamHint: 'ADMIN UNITED FC',
-      description: 'Plantilla oficial de Admin United FC en su debut victorioso de la Jornada 1.'
-    },
-    {
-      id: 2,
-      src: 'img/recuerdos/DSC02728.jpg',
-      title: 'NÓMINA COMPLETA REAL SAN MARTIN FC',
-      category: 'masculino',
-      jornada: 'JORNADA 1',
-      date: '3 de octubre de 2026',
-      partido: 'REAL SAN MARTIN FC vs ADMIN UNITED FC',
-      teamHint: 'REAL SAN MARTIN FC',
-      description: 'Escuadra oficial de Real San Martín FC lista para la primera fecha del torneo.'
-    },
-    {
-      id: 3,
-      src: 'img/recuerdos/DSC02735.jpg',
-      title: 'NÓMINA COMPLETA ULTIMA MILLA FC',
-      category: 'masculino',
-      jornada: 'JORNADA 1',
-      date: '3 de octubre de 2026',
-      partido: 'LOS PROBIÓTICOS FC vs ULTIMA MILLA FC',
-      teamHint: 'ULTIMA MILLA FC',
-      description: 'Nómina oficial de Ultima Milla FC en su gran encuentro de la Jornada 1.'
-    },
-    {
-      id: 4,
-      src: 'img/recuerdos/DSC02742.jpg',
-      title: 'NÓMINA COMPLETA LOS PROBIÓTICOS FC',
-      category: 'masculino',
-      jornada: 'JORNADA 1',
-      date: '3 de octubre de 2026',
-      partido: 'LOS PROBIÓTICOS FC vs ULTIMA MILLA FC',
-      teamHint: 'LOS PROBIÓTICOS FC',
-      description: 'Plantel completo de Los Probióticos FC previo al encuentro inaugural.'
-    },
-    {
-      id: 5,
-      src: 'img/recuerdos/DSC03001.jpg',
-      title: 'NÓMINA COMPLETA BAYERN MUU FC',
-      category: 'masculino',
-      jornada: 'JORNADA 1',
-      date: '3 de octubre de 2026',
-      partido: 'REAL SAN MARTIN FC vs BAYERN MUU FC',
-      teamHint: 'BAYERN MUU FC',
-      description: 'Nómina oficial de Bayern Muu FC en el tercer partido de la Jornada 1.'
-    }
-  ];
-
-  let RECUERDOS_ITEMS = DEFAULT_RECUERDOS_SEED.slice();
+  let RECUERDOS_ITEMS = [];
   let recuerdosCargados = false;
-
-  const EXAMPLE_PLACEHOLDER_FILES = new Set([
-    'foto_inaugural.jpg',
-    'festejo_gol.jpg',
-    'foto_probioticos.jpg',
-    'foto_milla.jpg',
-    'foto_femenino_j2.jpg'
-  ]);
-
-  function detectCategoryAndTeamFromText(textStr) {
-    const n = normStr(textStr);
-    const mascTeams = SHEETS_CONFIG.masculino.equipos;
-    const femTeams = SHEETS_CONFIG.femenino.equipos;
-
-    for (const eq of femTeams) {
-      if (n.includes(normStr(eq)) || (normStr(eq).includes('MONARCA') && n.includes('MONARCA'))) {
-        return { category: 'femenino', teamHint: eq };
-      }
-    }
-    for (const eq of mascTeams) {
-      if (n.includes(normStr(eq)) || (normStr(eq).includes('PROBIOTICOS') && n.includes('PROBIOTICOS'))) {
-        return { category: 'masculino', teamHint: eq };
-      }
-    }
-    if (n.includes('FEMENIN')) return { category: 'femenino', teamHint: '' };
-    if (n.includes('MASCULIN')) return { category: 'masculino', teamHint: '' };
-    return { category: 'masculino', teamHint: '' };
-  }
-
-  function resolveRecuerdoImgPath(fileName) {
-    const clean = cleanStr(fileName);
-    if (!clean) return '';
-    if (clean.startsWith('http://') || clean.startsWith('https://')) return clean;
-    if (clean.startsWith('img/')) return clean;
-    return `img/recuerdos/${clean}`;
-  }
 
   function parseNotasRecuerdosText(rawText) {
     if (!rawText || !rawText.trim()) return [];
-
-    // Si el archivo contiene el bloque de instrucciones que termina en "NOTAS:" y una línea de "====",
-    // procesamos únicamente el contenido real escrito después del bloque de NOTAS.
-    let workingText = rawText;
-    const notasIdx = rawText.search(/NOTAS\s*:/i);
-    if (notasIdx !== -1) {
-      const afterNotas = rawText.slice(notasIdx);
-      const sepMatch = afterNotas.match(/={10,}\r?\n([\s\S]*)$/);
-      if (sepMatch && sepMatch[1] && sepMatch[1].trim()) {
-        workingText = sepMatch[1];
-      }
-    }
-
-    const lines = workingText.split(/\r?\n/);
+    const lines = rawText.split(/\r?\n/);
     const items = [];
-    let currentJornada = '';
-    let currentFecha = '';
-    let currentPartido = '';
+    let currentBlock = null;
 
-    lines.forEach(line => {
+    lines.forEach((line) => {
       const trimmed = line.trim();
-      if (!trimmed || trimmed.startsWith('#') || /^={5,}$/.test(trimmed)) return;
+      if (!trimmed || trimmed.startsWith('#')) return;
 
-      // Encabezado de jornada: [JORNADA 1]
-      if (/^\[JORNADA\s+[^\]]+\]$/i.test(trimmed)) {
-        currentJornada = trimmed.slice(1, -1).trim().toUpperCase();
+      // Formato bloque: [foto.jpg]
+      if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+        if (currentBlock && currentBlock.src) items.push(currentBlock);
+        const fileName = trimmed.slice(1, -1).trim();
+        const srcPath = fileName.startsWith('img/') ? fileName : `img/${fileName}`;
+        currentBlock = {
+          id: items.length + 1,
+          src: srcPath,
+          title: 'Momento del Torneo',
+          category: 'torneo',
+          date: '',
+          description: ''
+        };
         return;
       }
 
-      // FECHA: 3 de octubre de 2026
-      if (/^FECHA\s*:/i.test(trimmed)) {
-        currentFecha = trimmed.replace(/^FECHA\s*:/i, '').trim();
-        return;
-      }
-
-      // PARTIDO: EQUIPO A vs EQUIPO B
-      if (/^PARTIDO\s*:/i.test(trimmed)) {
-        currentPartido = trimmed.replace(/^PARTIDO\s*:/i, '').trim();
-        return;
-      }
-
-      // VIDEO: url | descripción (ignorar si está vacío)
-      if (/^VIDEO\s*:/i.test(trimmed)) {
-        return;
-      }
-
-      // FOTO: DSC02718.jpg | NÓMINA COMPLETA ADMIN UNITED FC
-      if (/^FOTO\s*:/i.test(trimmed)) {
-        const content = trimmed.replace(/^FOTO\s*:/i, '').trim();
-        if (!content) return;
-        const parts = content.split('|').map(p => p.trim());
-        const fileName = parts[0];
-        if (!fileName || EXAMPLE_PLACEHOLDER_FILES.has(fileName.toLowerCase())) return;
-
-        const title = parts[1] || 'Recuerdo del Torneo';
-        const desc = parts[2] || '';
-        const combinedContext = `${title} ${currentPartido} ${desc}`;
-        const { category, teamHint } = detectCategoryAndTeamFromText(combinedContext);
-
-        // Si el partido quedó incompleto como "REAL SAN MARTIN FC vs " y la foto menciona al otro equipo, completarlo
-        let displayPartido = currentPartido;
-        if (/vs\s*$/i.test(displayPartido) && teamHint && !normStr(displayPartido).includes(normStr(teamHint))) {
-          displayPartido = `${displayPartido.replace(/vs\s*$/i, 'vs')} ${teamHint}`;
+      if (currentBlock) {
+        if (/^t[ií]tulo\s*:/i.test(trimmed)) {
+          currentBlock.title = trimmed.replace(/^t[ií]tulo\s*:/i, '').trim();
+          return;
         }
+        if (/^categor[ií]a\s*:/i.test(trimmed)) {
+          const cat = normStr(trimmed.replace(/^categor[ií]a\s*:/i, ''));
+          currentBlock.category = cat.includes('MASC') ? 'masculino' : cat.includes('FEM') ? 'femenino' : 'torneo';
+          return;
+        }
+        if (/^fecha\s*:/i.test(trimmed)) {
+          currentBlock.date = trimmed.replace(/^fecha\s*:/i, '').trim();
+          return;
+        }
+        if (/^descripci[oó]n\s*:/i.test(trimmed)) {
+          currentBlock.description = trimmed.replace(/^descripci[oó]n\s*:/i, '').trim();
+          return;
+        }
+      }
 
-        items.push({
-          id: items.length + 1,
-          src: resolveRecuerdoImgPath(fileName),
-          title,
-          category,
-          jornada: currentJornada || 'JORNADA 1',
-          date: currentFecha,
-          partido: displayPartido,
-          teamHint,
-          description: desc || (displayPartido ? `Encuentro oficial: ${displayPartido}` : '')
-        });
+      // Formato lineal con separador pleca | o punto y coma ;
+      const sep = trimmed.includes('|') ? '|' : trimmed.includes(';') ? ';' : null;
+      if (sep) {
+        const parts = trimmed.split(sep).map(p => p.trim());
+        const fileName = parts[0];
+        if (fileName) {
+          const srcPath = fileName.startsWith('img/') ? fileName : `img/${fileName}`;
+          const title = parts[1] || 'Momento del Torneo';
+          const catRaw = normStr(parts[2] || '');
+          const cat = catRaw.includes('MASC') ? 'masculino' : catRaw.includes('FEM') ? 'femenino' : 'torneo';
+          const date = parts[3] || '';
+          const desc = parts[4] || '';
+
+          items.push({
+            id: items.length + 1,
+            src: srcPath,
+            title,
+            category: cat,
+            date,
+            description: desc
+          });
+        }
         return;
       }
 
-      // Formato lineal general: archivo.jpg | Título | Categoría | Fecha | Descripción
-      if (trimmed.includes('|') && /\.(jpg|jpeg|png|webp|gif)/i.test(trimmed)) {
-        const parts = trimmed.split('|').map(p => p.trim());
-        const fileName = parts[0].replace(/^FOTO\s*:\s*/i, '').trim();
-        if (!fileName || EXAMPLE_PLACEHOLDER_FILES.has(fileName.toLowerCase())) return;
-
-        const title = parts[1] || 'Momento del Torneo';
-        const { category, teamHint } = detectCategoryAndTeamFromText(`${title} ${parts[2] || ''} ${currentPartido}`);
-        items.push({
-          id: items.length + 1,
-          src: resolveRecuerdoImgPath(fileName),
-          title,
-          category,
-          jornada: currentJornada || 'JORNADA OFICIAL',
-          date: parts[3] || currentFecha,
-          partido: currentPartido,
-          teamHint,
-          description: parts[4] || ''
-        });
+      // Formato simple: foto.jpg - Título
+      if (trimmed.includes(' - ')) {
+        const parts = trimmed.split(' - ').map(p => p.trim());
+        const fileName = parts[0];
+        if (fileName) {
+          const srcPath = fileName.startsWith('img/') ? fileName : `img/${fileName}`;
+          items.push({
+            id: items.length + 1,
+            src: srcPath,
+            title: parts[1] || 'Recuerdo',
+            category: 'torneo',
+            date: '',
+            description: parts[2] || ''
+          });
+        }
       }
     });
 
+    if (currentBlock && currentBlock.src) items.push(currentBlock);
     return items;
   }
 
   async function loadRecuerdosFromTxt() {
-    const paths = ['NOTAS_RECUERDOS.txt', '/NOTAS_RECUERDOS.txt'];
+    const paths = ['NOTAS_RECUERDOS.txt', '/NOTAS_RECUERDOS.txt', 'img/NOTAS_RECUERDOS.txt', '/img/NOTAS_RECUERDOS.txt'];
     for (const p of paths) {
       try {
         const resp = await fetch(p, { cache: 'no-cache' });
@@ -3094,79 +2429,9 @@
           }
         }
       } catch (err) {
-        // Usar semilla por defecto si falla la red
+        // Continuar buscando
       }
     }
-    recuerdosCargados = true;
-  }
-
-  function openRecuerdoModal(item) {
-    const modal = document.getElementById('modalRecuerdo');
-    const imgEl = document.getElementById('modalRecuerdoImg');
-    const titleEl = document.getElementById('modalRecuerdoTitle');
-    const metaEl = document.getElementById('modalRecuerdoMeta');
-    const descEl = document.getElementById('modalRecuerdoDesc');
-    if (!modal || !imgEl) return;
-
-    imgEl.src = item.src;
-    imgEl.alt = item.title;
-    if (titleEl) titleEl.textContent = item.title;
-    if (metaEl) {
-      const parts = [item.jornada, item.date, item.category ? item.category.toUpperCase() : ''].filter(Boolean);
-      metaEl.textContent = parts.join(' · ') || 'GALERÍA OFICIAL · RECUERDOS';
-    }
-    if (descEl) {
-      descEl.textContent = item.partido
-        ? `⚽ ${item.partido}${item.date ? ` · 📅 ${item.date}` : ''}`
-        : item.description || 'Torneo de Fútbol 5 San Martín Lácteos 2026';
-    }
-    modal.hidden = false;
-  }
-
-  function buildRecuerdoCardHtml(item) {
-    return `
-      <article class="recuerdo-card" data-recuerdo-id="${item.id}">
-        <div class="recuerdo-img-box">
-          <img src="${escapeHtml(item.src)}" alt="${escapeHtml(item.title)}" class="recuerdo-img" loading="lazy" onerror="this.src='img/TOROS ICONO DEL TORNEO.jpg'">
-          <span class="recuerdo-category-tag ${escapeHtml(item.category)}">${escapeHtml(item.jornada ? `${item.category} · ${item.jornada}` : item.category)}</span>
-          <span class="recuerdo-zoom-badge">🔍 Ver foto</span>
-        </div>
-        <div class="recuerdo-info">
-          ${item.date ? `<span class="recuerdo-date">📅 ${escapeHtml(item.date)}</span>` : ''}
-          ${item.partido ? `<span class="recuerdo-match-pill">⚽ ${escapeHtml(item.partido)}</span>` : ''}
-          <div class="recuerdo-team-row">
-            ${item.teamHint ? getTeamShieldHtml(item.teamHint) : ''}
-            <h3 class="recuerdo-title" style="margin-bottom:0">${escapeHtml(item.title)}</h3>
-          </div>
-          ${item.description ? `<p class="recuerdo-desc" style="margin-top:8px">${escapeHtml(item.description)}</p>` : ''}
-        </div>
-      </article>
-    `;
-  }
-
-  async function renderHomeRecuerdosPreview() {
-    const block = document.getElementById('homeRecuerdosBlock');
-    const stream = document.getElementById('homeRecuerdosStream');
-    if (!block || !stream) return;
-
-    if (!recuerdosCargados) {
-      await loadRecuerdosFromTxt();
-    }
-
-    if (!RECUERDOS_ITEMS.length) {
-      block.hidden = true;
-      return;
-    }
-
-    block.hidden = false;
-    stream.innerHTML = RECUERDOS_ITEMS.slice(0, 4).map(buildRecuerdoCardHtml).join('');
-    stream.querySelectorAll('[data-recuerdo-id]').forEach(card => {
-      card.onclick = () => {
-        const id = Number(card.getAttribute('data-recuerdo-id'));
-        const found = RECUERDOS_ITEMS.find(r => r.id === id);
-        if (found) openRecuerdoModal(found);
-      };
-    });
   }
 
   async function renderRecuerdosGallery(filter = 'all') {
@@ -3188,8 +2453,8 @@
       container.innerHTML = `
         <div class="empty-state-card">
           <span class="empty-state-icon">📷</span>
-          <h3>No hay recuerdos en esta categoría aún</h3>
-          <p>Próximamente se integrarán más fotografías oficiales de esta categoría en la galería del torneo.</p>
+          <h3>Pronto subiremos los recuerdos de los partidos</h3>
+          <p>La organización lee automáticamente tu archivo <strong>NOTAS_RECUERDOS.txt</strong> del repositorio. Cada vez que actualices el texto y subas las imágenes a la carpeta <strong>img</strong>, se mostrarán aquí de forma automática.</p>
         </div>
       `;
       return;
@@ -3197,17 +2462,21 @@
 
     container.innerHTML = `
       <div class="recuerdos-grid">
-        ${filtered.map(buildRecuerdoCardHtml).join('')}
+        ${filtered.map(item => `
+          <article class="recuerdo-card">
+            <div class="recuerdo-img-box">
+              <img src="${escapeHtml(item.src)}" alt="${escapeHtml(item.title)}" class="recuerdo-img" loading="lazy" onerror="this.src='img/TOROS ICONO DEL TORNEO.jpg'">
+              <span class="recuerdo-category-tag ${escapeHtml(item.category)}">${escapeHtml(item.category)}</span>
+            </div>
+            <div class="recuerdo-info">
+              ${item.date ? `<span class="recuerdo-date">📅 ${escapeHtml(item.date)}</span>` : ''}
+              <h3 class="recuerdo-title">${escapeHtml(item.title)}</h3>
+              ${item.description ? `<p class="recuerdo-desc">${escapeHtml(item.description)}</p>` : ''}
+            </div>
+          </article>
+        `).join('')}
       </div>
     `;
-
-    container.querySelectorAll('[data-recuerdo-id]').forEach(card => {
-      card.onclick = () => {
-        const id = Number(card.getAttribute('data-recuerdo-id'));
-        const found = RECUERDOS_ITEMS.find(r => r.id === id);
-        if (found) openRecuerdoModal(found);
-      };
-    });
   }
 
   // =========================================================
@@ -3380,97 +2649,11 @@
       };
     }
 
-    const modalAfiche = document.getElementById('modalAfiche');
-    const btnCloseModalAfiche = document.getElementById('btnCloseModalAfiche');
-    const cardPosterHero = document.getElementById('cardPosterHero');
-    if (cardPosterHero && modalAfiche) {
-      cardPosterHero.style.cursor = 'pointer';
-      cardPosterHero.onclick = () => (modalAfiche.hidden = false);
-    }
-    if (btnCloseModalAfiche && modalAfiche) {
-      btnCloseModalAfiche.onclick = () => (modalAfiche.hidden = true);
-    }
-    if (modalAfiche) {
-      modalAfiche.onclick = e => {
-        if (e.target === modalAfiche) modalAfiche.hidden = true;
-      };
-    }
-
-    const modalRecuerdo = document.getElementById('modalRecuerdo');
-    const btnCloseModalRecuerdo = document.getElementById('btnCloseModalRecuerdo');
-    if (btnCloseModalRecuerdo && modalRecuerdo) {
-      btnCloseModalRecuerdo.onclick = () => (modalRecuerdo.hidden = true);
-    }
-    if (modalRecuerdo) {
-      modalRecuerdo.onclick = e => {
-        if (e.target === modalRecuerdo) modalRecuerdo.hidden = true;
-      };
-    }
-
-    // Notas flotantes pequeñas para abreviaciones e íconos (PJ, PG, DG, PTS, ⚽, 🅰️, etc.)
-    const abbrPopover = document.getElementById('abbrPopover');
-    const abbrTextEl = document.getElementById('abbrPopoverText');
-    let abbrHideTimer = null;
-
-    function hideAbbrPopover() {
-      if (abbrHideTimer) {
-        clearTimeout(abbrHideTimer);
-        abbrHideTimer = null;
-      }
-      if (abbrPopover) abbrPopover.hidden = true;
-    }
-
-    function showAbbrPopover(triggerEl, key) {
-      const info = ABBR_DICTIONARY[key];
-      if (!info || !abbrPopover || !abbrTextEl) return;
-      abbrTextEl.innerHTML = `<strong>${escapeHtml(info.code)}:</strong> ${escapeHtml(info.title)}`;
-      abbrPopover.hidden = false;
-
-      const rect = triggerEl.getBoundingClientRect();
-      const popWidth = abbrPopover.offsetWidth || 160;
-      const popHeight = abbrPopover.offsetHeight || 28;
-
-      let left = rect.left + rect.width / 2 - popWidth / 2;
-      left = Math.max(8, Math.min(left, window.innerWidth - popWidth - 8));
-
-      // Ubicar siempre ARRIBA del elemento presionado para nunca tapar el texto de abajo
-      let top = rect.top - popHeight - 6;
-      if (top < 8) {
-        top = rect.bottom + 6;
-      }
-
-      abbrPopover.style.left = `${left}px`;
-      abbrPopover.style.top = `${top}px`;
-
-      if (abbrHideTimer) clearTimeout(abbrHideTimer);
-      abbrHideTimer = setTimeout(hideAbbrPopover, 2600);
-    }
-
-    document.addEventListener('click', e => {
-      const abbrTrigger = e.target.closest('.abbr-tip');
-      if (abbrTrigger) {
-        e.preventDefault();
-        e.stopPropagation();
-        const key = abbrTrigger.getAttribute('data-abbr');
-        showAbbrPopover(abbrTrigger, key);
-        return;
-      }
-      if (abbrPopover && !abbrPopover.hidden) {
-        hideAbbrPopover();
-      }
-    });
-
-    window.addEventListener('scroll', () => {
-      if (abbrPopover && !abbrPopover.hidden) hideAbbrPopover();
-    }, { passive: true });
-
     window.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
         closeNav();
-        hideAbbrPopover();
         if (modalPartido) modalPartido.hidden = true;
         if (modalAfiche) modalAfiche.hidden = true;
-        if (modalRecuerdo) modalRecuerdo.hidden = true;
       }
     });
 
