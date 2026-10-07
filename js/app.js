@@ -2332,11 +2332,8 @@
                   <td><strong>${i + 1}</strong></td>
                   <td>
                     <div class="table-player-cell">
-                      ${getTeamShieldHtml(s.equipo)}
-                      <div>
-                        <strong>${escapeHtml(s.jugador)}</strong>
-                        ${s.dorsal ? `<span class="player-dorsal-pill">#${escapeHtml(s.dorsal)}</span>` : ''}
-                      </div>
+                      <strong>${escapeHtml(s.jugador)}</strong>
+                      ${s.dorsal ? `<span class="player-dorsal-pill">#${escapeHtml(s.dorsal)}</span>` : ''}
                     </div>
                   </td>
                   <td>
@@ -2409,11 +2406,8 @@
                   <td><strong>${i + 1}</strong></td>
                   <td>
                     <div class="table-player-cell">
-                      ${getTeamShieldHtml(a.equipo)}
-                      <div>
-                        <strong>${escapeHtml(a.jugador)}</strong>
-                        ${a.dorsal ? `<span class="player-dorsal-pill">#${escapeHtml(a.dorsal)}</span>` : ''}
-                      </div>
+                      <strong>${escapeHtml(a.jugador)}</strong>
+                      ${a.dorsal ? `<span class="player-dorsal-pill">#${escapeHtml(a.dorsal)}</span>` : ''}
                     </div>
                   </td>
                   <td>
@@ -2532,11 +2526,8 @@
                   <td><strong>${i + 1}</strong></td>
                   <td>
                     <div class="table-player-cell">
-                      ${getTeamShieldHtml(m.equipo)}
-                      <div>
-                        <strong>${escapeHtml(m.jugador)}</strong>
-                        ${m.dorsal ? `<span class="player-dorsal-pill">#${escapeHtml(m.dorsal)}</span>` : ''}
-                      </div>
+                      <strong>${escapeHtml(m.jugador)}</strong>
+                      ${m.dorsal ? `<span class="player-dorsal-pill">#${escapeHtml(m.dorsal)}</span>` : ''}
                     </div>
                   </td>
                   <td>
@@ -2589,8 +2580,8 @@
                 <tr>
                   <td>
                     <div class="table-player-cell">
-                      ${getTeamShieldHtml(d.equipo)}
                       <strong>${escapeHtml(d.jugador)}</strong>
+                      ${d.dorsal ? `<span class="player-dorsal-pill">#${escapeHtml(d.dorsal)}</span>` : ''}
                     </div>
                   </td>
                   <td>
