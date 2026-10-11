@@ -2862,6 +2862,211 @@ a {
   text-align: center;
 }
 
+.phase-banner-header.banner-fem {
+  background: linear-gradient(135deg, #4a0026 0%, #880e4f 50%, #c2185b 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 3px 12px rgba(194, 24, 91, 0.45) !important;
+  border-bottom: 2px solid #f48fb1 !important;
+}
+
+.phase-banner-header.banner-masc {
+  background: linear-gradient(135deg, #04101f 0%, #0d47a1 50%, #1565c0 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 3px 12px rgba(13, 71, 161, 0.45) !important;
+  border-bottom: 2px solid #64b5f6 !important;
+}
+
+.phase-category-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.6px;
+  margin-left: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.phase-category-badge.badge-fem {
+  background: #ffffff;
+  color: #ad1457;
+}
+
+.phase-category-badge.badge-masc {
+  background: #ffffff;
+  color: #0d47a1;
+}
+
+.result-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
+}
+
+.result-header-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.result-header-right {
+  display: flex;
+  align-items: center;
+}
+
+.result-jornada-tag {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 800;
+  color: #64748b;
+  letter-spacing: 0.5px;
+}
+
+.result-date-text {
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.result-item-card.match-masc {
+  border-left: 4px solid var(--blue-sky);
+}
+
+.result-item-card.match-fem {
+  border-left: 4px solid var(--pink);
+}
+
+/* Secciones de Fases de Eliminación en Calendario */
+.elimination-phase-section {
+  margin: 24px 0 20px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  box-shadow: var(--shadow-sm);
+}
+
+.elimination-phase-section.phase-section-masc {
+  border-top: 4px solid #1565c0;
+}
+
+.elimination-phase-section.phase-section-fem {
+  border-top: 4px solid #c2185b;
+}
+
+.elimination-phase-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  background: #f8fafc;
+  border-bottom: 1px solid var(--line);
+}
+
+.elimination-phase-header.header-fem {
+  background: linear-gradient(135deg, #fff0f5 0%, #fdf2f8 100%);
+  border-bottom-color: #fbcfe8;
+}
+
+.elimination-phase-header.header-masc {
+  background: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 100%);
+  border-bottom-color: #bae6fd;
+}
+
+.elimination-phase-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.elimination-phase-title.title-masc {
+  color: #0d47a1;
+}
+
+.elimination-phase-title.title-fem {
+  color: #880e4f;
+}
+
+.elimination-phase-sub {
+  margin: 3px 0 0 0;
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.elimination-phase-body {
+  padding: 16px;
+}
+
+.elimination-subround-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #334155;
+  margin-bottom: 10px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.match-card-gran-final.card-gran-final-fem {
+  border: 2px solid #c2185b !important;
+  background: linear-gradient(180deg, #fff7fa 0%, #ffffff 100%) !important;
+  box-shadow: 0 6px 28px rgba(194, 24, 91, 0.28) !important;
+}
+
+.match-card-gran-final.card-gran-final-fem::before {
+  background: linear-gradient(90deg, #c2185b, #f48fb1, #c2185b, #f48fb1);
+}
+
+.match-card-gran-final.card-gran-final-masc {
+  border: 2px solid var(--gold) !important;
+  background: linear-gradient(180deg, #fdfbf5 0%, #ffffff 100%) !important;
+  box-shadow: 0 6px 28px rgba(215, 173, 75, 0.35) !important;
+}
+
+.ribbon-fem {
+  background: rgba(194, 24, 91, 0.12) !important;
+  border: 1px solid rgba(194, 24, 91, 0.35) !important;
+  color: #880e4f !important;
+}
+
+.ribbon-masc {
+  background: rgba(13, 71, 161, 0.12) !important;
+  border: 1px solid rgba(13, 71, 161, 0.35) !important;
+  color: #0d47a1 !important;
+}
+
+/* Contenedor de Video en Recuerdos (misma lógica que presentación oficial) */
+.recuerdos-videos-wrap {
+  width: 100%;
+  margin: 0 auto 30px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.recuerdo-video-item {
+  margin: 0 auto;
+}
+
 /* 1. PLAY-IN */
 .phase-banner-playin {
   background: linear-gradient(135deg, #e65100, #ff6b35);
@@ -3449,6 +3654,63 @@ a {
 .recuerdo-category-tag.torneo {
   background: rgba(215, 173, 75, 0.9);
   color: #04101f;
+}
+
+.recuerdo-category-tag.video,
+.recuerdo-category-tag.momentos {
+  background: rgba(220, 38, 38, 0.95);
+  color: #ffffff;
+}
+
+.recuerdo-play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 52px;
+  height: 52px;
+  background: rgba(4, 16, 31, 0.82);
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  transition: transform 0.2s, background-color 0.2s, border-color 0.2s;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.recuerdo-card:hover .recuerdo-play-overlay {
+  transform: translate(-50%, -50%) scale(1.12);
+  background: #dc2626;
+  border-color: #ffffff;
+}
+
+.recuerdo-play-icon {
+  color: #ffffff;
+  font-size: 19px;
+  margin-left: 3px;
+  line-height: 1;
+}
+
+.recuerdo-zoom-badge.video-badge {
+  background: rgba(220, 38, 38, 0.92);
+  color: #ffffff;
+}
+
+.modal-video-wrap {
+  width: 100%;
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.modal-video-wrap iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
 }
 
 .recuerdo-info {

@@ -186,8 +186,8 @@
         "local": "ADMIN UNITED FC",
         "visitante": "LOS PROBIÓTICOS FC",
         "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
-        "marcador": "-",
-        "observaciones": "",
+        "marcador": "3 - 2",
+        "observaciones": "Inicio T1: 5:05 | Fin T1:  5:26 |\nInicio T2: 5:31 | Fin T2: 5:52",
         "arbitro": "Ediwn Velásquez",
         "fase": "",
         "branch": "masculino"
@@ -200,8 +200,8 @@
         "local": "ULTIMA MILLA FC",
         "visitante": "BAYERN MUU FC",
         "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
-        "marcador": "-",
-        "observaciones": "",
+        "marcador": "8 - 12",
+        "observaciones": "Inicio T1: 6:00 | Fin T1:  6:20 |\nInicio T2: 6:25 | Fin T2: 6:46",
         "arbitro": "Ediwn Velásquez",
         "fase": "",
         "branch": "masculino"
@@ -385,23 +385,27 @@
         "jornada": "2",
         "partido": "4",
         "fecha": "10/10/2026",
+        "hora": "5:20 p.m.",
         "local": "ADMIN UNITED FC",
         "visitante": "LOS PROBIÓTICOS FC",
-        "golesLocal": 0,
-        "golesVisita": 0,
-        "estado": "Pendiente",
-        "observaciones": ""
+        "golesLocal": 3,
+        "golesVisita": 2,
+        "estado": "Jugado",
+        "observaciones": "Inicio T1: 5:05 | Fin T1:  5:26 |\nInicio T2: 5:31 | Fin T2: 5:52",
+        "branch": "masculino"
       },
       {
         "jornada": "2",
         "partido": "5",
         "fecha": "10/10/2026",
+        "hora": "6:40 p.m.",
         "local": "ULTIMA MILLA FC",
         "visitante": "BAYERN MUU FC",
-        "golesLocal": 0,
-        "golesVisita": 0,
-        "estado": "Pendiente",
-        "observaciones": ""
+        "golesLocal": 8,
+        "golesVisita": 12,
+        "estado": "Jugado",
+        "observaciones": "Inicio T1: 6:00 | Fin T1:  6:20 |\nInicio T2: 6:25 | Fin T2: 6:46",
+        "branch": "masculino"
       },
       {
         "jornada": "3",
@@ -547,7 +551,7 @@
         "local": "MONARCAS FC",
         "visitante": "INTER LÁCTEOS FC",
         "cancha": "Cra. 24 #18-46 | https://maps.app.goo.gl/CvkLHZJquJHDo7Ty9",
-        "marcador": "-",
+        "marcador": "3 - 2",
         "observaciones": "",
         "arbitro": "Edwin Velásquez",
         "fase": "",
@@ -657,12 +661,14 @@
         "jornada": "1",
         "partido": "1",
         "fecha": "sábado, 10 de octubre de 2026",
+        "hora": "4:00 p.m.",
         "local": "MONARCAS FC",
         "visitante": "INTER LÁCTEOS FC",
-        "golesLocal": 0,
-        "golesVisita": 0,
-        "estado": "Pendiente",
-        "observaciones": ""
+        "golesLocal": 3,
+        "golesVisita": 2,
+        "estado": "Jugado",
+        "observaciones": "",
+        "branch": "femenino"
       },
       {
         "jornada": "2",
@@ -953,6 +959,14 @@
     return h * 60 + min;
   }
 
+  function getMatchTimestamp(m) {
+    if (!m) return 0;
+    const d = parseSheetDate(m.fecha);
+    const dateMs = d ? d.getTime() : 0;
+    const timeMins = parseTimeInMinutes(m.hora);
+    return dateMs + (timeMins < 9999 ? timeMins * 60 * 1000 : 12 * 60 * 60 * 1000);
+  }
+
   function formatMatchDate(rawDate, rawHora) {
     const d = parseSheetDate(rawDate);
     const hora = cleanStr(rawHora);
@@ -1208,7 +1222,7 @@
   }
 
   // Procesamiento específico de RESULTADOS
-  function parseResultsSheet(rows) {
+  function parseResultsSheet(rows, branchKey) {
     let headerIdx = -1;
     let localCol = 3;
     let visitCol = 4;
@@ -1252,6 +1266,16 @@
       const gv = cleanStr(r[gvCol]);
       const esJugado = normStr(estado) === 'JUGADO' || (gl !== '' && gv !== '' && !normStr(estado).includes('PENDIENTE'));
 
+      let bKey = branchKey;
+      if (!bKey) {
+        const femTeams = SHEETS_CONFIG.femenino.equipos.map(normStr);
+        if (femTeams.includes(normStr(local)) || femTeams.includes(normStr(visit)) || normStr(local).includes('MONARCA') || normStr(local).includes('ELITE')) {
+          bKey = 'femenino';
+        } else {
+          bKey = 'masculino';
+        }
+      }
+
       list.push({
         jornada: cleanStr(r[0]) || '1',
         partido: cleanStr(r[1]) || '',
@@ -1261,7 +1285,8 @@
         golesLocal: parseNum(gl),
         golesVisita: parseNum(gv),
         estado: esJugado ? 'Jugado' : 'Pendiente',
-        observaciones: cleanStr(r[obsCol])
+        observaciones: cleanStr(r[obsCol]),
+        branch: bKey
       });
     }
 
@@ -1641,9 +1666,6 @@
 
     // Fair Play
     renderHomeFairPlay();
-
-    // Últimos recuerdos en Inicio
-    renderHomeRecuerdosPreview();
   }
 
   function computeBranchFairPlaySummary(branchKey) {
@@ -1809,18 +1831,74 @@
     const listEl = document.getElementById('homeLatestResultsList');
     if (!listEl) return;
 
-    const jugados = [...mascRes, ...femRes].filter(r => r.estado === 'Jugado');
-    if (!jugados.length) {
+    const mascCal = APP_STATE.data.masculino?.calendario || [];
+    const femCal = APP_STATE.data.femenino?.calendario || [];
+
+    // Combinar partidos jugados de ambas ramas guiándonos del calendario general
+    const jugadosMasc = (mascRes || [])
+      .filter(r => r.estado === 'Jugado')
+      .map(r => {
+        const cal = mascCal.find(c => String(c.partido) === String(r.partido));
+        return {
+          ...r,
+          branch: 'masculino',
+          hora: r.hora || cal?.hora || '',
+          fecha: r.fecha || cal?.fecha || '',
+          cancha: r.cancha || cal?.cancha || '',
+          arbitro: r.arbitro || cal?.arbitro || '',
+          jornada: r.jornada || cal?.jornada || '1'
+        };
+      });
+
+    const jugadosFem = (femRes || [])
+      .filter(r => r.estado === 'Jugado')
+      .map(r => {
+        const cal = femCal.find(c => String(c.partido) === String(r.partido));
+        return {
+          ...r,
+          branch: 'femenino',
+          hora: r.hora || cal?.hora || '',
+          fecha: r.fecha || cal?.fecha || '',
+          cancha: r.cancha || cal?.cancha || '',
+          arbitro: r.arbitro || cal?.arbitro || '',
+          jornada: r.jornada || cal?.jornada || '1'
+        };
+      });
+
+    const todosJugados = [...jugadosMasc, ...jugadosFem];
+    if (!todosJugados.length) {
       listEl.innerHTML = '<p class="empty-state-msg">Aún no se han disputado partidos oficiales.</p>';
       return;
     }
 
-    const ultimos5 = jugados.slice(-5).reverse();
+    // Ordenar de los más nuevos a los más antiguos según fecha y hora del calendario general
+    todosJugados.sort((a, b) => {
+      const tA = getMatchTimestamp(a);
+      const tB = getMatchTimestamp(b);
+      if (tA !== tB) return tB - tA; // Más reciente primero (descendente)
+      return Number(b.partido || 0) - Number(a.partido || 0);
+    });
+
+    // Siempre actualizados solo los últimos 5 del torneo en general (de más nuevo a más antiguo)
+    const ultimos5 = todosJugados.slice(0, 5);
     let html = '';
 
     ultimos5.forEach(r => {
+      const isFem = (r.branch === 'femenino');
+      const branchBadge = `<span class="badge-tag ${isFem ? 'tag-femenino' : 'tag-masculino'}">${isFem ? 'FEMENINO' : 'MASCULINO'}</span>`;
+      const dateText = formatMatchDate(r.fecha, r.hora);
+
       html += `
-        <div class="result-item-card" onclick="window.location.hash='#/calendario'">
+        <div class="result-item-card ${isFem ? 'match-fem' : 'match-masc'}" data-match-partido="${escapeHtml(r.partido || '')}" data-match-branch="${escapeHtml(r.branch)}" tabindex="0" role="button" aria-label="Ver resultado ${escapeHtml(r.local)} vs ${escapeHtml(r.visitante)}">
+          <div class="result-item-header">
+            <div class="result-header-left">
+              ${branchBadge}
+              <span class="result-jornada-tag">JORNADA ${escapeHtml(r.jornada || '1')}</span>
+            </div>
+            <div class="result-header-right">
+              <span class="result-date-text">📅 ${escapeHtml(dateText)}</span>
+            </div>
+          </div>
           <div class="match-teams-row">
             <div class="team-side home">
               ${getTeamShieldHtml(r.local)}
@@ -1839,6 +1917,21 @@
     });
 
     listEl.innerHTML = html;
+
+    listEl.querySelectorAll('.result-item-card').forEach(card => {
+      card.onclick = () => {
+        const num = card.getAttribute('data-match-partido');
+        const branch = card.getAttribute('data-match-branch');
+        const match = todosJugados.find(m => String(m.partido) === String(num) && m.branch === branch);
+        if (match) openMatchModal(match);
+      };
+      card.onkeydown = (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.click();
+        }
+      };
+    });
   }
 
   function renderHomeFairPlay() {
@@ -2154,8 +2247,11 @@
   }
 
   function renderMatchCardHtml(m, branchKey) {
+    const isFem = (m.branch === 'femenino') || (branchKey === 'femenino');
+    const branchClass = isFem ? 'match-fem' : 'match-masc';
+    const branchLabel = isFem ? 'TORNEO FEMENINO' : 'TORNEO MASCULINO';
+    const branchBadge = `<span class="phase-category-badge ${isFem ? 'badge-fem' : 'badge-masc'}">${isFem ? 'FEMENINO' : 'MASCULINO'}</span>`;
     const cancha = parseCanchaInfo(m.cancha);
-    const branchClass = branchKey === 'masculino' ? 'match-masc' : 'match-fem';
     const hasMarcador = cleanStr(m.marcador) && cleanStr(m.marcador) !== '-';
 
     const faseStr = cleanStr(m.fase);
@@ -2169,39 +2265,41 @@
     let phaseBannerHtml = '';
 
     if (isGranFinal) {
-      phaseCardClass = 'match-card-gran-final';
+      phaseCardClass = isFem ? 'match-card-gran-final card-gran-final-fem' : 'match-card-gran-final card-gran-final-masc';
       phaseBannerHtml = `
-        <div class="phase-banner-header phase-banner-gran-final">
+        <div class="phase-banner-header phase-banner-gran-final ${isFem ? 'banner-fem' : 'banner-masc'}">
           <span class="trophy-pulse">🏆</span>
-          <span class="final-title-glow">GRAN FINAL OFICIAL 2026 · POR EL CAMPEONATO</span>
+          <span class="final-title-glow">GRAN FINAL · ${isFem ? 'TORNEO FEMENINO' : 'TORNEO MASCULINO'}</span>
+          ${branchBadge}
           <span class="trophy-pulse">🏆</span>
         </div>
       `;
     } else if (isTercerPuesto) {
       phaseCardClass = 'match-card-tercer-puesto';
       phaseBannerHtml = `
-        <div class="phase-banner-header phase-banner-tercer-puesto">
+        <div class="phase-banner-header phase-banner-tercer-puesto banner-masc">
           <span>🥉</span>
-          <span>TERCER PUESTO · DEFINICIÓN DEL PODIO</span>
+          <span>TERCER PUESTO · TORNEO MASCULINO</span>
+          ${branchBadge}
           <span>🥉</span>
         </div>
       `;
     } else if (isSemi) {
       phaseCardClass = 'match-card-semifinal';
       phaseBannerHtml = `
-        <div class="phase-banner-header phase-banner-semifinal">
+        <div class="phase-banner-header phase-banner-semifinal banner-masc">
           <span>⚡</span>
-          <span>${escapeHtml(faseStr)} · RUTA AL TÍTULO</span>
-          <span>⚡</span>
+          <span>${escapeHtml(faseStr)} · TORNEO MASCULINO</span>
+          ${branchBadge}
         </div>
       `;
     } else if (isPlayIn) {
       phaseCardClass = 'match-card-playin';
       phaseBannerHtml = `
-        <div class="phase-banner-header phase-banner-playin">
+        <div class="phase-banner-header phase-banner-playin ${isFem ? 'banner-fem' : 'banner-masc'}">
           <span>🔥</span>
-          <span>${escapeHtml(faseStr)} · ELIMINACIÓN DIRECTA</span>
-          <span>🔥</span>
+          <span>${escapeHtml(faseStr)} · ${isFem ? 'TORNEO FEMENINO' : 'TORNEO MASCULINO'}</span>
+          ${branchBadge}
         </div>
       `;
     }
@@ -2212,7 +2310,7 @@
     const visitHint = visitIsMystery ? getMysteryHint(m, 'visitante') : '';
 
     return `
-      <div class="match-row-card ${branchClass} ${phaseCardClass}" data-match-partido="${escapeHtml(m.partido || '')}" data-match-branch="${escapeHtml(branchKey)}" tabindex="0" role="button" aria-label="Ver ficha del partido ${escapeHtml(m.local)} vs ${escapeHtml(m.visitante)}">
+      <div class="match-row-card ${branchClass} ${phaseCardClass}" data-match-partido="${escapeHtml(m.partido || '')}" data-match-branch="${escapeHtml(isFem ? 'femenino' : 'masculino')}" tabindex="0" role="button" aria-label="Ver ficha del partido ${escapeHtml(m.local)} vs ${escapeHtml(m.visitante)}">
         ${phaseBannerHtml}
 
         <div class="match-teams-row">
@@ -2238,17 +2336,26 @@
         </div>
 
         ${isGranFinal ? `
-          <div class="final-excitement-ribbon">
-            <span>🏆</span> <strong>DEFINICIÓN DEL TÍTULO · MEDALLA DE ORO Y COPA 2026</strong> <span>🏆</span>
+          <div class="final-excitement-ribbon ${isFem ? 'ribbon-fem' : 'ribbon-masc'}">
+            <span>🏆</span> <strong>${isFem ? 'DEFINICIÓN DE LA CAMPEONA · TORNEO FEMENINO 2026' : 'DEFINICIÓN DEL CAMPEÓN · TORNEO MASCULINO 2026'}</strong> <span>🏆</span>
           </div>
         ` : isTercerPuesto ? `
-          <div class="tercer-puesto-ribbon">
-            <span>🥉</span> <strong>DISPUTA POR EL PODIO · MEDALLA DE BRONCE</strong> <span>🥉</span>
+          <div class="tercer-puesto-ribbon ribbon-masc">
+            <span>🥉</span> <strong>DISPUTA POR EL PODIO Y BRONCE · TORNEO MASCULINO</strong> <span>🥉</span>
+          </div>
+        ` : isSemi ? `
+          <div class="final-excitement-ribbon ribbon-masc">
+            <span>⚡</span> <strong>SEMIFINAL DIRECTA A LA GRAN FINAL · TORNEO MASCULINO</strong> <span>⚡</span>
+          </div>
+        ` : isPlayIn ? `
+          <div class="final-excitement-ribbon ribbon-fem">
+            <span>🔥</span> <strong>DUELO CLASIFICATORIO A LA GRAN FINAL · TORNEO FEMENINO</strong> <span>🔥</span>
           </div>
         ` : ''}
 
         <div class="match-meta-line">
           <div class="match-meta-left">
+            <span class="badge-tag ${isFem ? 'tag-femenino' : 'tag-masculino'}">${branchLabel}</span>
             <span>📅 ${escapeHtml(formatMatchDate(m.fecha, m.hora))}</span>
             <span>📍 ${escapeHtml(cancha.direccion)}</span>
             ${m.arbitro ? `<span class="match-referee-tag">👨‍⚖️ <strong>Árbitro:</strong> ${escapeHtml(m.arbitro)}</span>` : '<span class="match-referee-tag referee-pending">👨‍⚖️ Árbitro por designar</span>'}
@@ -2266,8 +2373,10 @@
 
     const cancha = parseCanchaInfo(m.cancha);
     const hasMarcador = cleanStr(m.marcador) && cleanStr(m.marcador) !== '-';
-    const isFem = m.branch === 'femenino';
+    const isFem = (m.branch === 'femenino');
     const branchName = isFem ? 'TORNEO FEMENINO' : 'TORNEO MASCULINO';
+    const branchTagClass = isFem ? 'tag-femenino' : 'tag-masculino';
+    const branchPill = `<span class="phase-category-badge ${isFem ? 'badge-fem' : 'badge-masc'}">${isFem ? 'FEMENINO' : 'MASCULINO'}</span>`;
     const faseUpper = (m.fase || '').toUpperCase();
     const isGranFinal = faseUpper.includes('GRAN FINAL');
     const isTercerPuesto = faseUpper.includes('TERCER PUESTO');
@@ -2276,15 +2385,15 @@
 
     let phaseBadgeHtml = '';
     if (isGranFinal) {
-      phaseBadgeHtml = `<div class="phase-banner-header phase-banner-gran-final"><span class="trophy-pulse">🏆</span> <span class="final-title-glow">GRAN FINAL OFICIAL 2026</span> <span class="trophy-pulse">🏆</span></div>`;
+      phaseBadgeHtml = `<div class="phase-banner-header phase-banner-gran-final ${isFem ? 'banner-fem' : 'banner-masc'}"><span class="trophy-pulse">🏆</span> <span class="final-title-glow">GRAN FINAL · ${isFem ? 'TORNEO FEMENINO' : 'TORNEO MASCULINO'}</span> ${branchPill} <span class="trophy-pulse">🏆</span></div>`;
     } else if (isTercerPuesto) {
-      phaseBadgeHtml = `<div class="phase-banner-header phase-banner-tercer-puesto"><span>🥉</span> TERCER PUESTO · DEFINICIÓN DEL PODIO <span>🥉</span></div>`;
+      phaseBadgeHtml = `<div class="phase-banner-header phase-banner-tercer-puesto banner-masc"><span>🥉</span> TERCER PUESTO · TORNEO MASCULINO ${branchPill} <span>🥉</span></div>`;
     } else if (isSemi) {
-      phaseBadgeHtml = `<div class="phase-banner-header phase-banner-semifinal"><span>⚡</span> ${escapeHtml(m.fase)} · RUTA AL TÍTULO</div>`;
+      phaseBadgeHtml = `<div class="phase-banner-header phase-banner-semifinal banner-masc"><span>⚡</span> ${escapeHtml(m.fase)} · TORNEO MASCULINO ${branchPill}</div>`;
     } else if (isPlayIn) {
-      phaseBadgeHtml = `<div class="phase-banner-header phase-banner-playin"><span>🔥</span> ${escapeHtml(m.fase)} · ELIMINACIÓN DIRECTA</div>`;
+      phaseBadgeHtml = `<div class="phase-banner-header phase-banner-playin ${isFem ? 'banner-fem' : 'banner-masc'}"><span>🔥</span> ${escapeHtml(m.fase)} · TORNEO FEMENINO ${branchPill}</div>`;
     } else {
-      phaseBadgeHtml = `<div class="modal-match-category-pill">${escapeHtml(branchName)} · JORNADA ${escapeHtml(m.jornada || '1')}</div>`;
+      phaseBadgeHtml = `<div class="modal-match-category-pill ${branchTagClass}">${escapeHtml(branchName)} · JORNADA ${escapeHtml(m.jornada || '1')}</div>`;
     }
 
     const localIsMystery = isMysteryTeam(m.local);
@@ -2407,9 +2516,15 @@
       const hasPlayIn = list.some(m => (m.fase || '').toUpperCase().includes('PLAY-IN'));
 
       let roundSubTitle = 'FASE REGULAR';
-      if (hasFinales) roundSubTitle = 'FASE FINAL · DEFINICIÓN DEL PODIO Y GRAN FINAL 🏆';
-      else if (hasSemi) roundSubTitle = 'FASE FINAL · SEMIFINALES ⚡';
-      else if (hasPlayIn) roundSubTitle = 'FASE REGULAR Y PLAY-IN 🔥';
+      if (hasFinales) {
+        roundSubTitle = branchKey === 'femenino'
+          ? 'FASE FINAL FEMENINA · GRAN FINAL Y DEFINICIÓN DEL TÍTULO 🏆'
+          : 'FASE FINAL MASCULINA · DEFINICIÓN DEL PODIO Y GRAN FINAL 🏆';
+      } else if (hasSemi) {
+        roundSubTitle = 'FASE FINAL MASCULINA · SEMIFINALES DIRECTAS ⚡';
+      } else if (hasPlayIn) {
+        roundSubTitle = 'FASE FINAL FEMENINA · PLAY-IN CLASIFICATORIO 🔥';
+      }
 
       html += `
         <div class="day-group ${hasFinales ? 'day-group-finales' : ''}">
@@ -3197,11 +3312,10 @@
         frame.innerHTML = `
           <div class="video-player-topbar">
             <button type="button" class="btn-video-back" id="btnBackVideoCover">← Volver</button>
-            <a href="${ytWatchUrl}" target="_blank" rel="noopener noreferrer" class="btn-video-yt">Abrir en YouTube ↗</a>
           </div>
           <div class="video-iframe-wrap">
             <iframe
-              src="https://www.youtube.com/embed/${encodeURIComponent(videoSource)}?autoplay=1&playsinline=1&rel=0"
+              src="https://www.youtube.com/embed/${encodeURIComponent(videoSource)}?autoplay=1&playsinline=1&rel=0&modestbranding=1&controls=1&iv_load_policy=3&fs=1"
               title="Video Presentación Oficial ${escapeHtml(cfg.nombre)}"
               referrerpolicy="strict-origin-when-cross-origin"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -3234,16 +3348,12 @@
 
     let matches = [];
     if (filter === 'all' || filter === 'masculino') {
-      const m = view === 'cal' ? APP_STATE.data.masculino.calendario : APP_STATE.data.masculino.resultados;
-      matches.push(...(m || []));
+      const m = view === 'cal' ? (APP_STATE.data.masculino.calendario || []) : (APP_STATE.data.masculino.resultados || []);
+      matches.push(...m);
     }
     if (filter === 'all' || filter === 'femenino') {
-      const f = view === 'cal' ? APP_STATE.data.femenino.calendario : APP_STATE.data.femenino.resultados;
-      matches.push(...(f || []));
-    }
-
-    if (view === 'res') {
-      matches = matches.filter(r => r.estado === 'Jugado');
+      const f = view === 'cal' ? (APP_STATE.data.femenino.calendario || []) : (APP_STATE.data.femenino.resultados || []);
+      matches.push(...f);
     }
 
     if (!matches.length) {
@@ -3251,9 +3361,133 @@
       return;
     }
 
-    cont.innerHTML = matches
-      .map(m => renderMatchCardHtml(m, m.branch || 'masculino'))
-      .join('');
+    if (view === 'res') {
+      matches = matches.filter(r => r.estado === 'Jugado');
+      if (!matches.length) {
+        cont.innerHTML = '<p class="empty-state-msg">No hay resultados oficiales registrados aún.</p>';
+        return;
+      }
+      matches.sort((a, b) => getMatchTimestamp(a) - getMatchTimestamp(b) || Number(a.partido || 0) - Number(b.partido || 0));
+      cont.innerHTML = matches
+        .map(m => renderMatchCardHtml(m, m.branch || 'masculino'))
+        .join('');
+      attachMatchCardClicks(cont, matches);
+      return;
+    }
+
+    // VISTA CALENDARIO: Separar Fase Regular y Fases de Eliminación de cada rama
+    const regularMatches = [];
+    const elimMascMatches = [];
+    const elimFemMatches = [];
+
+    matches.forEach(m => {
+      const hasFase = Boolean(cleanStr(m.fase));
+      const isFem = (m.branch === 'femenino');
+      if (hasFase) {
+        if (isFem) elimFemMatches.push(m);
+        else elimMascMatches.push(m);
+      } else {
+        regularMatches.push(m);
+      }
+    });
+
+    const regularRounds = new Map();
+    regularMatches.forEach(m => {
+      const jor = m.jornada || '1';
+      if (!regularRounds.has(jor)) regularRounds.set(jor, []);
+      regularRounds.get(jor).push(m);
+    });
+
+    let html = '';
+
+    // 1. JORNADAS DE FASE REGULAR
+    for (const [jor, list] of regularRounds.entries()) {
+      html += `
+        <div class="day-group">
+          <div class="day-header-wrap">
+            <h3 class="day-header">JORNADA ${escapeHtml(jor)}</h3>
+            <span class="day-round-subtitle">FASE REGULAR · PARTIDOS CLASIFICATORIOS</span>
+          </div>
+          ${list.map(m => renderMatchCardHtml(m, m.branch || 'masculino')).join('')}
+        </div>
+      `;
+    }
+
+    // 2. FASES DE ELIMINACIÓN DIRECTA: CATEGORÍA MASCULINA
+    if ((filter === 'all' || filter === 'masculino') && elimMascMatches.length) {
+      const semisMasc = elimMascMatches.filter(m => (m.fase || '').toUpperCase().includes('SEMIFINAL'));
+      const finalesMasc = elimMascMatches.filter(m => !(m.fase || '').toUpperCase().includes('SEMIFINAL'));
+
+      html += `
+        <div class="elimination-phase-section phase-section-masc">
+          <div class="elimination-phase-header header-masc">
+            <div>
+              <h3 class="elimination-phase-title title-masc">
+                ⚽ FASES DE ELIMINACIÓN DIRECTA · CATEGORÍA MASCULINA
+              </h3>
+              <p class="elimination-phase-sub">
+                Semifinales (1.º vs 4.º | 2.º vs 3.º), Partido por el 3.º Puesto y Gran Final Masculina 🏆
+              </p>
+            </div>
+            <span class="phase-category-badge badge-masc">MASCULINO · 4 EQUIPOS</span>
+          </div>
+          <div class="elimination-phase-body">
+            ${semisMasc.length ? `
+              <div class="elimination-subround-title">
+                <span>⚡ JORNADA 5 · SEMIFINALES MASCULINAS (IDA HACIA LA FINAL)</span>
+              </div>
+              ${semisMasc.map(m => renderMatchCardHtml(m, 'masculino')).join('')}
+            ` : ''}
+
+            ${finalesMasc.length ? `
+              <div class="elimination-subround-title" style="margin-top: 18px;">
+                <span>🏆 JORNADA 6 · TERCER PUESTO Y GRAN FINAL MASCULINA (PODIO OFICIAL)</span>
+              </div>
+              ${finalesMasc.map(m => renderMatchCardHtml(m, 'masculino')).join('')}
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    // 3. FASES DE ELIMINACIÓN DIRECTA: CATEGORÍA FEMENINA
+    if ((filter === 'all' || filter === 'femenino') && elimFemMatches.length) {
+      const playInFem = elimFemMatches.filter(m => (m.fase || '').toUpperCase().includes('PLAY-IN'));
+      const finalFem = elimFemMatches.filter(m => (m.fase || '').toUpperCase().includes('GRAN FINAL'));
+
+      html += `
+        <div class="elimination-phase-section phase-section-fem">
+          <div class="elimination-phase-header header-fem">
+            <div>
+              <h3 class="elimination-phase-title title-fem">
+                🌸 FASES DE ELIMINACIÓN DIRECTA · CATEGORÍA FEMENINA
+              </h3>
+              <p class="elimination-phase-sub">
+                Play-In Clasificatorio (2.º vs 3.º) y Gran Final Femenina por la Corona Oficial 🏆
+              </p>
+            </div>
+            <span class="phase-category-badge badge-fem">FEMENINO · 3 EQUIPOS</span>
+          </div>
+          <div class="elimination-phase-body">
+            ${playInFem.length ? `
+              <div class="elimination-subround-title">
+                <span>🔥 JORNADA 6 · PLAY-IN FEMENINO (2.º vs 3.º · BOLETO A LA GRAN FINAL)</span>
+              </div>
+              ${playInFem.map(m => renderMatchCardHtml(m, 'femenino')).join('')}
+            ` : ''}
+
+            ${finalFem.length ? `
+              <div class="elimination-subround-title" style="margin-top: 18px;">
+                <span>🏆 JORNADA 6 · GRAN FINAL FEMENINA (1.º vs GANADOR PLAY-IN)</span>
+              </div>
+              ${finalFem.map(m => renderMatchCardHtml(m, 'femenino')).join('')}
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    cont.innerHTML = html;
     attachMatchCardClicks(cont, matches);
   }
 
@@ -3404,6 +3638,45 @@
       partido: '',
       teamHint: '',
       description: ''
+    },
+    {
+      id: 13,
+      src: 'img/recuerdos/IMG_8625.jpg',
+      altSrc: 'img/IMG_8625.jpg',
+      title: 'NÓMINA COMPLETA INTER LÁCTEOS FC',
+      category: 'femenino',
+      jornada: 'JORNADA 1',
+      date: '3 de octubre de 2026',
+      partido: 'MONARCAS FC vs INTER LÁCTEOS FC',
+      teamHint: 'INTER LÁCTEOS FC',
+      description: 'Encuentro oficial: MONARCAS FC vs INTER LÁCTEOS FC'
+    },
+    {
+      id: 14,
+      src: 'img/recuerdos/IMG_8628.jpg',
+      altSrc: 'img/IMG_8628.jpg',
+      title: 'NÓMINA COMPLETA MONARCAS FC',
+      category: 'femenino',
+      jornada: 'JORNADA 1',
+      date: '3 de octubre de 2026',
+      partido: 'MONARCAS FC vs INTER LÁCTEOS FC',
+      teamHint: 'MONARCAS FC',
+      description: 'Encuentro oficial: MONARCAS FC vs INTER LÁCTEOS FC'
+    },
+    {
+      id: 15,
+      isVideo: true,
+      videoUrl: 'https://youtu.be/gjQyFC-BgYc',
+      videoId: 'gjQyFC-BgYc',
+      src: 'https://img.youtube.com/vi/gjQyFC-BgYc/hqdefault.jpg',
+      altSrc: 'img/TOROS ICONO DEL TORNEO.jpg',
+      title: 'MOMENTOS - CONTRA ATAQUE Y ATAJADA',
+      category: 'torneo',
+      jornada: 'TORNEO',
+      date: '10 de octubre de 2026',
+      partido: '',
+      teamHint: '',
+      description: 'Momento destacado de la jornada: contra ataque y atajada.'
     }
   ];
 
@@ -3436,6 +3709,15 @@
     if (n.includes('FEMENIN')) return { category: 'femenino', teamHint: '' };
     if (n.includes('MASCULIN')) return { category: 'masculino', teamHint: '' };
     return { category: 'masculino', teamHint: '' };
+  }
+
+  function extractYouTubeId(url) {
+    if (!url) return '';
+    const clean = url.trim();
+    const match = clean.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+    if (match) return match[1];
+    if (/^[\w-]{11}$/.test(clean)) return clean;
+    return '';
   }
 
   function resolveRecuerdoImgPath(fileName) {
@@ -3510,8 +3792,66 @@
         return;
       }
 
-      // VIDEO: url | descripción (ignorar si está vacío)
+      // VIDEO: url | descripción
       if (/^VIDEO\s*:/i.test(trimmed)) {
+        const content = trimmed.replace(/^VIDEO\s*:/i, '').trim();
+        if (!content) return;
+        const parts = content.split('|').map(p => p.trim());
+        const videoRawUrl = parts[0];
+        if (!videoRawUrl) return;
+
+        const ytId = extractYouTubeId(videoRawUrl);
+        const title = parts[1] || 'MOMENTOS DEL TORNEO';
+        const desc = parts[2] || '';
+        const thumb = ytId
+          ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`
+          : 'img/TOROS ICONO DEL TORNEO.jpg';
+
+        if (currentSectionCategory === 'torneo') {
+          items.push({
+            id: items.length + 1,
+            isVideo: true,
+            videoUrl: videoRawUrl,
+            videoId: ytId,
+            src: thumb,
+            altSrc: 'img/TOROS ICONO DEL TORNEO.jpg',
+            title,
+            category: 'torneo',
+            jornada: 'TORNEO',
+            date: currentFecha,
+            partido: '',
+            teamHint: '',
+            description: desc || title
+          });
+          return;
+        }
+
+        const titleDetected = detectCategoryAndTeamFromText(title);
+        const combinedContext = `${title} ${currentPartido} ${desc}`;
+        const fullDetected = detectCategoryAndTeamFromText(combinedContext);
+        const category = currentSectionCategory || (titleDetected.teamHint ? titleDetected.category : fullDetected.category);
+        const teamHint = titleDetected.teamHint || fullDetected.teamHint;
+
+        let displayPartido = currentPartido;
+        if (/vs\s*$/i.test(displayPartido) && teamHint && !normStr(displayPartido).includes(normStr(teamHint))) {
+          displayPartido = `${displayPartido.replace(/vs\s*$/i, 'vs')} ${teamHint}`;
+        }
+
+        items.push({
+          id: items.length + 1,
+          isVideo: true,
+          videoUrl: videoRawUrl,
+          videoId: ytId,
+          src: thumb,
+          altSrc: 'img/TOROS ICONO DEL TORNEO.jpg',
+          title,
+          category,
+          jornada: currentJornada || 'JORNADA OFICIAL',
+          date: currentFecha,
+          partido: displayPartido,
+          teamHint,
+          description: desc || (displayPartido ? `Encuentro oficial: ${displayPartido}` : '')
+        });
         return;
       }
 
@@ -3637,32 +3977,71 @@
     recuerdosCargados = true;
   }
 
+  function closeRecuerdoModal() {
+    const modal = document.getElementById('modalRecuerdo');
+    const videoWrapEl = document.getElementById('modalRecuerdoVideoWrap');
+    if (videoWrapEl) {
+      videoWrapEl.innerHTML = '';
+      videoWrapEl.hidden = true;
+    }
+    if (modal) modal.hidden = true;
+  }
+
   function openRecuerdoModal(item) {
     const modal = document.getElementById('modalRecuerdo');
     const imgEl = document.getElementById('modalRecuerdoImg');
+    const videoWrapEl = document.getElementById('modalRecuerdoVideoWrap');
     const titleEl = document.getElementById('modalRecuerdoTitle');
     const metaEl = document.getElementById('modalRecuerdoMeta');
     const descEl = document.getElementById('modalRecuerdoDesc');
-    if (!modal || !imgEl) return;
+    if (!modal) return;
 
-    delete imgEl.dataset.triedAlt;
-    imgEl.onerror = function () {
-      if (!this.dataset.triedAlt && item.altSrc) {
-        this.dataset.triedAlt = '1';
-        this.src = item.altSrc;
-      } else {
-        this.onerror = null;
-        this.src = 'img/TOROS ICONO DEL TORNEO.jpg';
+    if (item.isVideo && item.videoId) {
+      if (imgEl) imgEl.hidden = true;
+      if (videoWrapEl) {
+        videoWrapEl.hidden = false;
+        videoWrapEl.innerHTML = `
+          <div class="video-iframe-wrap">
+            <iframe
+              src="https://www.youtube.com/embed/${encodeURIComponent(item.videoId)}?autoplay=1&playsinline=1&rel=0&modestbranding=1&controls=1&iv_load_policy=3&fs=1"
+              title="${escapeHtml(item.title)}"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              style="width: 100%; aspect-ratio: 9 / 16; max-height: 75dvh; border: 0; border-radius: 8px;"
+            ></iframe>
+          </div>
+        `;
       }
-    };
-    imgEl.src = item.src;
-    imgEl.alt = item.title;
+    } else {
+      if (videoWrapEl) {
+        videoWrapEl.innerHTML = '';
+        videoWrapEl.hidden = true;
+      }
+      if (imgEl) {
+        imgEl.hidden = false;
+        delete imgEl.dataset.triedAlt;
+        imgEl.onerror = function () {
+          if (!this.dataset.triedAlt && item.altSrc) {
+            this.dataset.triedAlt = '1';
+            this.src = item.altSrc;
+          } else {
+            this.onerror = null;
+            this.src = 'img/TOROS ICONO DEL TORNEO.jpg';
+          }
+        };
+        imgEl.src = item.src;
+        imgEl.alt = item.title;
+      }
+    }
+
     if (titleEl) titleEl.textContent = item.title;
     if (metaEl) {
       if (item.category === 'torneo') {
-        metaEl.textContent = [item.date, 'TORNEO'].filter(Boolean).join(' · ') || 'TORNEO';
+        const parts = [item.date, item.isVideo ? 'VIDEO OFICIAL' : 'TORNEO'].filter(Boolean);
+        metaEl.textContent = parts.join(' · ') || 'TORNEO';
       } else {
-        const parts = [item.jornada, item.date, item.category ? item.category.toUpperCase() : ''].filter(Boolean);
+        const parts = [item.jornada, item.date, item.isVideo ? 'VIDEO' : '', item.category ? item.category.toUpperCase() : ''].filter(Boolean);
         metaEl.textContent = parts.join(' · ') || 'GALERÍA OFICIAL · RECUERDOS';
       }
     }
@@ -3680,32 +4059,45 @@
 
   function buildRecuerdoCardHtml(item) {
     const altFallback = item.altSrc ? escapeHtml(item.altSrc) : '';
+    const isVideo = !!item.isVideo;
+    const playOverlay = isVideo
+      ? `<div class="recuerdo-play-overlay" aria-hidden="true">
+           <span class="recuerdo-play-icon">▶</span>
+         </div>`
+      : '';
+    const zoomText = isVideo ? '▶ Ver video' : '🔍 Ver foto';
 
     // Para [TORNEO]: mostrar ÚNICAMENTE la fecha debajo de [TORNEO] y la descripción después del | (sin nombres de equipos ni logos)
     if (item.category === 'torneo') {
+      const tagText = isVideo ? '▶ VIDEO' : 'TORNEO';
       return `
-        <article class="recuerdo-card" data-recuerdo-id="${item.id}">
+        <article class="recuerdo-card ${isVideo ? 'recuerdo-card-video' : ''}" data-recuerdo-id="${item.id}">
           <div class="recuerdo-img-box">
             <img src="${escapeHtml(item.src)}" alt="${escapeHtml(item.title)}" class="recuerdo-img" loading="lazy" onerror="if(!this.dataset.triedAlt && '${altFallback}'){this.dataset.triedAlt='1';this.src='${altFallback}';}else{this.onerror=null;this.src='img/TOROS ICONO DEL TORNEO.jpg';}">
-            <span class="recuerdo-category-tag torneo">TORNEO</span>
-            <span class="recuerdo-zoom-badge">🔍 Ver foto</span>
+            <span class="recuerdo-category-tag ${isVideo ? 'video' : 'torneo'}">${escapeHtml(tagText)}</span>
+            ${playOverlay}
+            <span class="recuerdo-zoom-badge ${isVideo ? 'video-badge' : ''}">${escapeHtml(zoomText)}</span>
           </div>
           <div class="recuerdo-info">
             ${item.date ? `<span class="recuerdo-date">📅 ${escapeHtml(item.date)}</span>` : ''}
             <h3 class="recuerdo-title" style="margin-bottom:0">${escapeHtml(item.title)}</h3>
+            ${item.description && item.description !== item.title ? `<p class="recuerdo-desc" style="margin-top:6px">${escapeHtml(item.description)}</p>` : ''}
           </div>
         </article>
       `;
     }
 
-    const tagLabel = item.jornada ? `${item.category} · ${item.jornada}` : item.category;
+    const tagLabel = isVideo
+      ? `▶ VIDEO · ${item.jornada || item.category}`
+      : (item.jornada ? `${item.category} · ${item.jornada}` : item.category);
 
     return `
-      <article class="recuerdo-card" data-recuerdo-id="${item.id}">
+      <article class="recuerdo-card ${isVideo ? 'recuerdo-card-video' : ''}" data-recuerdo-id="${item.id}">
         <div class="recuerdo-img-box">
           <img src="${escapeHtml(item.src)}" alt="${escapeHtml(item.title)}" class="recuerdo-img" loading="lazy" onerror="if(!this.dataset.triedAlt && '${altFallback}'){this.dataset.triedAlt='1';this.src='${altFallback}';}else{this.onerror=null;this.src='img/TOROS ICONO DEL TORNEO.jpg';}">
-          <span class="recuerdo-category-tag ${escapeHtml(item.category)}">${escapeHtml(tagLabel)}</span>
-          <span class="recuerdo-zoom-badge">🔍 Ver foto</span>
+          <span class="recuerdo-category-tag ${isVideo ? 'video' : escapeHtml(item.category)}">${escapeHtml(tagLabel)}</span>
+          ${playOverlay}
+          <span class="recuerdo-zoom-badge ${isVideo ? 'video-badge' : ''}">${escapeHtml(zoomText)}</span>
         </div>
         <div class="recuerdo-info">
           ${item.date ? `<span class="recuerdo-date">📅 ${escapeHtml(item.date)}</span>` : ''}
@@ -3720,41 +4112,22 @@
     `;
   }
 
-  async function renderHomeRecuerdosPreview() {
-    const block = document.getElementById('homeRecuerdosBlock');
-    const stream = document.getElementById('homeRecuerdosStream');
-    if (!block || !stream) return;
-
-    if (!recuerdosCargados) {
-      await loadRecuerdosFromTxt();
-    }
-
-    if (!RECUERDOS_ITEMS.length) {
-      block.hidden = true;
-      return;
-    }
-
-    block.hidden = false;
-    stream.innerHTML = RECUERDOS_ITEMS.slice(0, 4).map(buildRecuerdoCardHtml).join('');
-    stream.querySelectorAll('[data-recuerdo-id]').forEach(card => {
-      card.onclick = () => {
-        const id = Number(card.getAttribute('data-recuerdo-id'));
-        const found = RECUERDOS_ITEMS.find(r => r.id === id);
-        if (found) openRecuerdoModal(found);
-      };
-    });
-  }
-
   async function renderRecuerdosGallery(filter = 'all') {
     const container = document.getElementById('recuerdosContainer');
     if (!container) return;
 
     APP_STATE.currentRecuerdosFilter = filter;
 
+    // Sincronizar botones de filtro activo exclusivamente (Todos > Masculino > Femenino > Torneo)
+    document.querySelectorAll('[data-recuerdos-filter]').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.recuerdosFilter === filter);
+    });
+
     if (!recuerdosCargados) {
       await loadRecuerdosFromTxt();
     }
 
+    // Filtrar recuerdos según la pestaña activa (exclusivamente all, masculino, femenino, torneo)
     const filtered = RECUERDOS_ITEMS.filter(item => {
       if (filter === 'all') return true;
       return item.category === filter;
@@ -3765,23 +4138,102 @@
         <div class="empty-state-card">
           <span class="empty-state-icon">📷</span>
           <h3>No hay recuerdos en esta categoría aún</h3>
-          <p>Próximamente se integrarán más fotografías oficiales de esta categoría en la galería del torneo.</p>
+          <p>Próximamente se integrarán más contenidos y fotografías oficiales en la galería del torneo.</p>
         </div>
       `;
       return;
     }
 
-    container.innerHTML = `
-      <div class="recuerdos-grid">
-        ${filtered.map(buildRecuerdoCardHtml).join('')}
-      </div>
-    `;
+    const videoItems = filtered.filter(item => item.isVideo);
+    const photoItems = filtered.filter(item => !item.isVideo);
 
-    container.querySelectorAll('[data-recuerdo-id]').forEach(card => {
+    let html = '';
+
+    // Bloque de video oficial si la categoría contiene video (misma lógica de presentación oficial)
+    if (videoItems.length) {
+      html += `
+        <div class="recuerdos-videos-wrap">
+          ${videoItems.map(v => {
+            const isTorneo = (v.category === 'torneo');
+            const badgeLabel = isTorneo ? '🎬 MOMENTOS OFICIALES · TORNEO' : `🎬 MOMENTOS OFICIALES · ${v.category.toUpperCase()}`;
+            return `
+              <div class="video-container-vertical recuerdo-video-item" data-recuerdo-video-id="${v.id}">
+                <div class="video-poster-box" id="recuerdoVideoCover_${v.id}">
+                  <img src="img/TOROS ICONO DEL TORNEO.jpg" alt="Icono oficial Toros" class="video-poster-mascot" loading="lazy">
+                  <span class="video-poster-badge">${escapeHtml(badgeLabel)}</span>
+                  <h2 class="video-poster-title">${escapeHtml(v.title)}</h2>
+                  <p class="video-poster-desc">${v.date ? `📅 ${escapeHtml(v.date)}` : 'Edición 2026'}</p>
+                  <button type="button" class="btn-play-trigger" id="btnPlayRecuerdoVideo_${v.id}" aria-label="Reproducir video oficial ${escapeHtml(v.title)}">
+                    ▶ VER VIDEO
+                  </button>
+                </div>
+                <div class="video-player-frame" id="recuerdoVideoFrame_${v.id}" hidden></div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    // Galería de fotos
+    if (photoItems.length) {
+      html += `
+        <div class="recuerdos-grid">
+          ${photoItems.map(buildRecuerdoCardHtml).join('')}
+        </div>
+      `;
+    }
+
+    container.innerHTML = html;
+
+    // Vincular lógica de reproducción del video (misma lógica interactiva de presentación)
+    videoItems.forEach(v => {
+      const coverEl = document.getElementById(`recuerdoVideoCover_${v.id}`);
+      const frameEl = document.getElementById(`recuerdoVideoFrame_${v.id}`);
+      const playBtn = document.getElementById(`btnPlayRecuerdoVideo_${v.id}`);
+      if (!coverEl || !frameEl || !playBtn) return;
+
+      playBtn.onclick = () => {
+        coverEl.hidden = true;
+        frameEl.hidden = false;
+        frameEl.innerHTML = `
+          <div class="video-player-topbar">
+            <button type="button" class="btn-video-back" id="btnBackRecuerdoVideo_${v.id}">← Volver</button>
+          </div>
+          <div class="video-iframe-wrap">
+            <iframe
+              src="https://www.youtube.com/embed/${encodeURIComponent(v.videoId)}?autoplay=1&playsinline=1&rel=0&modestbranding=1&controls=1&iv_load_policy=3&fs=1"
+              title="${escapeHtml(v.title)}"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
+          </div>
+        `;
+
+        const backBtn = document.getElementById(`btnBackRecuerdoVideo_${v.id}`);
+        if (backBtn) {
+          backBtn.onclick = () => {
+            frameEl.hidden = true;
+            frameEl.innerHTML = '';
+            coverEl.hidden = false;
+          };
+        }
+      };
+    });
+
+    // Vincular clic de fotos para modal lightbox
+    container.querySelectorAll('.recuerdo-card[data-recuerdo-id]').forEach(card => {
       card.onclick = () => {
         const id = Number(card.getAttribute('data-recuerdo-id'));
         const found = RECUERDOS_ITEMS.find(r => r.id === id);
         if (found) openRecuerdoModal(found);
+      };
+      card.onkeydown = (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.click();
+        }
       };
     });
   }
@@ -3818,10 +4270,11 @@
       document.body.className = '';
       document.getElementById('view-calendario').classList.add('active');
       renderGeneralCalendarView();
-    } else if (root === 'recuerdos') {
+    } else if (root === 'recuerdos' || root === 'momentos') {
       document.body.className = '';
       document.getElementById('view-recuerdos').classList.add('active');
-      renderRecuerdosGallery(APP_STATE.currentRecuerdosFilter || 'all');
+      const targetFilter = root === 'momentos' ? 'momentos' : (APP_STATE.currentRecuerdosFilter || 'all');
+      renderRecuerdosGallery(targetFilter);
     } else if (root === 'torneo') {
       document.body.className = '';
       document.getElementById('view-torneo').classList.add('active');
@@ -3974,12 +4427,12 @@
 
     const modalRecuerdo = document.getElementById('modalRecuerdo');
     const btnCloseModalRecuerdo = document.getElementById('btnCloseModalRecuerdo');
-    if (btnCloseModalRecuerdo && modalRecuerdo) {
-      btnCloseModalRecuerdo.onclick = () => (modalRecuerdo.hidden = true);
+    if (btnCloseModalRecuerdo) {
+      btnCloseModalRecuerdo.onclick = closeRecuerdoModal;
     }
     if (modalRecuerdo) {
       modalRecuerdo.onclick = e => {
-        if (e.target === modalRecuerdo) modalRecuerdo.hidden = true;
+        if (e.target === modalRecuerdo) closeRecuerdoModal();
       };
     }
 
@@ -4046,7 +4499,7 @@
         hideAbbrPopover();
         if (modalPartido) modalPartido.hidden = true;
         if (modalAfiche) modalAfiche.hidden = true;
-        if (modalRecuerdo) modalRecuerdo.hidden = true;
+        closeRecuerdoModal();
       }
     });
 

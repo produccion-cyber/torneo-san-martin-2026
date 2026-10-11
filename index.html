@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=20261007_fases">
+  <link rel="stylesheet" href="css/estilos.css?v=20261011_recuerdos">
 </head>
 <body>
 
@@ -296,15 +296,6 @@
             </div>
           </div>
         </div>
-      </section>
-
-      <!-- Últimos Recuerdos (si existen) -->
-      <section id="homeRecuerdosBlock" class="section-block" aria-label="Últimos recuerdos" hidden>
-        <div class="section-header">
-          <h2 class="section-title">ÚLTIMOS RECUERDOS</h2>
-          <p class="section-subtitle">Momentos destacados de las jornadas</p>
-        </div>
-        <div id="homeRecuerdosStream" class="recuerdos-h-stream"></div>
       </section>
 
     </section>
@@ -792,8 +783,9 @@
           </div>
           <button id="btnCloseModalRecuerdo" class="btn-close-modal" aria-label="Cerrar fotografía">✕</button>
         </div>
-        <div class="modal-afiche-img-wrap">
+        <div class="modal-afiche-img-wrap" id="modalRecuerdoMediaWrap">
           <img id="modalRecuerdoImg" src="" alt="Fotografía oficial del recuerdo" class="modal-afiche-img">
+          <div id="modalRecuerdoVideoWrap" class="modal-video-wrap" hidden></div>
         </div>
         <div class="modal-afiche-foot" id="modalRecuerdoDesc">
           <span>Torneo de Fútbol 5 San Martín Lácteos 2026</span>
@@ -818,6 +810,6 @@
   </footer>
 
   <!-- Script principal de la aplicación -->
-  <script src="js/app.js?v=20261007_fases"></script>
+  <script src="js/app.js?v=20261011_recuerdos"></script>
 </body>
 </html>
