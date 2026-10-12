@@ -2348,8 +2348,19 @@
             <span>⚡</span> <strong>SEMIFINAL DIRECTA A LA GRAN FINAL · TORNEO MASCULINO</strong> <span>⚡</span>
           </div>
         ` : isPlayIn ? `
-          <div class="final-excitement-ribbon ribbon-fem">
-            <span>🔥</span> <strong>DUELO CLASIFICATORIO A LA GRAN FINAL · TORNEO FEMENINO</strong> <span>🔥</span>
+          <div class="final-excitement-ribbon ${isFem ? 'ribbon-fem' : 'ribbon-masc'}">
+            <span>🔥</span> <strong>${isFem ? 'DUELO CLASIFICATORIO A LA GRAN FINAL · TORNEO FEMENINO' : 'DUELO CLASIFICATORIO A SEMIFINALES (4.º vs 5.º) · TORNEO MASCULINO'}</strong> <span>🔥</span>
+          </div>
+        ` : ''}
+
+        ${(localHint || visitHint) ? `
+          <div class="elimination-matchup-guide ${isFem ? 'guide-fem' : 'guide-masc'}">
+            <span class="guide-tag">🎯 CRUCE DE CLASIFICACIÓN</span>
+            <div class="guide-pair">
+              <span class="guide-side-box guide-side-home"><strong>${escapeHtml(localHint || m.local)}</strong></span>
+              <span class="guide-vs-sep">VS</span>
+              <span class="guide-side-box guide-side-away"><strong>${escapeHtml(visitHint || m.visitante)}</strong></span>
+            </div>
           </div>
         ` : ''}
 
@@ -2428,6 +2439,17 @@
         ` : isTercerPuesto ? `
           <div class="tercer-puesto-ribbon">
             <span>🥉</span> <strong>DISPUTA POR EL BRONCE</strong> · EL TERCER LUGAR DEL TORNEO <span>🥉</span>
+          </div>
+        ` : ''}
+
+        ${(localHint || visitHint) ? `
+          <div class="elimination-matchup-guide ${isFem ? 'guide-fem' : 'guide-masc'}">
+            <span class="guide-tag">🎯 CRUCE DE CLASIFICACIÓN</span>
+            <div class="guide-pair">
+              <span class="guide-side-box guide-side-home"><strong>${escapeHtml(localHint || m.local)}</strong></span>
+              <span class="guide-vs-sep">VS</span>
+              <span class="guide-side-box guide-side-away"><strong>${escapeHtml(visitHint || m.visitante)}</strong></span>
+            </div>
           </div>
         ` : ''}
 
@@ -2523,7 +2545,9 @@
       } else if (hasSemi) {
         roundSubTitle = 'FASE FINAL MASCULINA · SEMIFINALES DIRECTAS ⚡';
       } else if (hasPlayIn) {
-        roundSubTitle = 'FASE FINAL FEMENINA · PLAY-IN CLASIFICATORIO 🔥';
+        roundSubTitle = branchKey === 'femenino'
+          ? 'FASE FINAL FEMENINA · PLAY-IN CLASIFICATORIO (2.º vs 3.º) 🔥'
+          : 'FASE FINAL MASCULINA · PLAY-IN CLASIFICATORIO (4.º vs 5.º) 🔥';
       }
 
       html += `
@@ -3415,8 +3439,12 @@
 
     // 2. FASES DE ELIMINACIÓN DIRECTA: CATEGORÍA MASCULINA
     if ((filter === 'all' || filter === 'masculino') && elimMascMatches.length) {
+      const playInMasc = elimMascMatches.filter(m => (m.fase || '').toUpperCase().includes('PLAY-IN'));
       const semisMasc = elimMascMatches.filter(m => (m.fase || '').toUpperCase().includes('SEMIFINAL'));
-      const finalesMasc = elimMascMatches.filter(m => !(m.fase || '').toUpperCase().includes('SEMIFINAL'));
+      const finalesMasc = elimMascMatches.filter(m => {
+        const f = (m.fase || '').toUpperCase();
+        return f.includes('TERCER') || f.includes('FINAL');
+      });
 
       html += `
         <div class="elimination-phase-section phase-section-masc">
@@ -3426,22 +3454,29 @@
                 ⚽ FASES DE ELIMINACIÓN DIRECTA · CATEGORÍA MASCULINA
               </h3>
               <p class="elimination-phase-sub">
-                Semifinales (1.º vs 4.º | 2.º vs 3.º), Partido por el 3.º Puesto y Gran Final Masculina 🏆
+                Play-In Clasificatorio (4.º vs 5.º) 🔥, Semifinales (1.º vs Ganador Play-In | 2.º vs 3.º) ⚡, Tercer Puesto 🥉 y Gran Final Masculina 🏆
               </p>
             </div>
-            <span class="phase-category-badge badge-masc">MASCULINO · 4 EQUIPOS</span>
+            <span class="phase-category-badge badge-masc">MASCULINO · 5 EQUIPOS</span>
           </div>
           <div class="elimination-phase-body">
-            ${semisMasc.length ? `
+            ${playInMasc.length ? `
               <div class="elimination-subround-title">
-                <span>⚡ JORNADA 5 · SEMIFINALES MASCULINAS (IDA HACIA LA FINAL)</span>
+                <span>🔥 JORNADA 5 · PLAY-IN CLASIFICATORIO (4.º vs 5.º · BOLETO A SEMIFINALES)</span>
+              </div>
+              ${playInMasc.map(m => renderMatchCardHtml(m, 'masculino')).join('')}
+            ` : ''}
+
+            ${semisMasc.length ? `
+              <div class="elimination-subround-title" style="${playInMasc.length ? 'margin-top: 18px;' : ''}">
+                <span>⚡ JORNADA 6 · SEMIFINALES MASCULINAS (BOLETOS A LA GRAN FINAL)</span>
               </div>
               ${semisMasc.map(m => renderMatchCardHtml(m, 'masculino')).join('')}
             ` : ''}
 
             ${finalesMasc.length ? `
               <div class="elimination-subround-title" style="margin-top: 18px;">
-                <span>🏆 JORNADA 6 · TERCER PUESTO Y GRAN FINAL MASCULINA (PODIO OFICIAL)</span>
+                <span>🏆 JORNADA 7 · TERCER PUESTO Y GRAN FINAL MASCULINA (PODIO OFICIAL)</span>
               </div>
               ${finalesMasc.map(m => renderMatchCardHtml(m, 'masculino')).join('')}
             ` : ''}
@@ -3714,7 +3749,7 @@
   function extractYouTubeId(url) {
     if (!url) return '';
     const clean = url.trim();
-    const match = clean.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+    const match = clean.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|shorts\/|watch\?v=|watch\?.+&v=))([\w-]{11})/i);
     if (match) return match[1];
     if (/^[\w-]{11}$/.test(clean)) return clean;
     return '';
@@ -3792,17 +3827,19 @@
         return;
       }
 
-      // VIDEO: url | descripción
-      if (/^VIDEO\s*:/i.test(trimmed)) {
-        const content = trimmed.replace(/^VIDEO\s*:/i, '').trim();
+      // VIDEO / VÍDEO: url | descripción
+      if (/^(?:VIDEO|VÍDEO)\s*:/i.test(trimmed)) {
+        const content = trimmed.replace(/^(?:VIDEO|VÍDEO)\s*:/i, '').trim();
         if (!content) return;
-        const parts = content.split('|').map(p => p.trim());
-        const videoRawUrl = parts[0];
+        const pipeIdx = content.indexOf('|');
+        const videoRawUrl = (pipeIdx !== -1 ? content.substring(0, pipeIdx) : content).trim();
+        const afterPipe = pipeIdx !== -1 ? content.substring(pipeIdx + 1).trim() : '';
         if (!videoRawUrl) return;
 
         const ytId = extractYouTubeId(videoRawUrl);
-        const title = parts[1] || 'MOMENTOS DEL TORNEO';
-        const desc = parts[2] || '';
+        const subParts = afterPipe ? afterPipe.split('|').map(p => p.trim()) : [];
+        const title = subParts[0] || 'MOMENTOS DEL TORNEO';
+        const desc = subParts[1] || '';
         const thumb = ytId
           ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`
           : 'img/TOROS ICONO DEL TORNEO.jpg';
@@ -4270,10 +4307,10 @@
       document.body.className = '';
       document.getElementById('view-calendario').classList.add('active');
       renderGeneralCalendarView();
-    } else if (root === 'recuerdos' || root === 'momentos') {
+    } else if (root === 'recuerdos') {
       document.body.className = '';
       document.getElementById('view-recuerdos').classList.add('active');
-      const targetFilter = root === 'momentos' ? 'momentos' : (APP_STATE.currentRecuerdosFilter || 'all');
+      const targetFilter = APP_STATE.currentRecuerdosFilter || 'all';
       renderRecuerdosGallery(targetFilter);
     } else if (root === 'torneo') {
       document.body.className = '';
