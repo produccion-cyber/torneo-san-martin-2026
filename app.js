@@ -2219,7 +2219,7 @@
 
   function getMysteryHint(m, side) {
     const fase = (m.fase || '').toUpperCase();
-    const isFem = m.branch === 'femenino';
+    const isFem = (m.branch === 'femenino') || fase.includes('2.º') || fase.includes('2.°');
     const isLocal = side === 'local' || side === 'home';
 
     if (fase.includes('PLAY-IN')) {
@@ -2247,19 +2247,26 @@
   }
 
   function renderMatchCardHtml(m, branchKey) {
-    const isFem = (m.branch === 'femenino') || (branchKey === 'femenino');
-    const branchClass = isFem ? 'match-fem' : 'match-masc';
-    const branchLabel = isFem ? 'TORNEO FEMENINO' : 'TORNEO MASCULINO';
-    const branchBadge = `<span class="phase-category-badge ${isFem ? 'badge-fem' : 'badge-masc'}">${isFem ? 'FEMENINO' : 'MASCULINO'}</span>`;
-    const cancha = parseCanchaInfo(m.cancha);
-    const hasMarcador = cleanStr(m.marcador) && cleanStr(m.marcador) !== '-';
-
     const faseStr = cleanStr(m.fase);
     const faseUpper = faseStr.toUpperCase();
     const isGranFinal = faseUpper.includes('GRAN FINAL');
     const isTercerPuesto = faseUpper.includes('TERCER PUESTO');
     const isPlayIn = faseUpper.includes('PLAY-IN');
     const isSemi = faseUpper.includes('SEMIFINAL');
+
+    // Detección estricta e inequívoca de la categoría:
+    // Si se pasa branchKey (ej. 'masculino' o 'femenino'), prima la pestaña activa.
+    const isFem = branchKey === 'femenino'
+      ? true
+      : (branchKey === 'masculino'
+          ? false
+          : (m.branch === 'femenino' || faseUpper.includes('2.º') || faseUpper.includes('2.°')));
+
+    const branchClass = isFem ? 'match-fem' : 'match-masc';
+    const branchLabel = isFem ? 'TORNEO FEMENINO' : 'TORNEO MASCULINO';
+    const branchBadge = `<span class="phase-category-badge ${isFem ? 'badge-fem' : 'badge-masc'}">${isFem ? 'FEMENINO' : 'MASCULINO'}</span>`;
+    const cancha = parseCanchaInfo(m.cancha);
+    const hasMarcador = cleanStr(m.marcador) && cleanStr(m.marcador) !== '-';
 
     let phaseCardClass = '';
     let phaseBannerHtml = '';
@@ -2349,7 +2356,7 @@
           </div>
         ` : isPlayIn ? `
           <div class="final-excitement-ribbon ${isFem ? 'ribbon-fem' : 'ribbon-masc'}">
-            <span>🔥</span> <strong>${isFem ? 'DUELO CLASIFICATORIO A LA GRAN FINAL · TORNEO FEMENINO' : 'DUELO CLASIFICATORIO A SEMIFINALES (4.º vs 5.º) · TORNEO MASCULINO'}</strong> <span>🔥</span>
+            <span>🔥</span> <strong>${isFem ? 'DUELO CLASIFICATORIO A LA GRAN FINAL (2.º vs 3.º) · TORNEO FEMENINO' : 'DUELO CLASIFICATORIO A SEMIFINALES (4.º vs 5.º) · TORNEO MASCULINO'}</strong> <span>🔥</span>
           </div>
         ` : ''}
 
@@ -2384,15 +2391,16 @@
 
     const cancha = parseCanchaInfo(m.cancha);
     const hasMarcador = cleanStr(m.marcador) && cleanStr(m.marcador) !== '-';
-    const isFem = (m.branch === 'femenino');
-    const branchName = isFem ? 'TORNEO FEMENINO' : 'TORNEO MASCULINO';
-    const branchTagClass = isFem ? 'tag-femenino' : 'tag-masculino';
-    const branchPill = `<span class="phase-category-badge ${isFem ? 'badge-fem' : 'badge-masc'}">${isFem ? 'FEMENINO' : 'MASCULINO'}</span>`;
     const faseUpper = (m.fase || '').toUpperCase();
     const isGranFinal = faseUpper.includes('GRAN FINAL');
     const isTercerPuesto = faseUpper.includes('TERCER PUESTO');
     const isPlayIn = faseUpper.includes('PLAY-IN');
     const isSemi = faseUpper.includes('SEMIFINAL');
+
+    const isFem = (m.branch === 'femenino') || faseUpper.includes('2.º') || faseUpper.includes('2.°');
+    const branchName = isFem ? 'TORNEO FEMENINO' : 'TORNEO MASCULINO';
+    const branchTagClass = isFem ? 'tag-femenino' : 'tag-masculino';
+    const branchPill = `<span class="phase-category-badge ${isFem ? 'badge-fem' : 'badge-masc'}">${isFem ? 'FEMENINO' : 'MASCULINO'}</span>`;
 
     let phaseBadgeHtml = '';
     if (isGranFinal) {
@@ -2402,7 +2410,7 @@
     } else if (isSemi) {
       phaseBadgeHtml = `<div class="phase-banner-header phase-banner-semifinal banner-masc"><span>⚡</span> ${escapeHtml(m.fase)} · TORNEO MASCULINO ${branchPill}</div>`;
     } else if (isPlayIn) {
-      phaseBadgeHtml = `<div class="phase-banner-header phase-banner-playin ${isFem ? 'banner-fem' : 'banner-masc'}"><span>🔥</span> ${escapeHtml(m.fase)} · TORNEO FEMENINO ${branchPill}</div>`;
+      phaseBadgeHtml = `<div class="phase-banner-header phase-banner-playin ${isFem ? 'banner-fem' : 'banner-masc'}"><span>🔥</span> ${escapeHtml(m.fase)} · ${isFem ? 'TORNEO FEMENINO' : 'TORNEO MASCULINO'} ${branchPill}</div>`;
     } else {
       phaseBadgeHtml = `<div class="modal-match-category-pill ${branchTagClass}">${escapeHtml(branchName)} · JORNADA ${escapeHtml(m.jornada || '1')}</div>`;
     }
@@ -2433,12 +2441,20 @@
         </div>
 
         ${isGranFinal ? `
-          <div class="final-excitement-ribbon">
-            <span>🏆</span> <strong>DEFINICIÓN DEL CAMPEÓN ABSOLUTO 2026</strong> · ¡EL TROFEO ESTÁ EN JUEGO! <span>🏆</span>
+          <div class="final-excitement-ribbon ${isFem ? 'ribbon-fem' : 'ribbon-masc'}">
+            <span>🏆</span> <strong>${isFem ? 'DEFINICIÓN DE LA CAMPEONA · TORNEO FEMENINO 2026' : 'DEFINICIÓN DEL CAMPEÓN · TORNEO MASCULINO 2026'}</strong> <span>🏆</span>
           </div>
         ` : isTercerPuesto ? `
-          <div class="tercer-puesto-ribbon">
-            <span>🥉</span> <strong>DISPUTA POR EL BRONCE</strong> · EL TERCER LUGAR DEL TORNEO <span>🥉</span>
+          <div class="tercer-puesto-ribbon ribbon-masc">
+            <span>🥉</span> <strong>DISPUTA POR EL PODIO Y BRONCE · TORNEO MASCULINO</strong> <span>🥉</span>
+          </div>
+        ` : isSemi ? `
+          <div class="final-excitement-ribbon ribbon-masc">
+            <span>⚡</span> <strong>SEMIFINAL DIRECTA A LA GRAN FINAL · TORNEO MASCULINO</strong> <span>⚡</span>
+          </div>
+        ` : isPlayIn ? `
+          <div class="final-excitement-ribbon ${isFem ? 'ribbon-fem' : 'ribbon-masc'}">
+            <span>🔥</span> <strong>${isFem ? 'DUELO CLASIFICATORIO A LA GRAN FINAL (2.º vs 3.º) · TORNEO FEMENINO' : 'DUELO CLASIFICATORIO A SEMIFINALES (4.º vs 5.º) · TORNEO MASCULINO'}</strong> <span>🔥</span>
           </div>
         ` : ''}
 

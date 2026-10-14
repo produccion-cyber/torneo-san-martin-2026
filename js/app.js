@@ -2219,7 +2219,7 @@
 
   function getMysteryHint(m, side) {
     const fase = (m.fase || '').toUpperCase();
-    const isFem = m.branch === 'femenino';
+    const isFem = (m.branch === 'femenino') || fase.includes('2.º') || fase.includes('2.°');
     const isLocal = side === 'local' || side === 'home';
 
     if (fase.includes('PLAY-IN')) {
@@ -2247,19 +2247,26 @@
   }
 
   function renderMatchCardHtml(m, branchKey) {
-    const isFem = (m.branch === 'femenino') || (branchKey === 'femenino');
-    const branchClass = isFem ? 'match-fem' : 'match-masc';
-    const branchLabel = isFem ? 'TORNEO FEMENINO' : 'TORNEO MASCULINO';
-    const branchBadge = `<span class="phase-category-badge ${isFem ? 'badge-fem' : 'badge-masc'}">${isFem ? 'FEMENINO' : 'MASCULINO'}</span>`;
-    const cancha = parseCanchaInfo(m.cancha);
-    const hasMarcador = cleanStr(m.marcador) && cleanStr(m.marcador) !== '-';
-
     const faseStr = cleanStr(m.fase);
     const faseUpper = faseStr.toUpperCase();
     const isGranFinal = faseUpper.includes('GRAN FINAL');
     const isTercerPuesto = faseUpper.includes('TERCER PUESTO');
     const isPlayIn = faseUpper.includes('PLAY-IN');
     const isSemi = faseUpper.includes('SEMIFINAL');
+
+    // Detección estricta e inequívoca de la categoría:
+    // Si se pasa branchKey (ej. 'masculino' o 'femenino'), prima la pestaña activa.
+    const isFem = branchKey === 'femenino'
+      ? true
+      : (branchKey === 'masculino'
+          ? false
+          : (m.branch === 'femenino' || faseUpper.includes('2.º') || faseUpper.includes('2.°')));
+
+    const branchClass = isFem ? 'match-fem' : 'match-masc';
+    const branchLabel = isFem ? 'TORNEO FEMENINO' : 'TORNEO MASCULINO';
+    const branchBadge = `<span class="phase-category-badge ${isFem ? 'badge-fem' : 'badge-masc'}">${isFem ? 'FEMENINO' : 'MASCULINO'}</span>`;
+    const cancha = parseCanchaInfo(m.cancha);
+    const hasMarcador = cleanStr(m.marcador) && cleanStr(m.marcador) !== '-';
 
     let phaseCardClass = '';
     let phaseBannerHtml = '';
@@ -2348,8 +2355,19 @@
             <span>⚡</span> <strong>SEMIFINAL DIRECTA A LA GRAN FINAL · TORNEO MASCULINO</strong> <span>⚡</span>
           </div>
         ` : isPlayIn ? `
-          <div class="final-excitement-ribbon ribbon-fem">
-            <span>🔥</span> <strong>DUELO CLASIFICATORIO A LA GRAN FINAL · TORNEO FEMENINO</strong> <span>🔥</span>
+          <div class="final-excitement-ribbon ${isFem ? 'ribbon-fem' : 'ribbon-masc'}">
+            <span>🔥</span> <strong>${isFem ? 'DUELO CLASIFICATORIO A LA GRAN FINAL (2.º vs 3.º) · TORNEO FEMENINO' : 'DUELO CLASIFICATORIO A SEMIFINALES (4.º vs 5.º) · TORNEO MASCULINO'}</strong> <span>🔥</span>
+          </div>
+        ` : ''}
+
+        ${(localHint || visitHint) ? `
+          <div class="elimination-matchup-guide ${isFem ? 'guide-fem' : 'guide-masc'}">
+            <span class="guide-tag">🎯 CRUCE DE CLASIFICACIÓN</span>
+            <div class="guide-pair">
+              <span class="guide-side-box guide-side-home"><strong>${escapeHtml(localHint || m.local)}</strong></span>
+              <span class="guide-vs-sep">VS</span>
+              <span class="guide-side-box guide-side-away"><strong>${escapeHtml(visitHint || m.visitante)}</strong></span>
+            </div>
           </div>
         ` : ''}
 
@@ -2373,15 +2391,16 @@
 
     const cancha = parseCanchaInfo(m.cancha);
     const hasMarcador = cleanStr(m.marcador) && cleanStr(m.marcador) !== '-';
-    const isFem = (m.branch === 'femenino');
-    const branchName = isFem ? 'TORNEO FEMENINO' : 'TORNEO MASCULINO';
-    const branchTagClass = isFem ? 'tag-femenino' : 'tag-masculino';
-    const branchPill = `<span class="phase-category-badge ${isFem ? 'badge-fem' : 'badge-masc'}">${isFem ? 'FEMENINO' : 'MASCULINO'}</span>`;
     const faseUpper = (m.fase || '').toUpperCase();
     const isGranFinal = faseUpper.includes('GRAN FINAL');
     const isTercerPuesto = faseUpper.includes('TERCER PUESTO');
     const isPlayIn = faseUpper.includes('PLAY-IN');
     const isSemi = faseUpper.includes('SEMIFINAL');
+
+    const isFem = (m.branch === 'femenino') || faseUpper.includes('2.º') || faseUpper.includes('2.°');
+    const branchName = isFem ? 'TORNEO FEMENINO' : 'TORNEO MASCULINO';
+    const branchTagClass = isFem ? 'tag-femenino' : 'tag-masculino';
+    const branchPill = `<span class="phase-category-badge ${isFem ? 'badge-fem' : 'badge-masc'}">${isFem ? 'FEMENINO' : 'MASCULINO'}</span>`;
 
     let phaseBadgeHtml = '';
     if (isGranFinal) {
@@ -2391,7 +2410,7 @@
     } else if (isSemi) {
       phaseBadgeHtml = `<div class="phase-banner-header phase-banner-semifinal banner-masc"><span>⚡</span> ${escapeHtml(m.fase)} · TORNEO MASCULINO ${branchPill}</div>`;
     } else if (isPlayIn) {
-      phaseBadgeHtml = `<div class="phase-banner-header phase-banner-playin ${isFem ? 'banner-fem' : 'banner-masc'}"><span>🔥</span> ${escapeHtml(m.fase)} · TORNEO FEMENINO ${branchPill}</div>`;
+      phaseBadgeHtml = `<div class="phase-banner-header phase-banner-playin ${isFem ? 'banner-fem' : 'banner-masc'}"><span>🔥</span> ${escapeHtml(m.fase)} · ${isFem ? 'TORNEO FEMENINO' : 'TORNEO MASCULINO'} ${branchPill}</div>`;
     } else {
       phaseBadgeHtml = `<div class="modal-match-category-pill ${branchTagClass}">${escapeHtml(branchName)} · JORNADA ${escapeHtml(m.jornada || '1')}</div>`;
     }
@@ -2422,12 +2441,31 @@
         </div>
 
         ${isGranFinal ? `
-          <div class="final-excitement-ribbon">
-            <span>🏆</span> <strong>DEFINICIÓN DEL CAMPEÓN ABSOLUTO 2026</strong> · ¡EL TROFEO ESTÁ EN JUEGO! <span>🏆</span>
+          <div class="final-excitement-ribbon ${isFem ? 'ribbon-fem' : 'ribbon-masc'}">
+            <span>🏆</span> <strong>${isFem ? 'DEFINICIÓN DE LA CAMPEONA · TORNEO FEMENINO 2026' : 'DEFINICIÓN DEL CAMPEÓN · TORNEO MASCULINO 2026'}</strong> <span>🏆</span>
           </div>
         ` : isTercerPuesto ? `
-          <div class="tercer-puesto-ribbon">
-            <span>🥉</span> <strong>DISPUTA POR EL BRONCE</strong> · EL TERCER LUGAR DEL TORNEO <span>🥉</span>
+          <div class="tercer-puesto-ribbon ribbon-masc">
+            <span>🥉</span> <strong>DISPUTA POR EL PODIO Y BRONCE · TORNEO MASCULINO</strong> <span>🥉</span>
+          </div>
+        ` : isSemi ? `
+          <div class="final-excitement-ribbon ribbon-masc">
+            <span>⚡</span> <strong>SEMIFINAL DIRECTA A LA GRAN FINAL · TORNEO MASCULINO</strong> <span>⚡</span>
+          </div>
+        ` : isPlayIn ? `
+          <div class="final-excitement-ribbon ${isFem ? 'ribbon-fem' : 'ribbon-masc'}">
+            <span>🔥</span> <strong>${isFem ? 'DUELO CLASIFICATORIO A LA GRAN FINAL (2.º vs 3.º) · TORNEO FEMENINO' : 'DUELO CLASIFICATORIO A SEMIFINALES (4.º vs 5.º) · TORNEO MASCULINO'}</strong> <span>🔥</span>
+          </div>
+        ` : ''}
+
+        ${(localHint || visitHint) ? `
+          <div class="elimination-matchup-guide ${isFem ? 'guide-fem' : 'guide-masc'}">
+            <span class="guide-tag">🎯 CRUCE DE CLASIFICACIÓN</span>
+            <div class="guide-pair">
+              <span class="guide-side-box guide-side-home"><strong>${escapeHtml(localHint || m.local)}</strong></span>
+              <span class="guide-vs-sep">VS</span>
+              <span class="guide-side-box guide-side-away"><strong>${escapeHtml(visitHint || m.visitante)}</strong></span>
+            </div>
           </div>
         ` : ''}
 
@@ -2523,7 +2561,9 @@
       } else if (hasSemi) {
         roundSubTitle = 'FASE FINAL MASCULINA · SEMIFINALES DIRECTAS ⚡';
       } else if (hasPlayIn) {
-        roundSubTitle = 'FASE FINAL FEMENINA · PLAY-IN CLASIFICATORIO 🔥';
+        roundSubTitle = branchKey === 'femenino'
+          ? 'FASE FINAL FEMENINA · PLAY-IN CLASIFICATORIO (2.º vs 3.º) 🔥'
+          : 'FASE FINAL MASCULINA · PLAY-IN CLASIFICATORIO (4.º vs 5.º) 🔥';
       }
 
       html += `
@@ -3415,8 +3455,12 @@
 
     // 2. FASES DE ELIMINACIÓN DIRECTA: CATEGORÍA MASCULINA
     if ((filter === 'all' || filter === 'masculino') && elimMascMatches.length) {
+      const playInMasc = elimMascMatches.filter(m => (m.fase || '').toUpperCase().includes('PLAY-IN'));
       const semisMasc = elimMascMatches.filter(m => (m.fase || '').toUpperCase().includes('SEMIFINAL'));
-      const finalesMasc = elimMascMatches.filter(m => !(m.fase || '').toUpperCase().includes('SEMIFINAL'));
+      const finalesMasc = elimMascMatches.filter(m => {
+        const f = (m.fase || '').toUpperCase();
+        return f.includes('TERCER') || f.includes('FINAL');
+      });
 
       html += `
         <div class="elimination-phase-section phase-section-masc">
@@ -3426,22 +3470,29 @@
                 ⚽ FASES DE ELIMINACIÓN DIRECTA · CATEGORÍA MASCULINA
               </h3>
               <p class="elimination-phase-sub">
-                Semifinales (1.º vs 4.º | 2.º vs 3.º), Partido por el 3.º Puesto y Gran Final Masculina 🏆
+                Play-In Clasificatorio (4.º vs 5.º) 🔥, Semifinales (1.º vs Ganador Play-In | 2.º vs 3.º) ⚡, Tercer Puesto 🥉 y Gran Final Masculina 🏆
               </p>
             </div>
-            <span class="phase-category-badge badge-masc">MASCULINO · 4 EQUIPOS</span>
+            <span class="phase-category-badge badge-masc">MASCULINO · 5 EQUIPOS</span>
           </div>
           <div class="elimination-phase-body">
-            ${semisMasc.length ? `
+            ${playInMasc.length ? `
               <div class="elimination-subround-title">
-                <span>⚡ JORNADA 5 · SEMIFINALES MASCULINAS (IDA HACIA LA FINAL)</span>
+                <span>🔥 JORNADA 5 · PLAY-IN CLASIFICATORIO (4.º vs 5.º · BOLETO A SEMIFINALES)</span>
+              </div>
+              ${playInMasc.map(m => renderMatchCardHtml(m, 'masculino')).join('')}
+            ` : ''}
+
+            ${semisMasc.length ? `
+              <div class="elimination-subround-title" style="${playInMasc.length ? 'margin-top: 18px;' : ''}">
+                <span>⚡ JORNADA 6 · SEMIFINALES MASCULINAS (BOLETOS A LA GRAN FINAL)</span>
               </div>
               ${semisMasc.map(m => renderMatchCardHtml(m, 'masculino')).join('')}
             ` : ''}
 
             ${finalesMasc.length ? `
               <div class="elimination-subround-title" style="margin-top: 18px;">
-                <span>🏆 JORNADA 6 · TERCER PUESTO Y GRAN FINAL MASCULINA (PODIO OFICIAL)</span>
+                <span>🏆 JORNADA 7 · TERCER PUESTO Y GRAN FINAL MASCULINA (PODIO OFICIAL)</span>
               </div>
               ${finalesMasc.map(m => renderMatchCardHtml(m, 'masculino')).join('')}
             ` : ''}
@@ -3714,7 +3765,7 @@
   function extractYouTubeId(url) {
     if (!url) return '';
     const clean = url.trim();
-    const match = clean.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+    const match = clean.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|shorts\/|watch\?v=|watch\?.+&v=))([\w-]{11})/i);
     if (match) return match[1];
     if (/^[\w-]{11}$/.test(clean)) return clean;
     return '';
@@ -3792,17 +3843,19 @@
         return;
       }
 
-      // VIDEO: url | descripción
-      if (/^VIDEO\s*:/i.test(trimmed)) {
-        const content = trimmed.replace(/^VIDEO\s*:/i, '').trim();
+      // VIDEO / VÍDEO: url | descripción
+      if (/^(?:VIDEO|VÍDEO)\s*:/i.test(trimmed)) {
+        const content = trimmed.replace(/^(?:VIDEO|VÍDEO)\s*:/i, '').trim();
         if (!content) return;
-        const parts = content.split('|').map(p => p.trim());
-        const videoRawUrl = parts[0];
+        const pipeIdx = content.indexOf('|');
+        const videoRawUrl = (pipeIdx !== -1 ? content.substring(0, pipeIdx) : content).trim();
+        const afterPipe = pipeIdx !== -1 ? content.substring(pipeIdx + 1).trim() : '';
         if (!videoRawUrl) return;
 
         const ytId = extractYouTubeId(videoRawUrl);
-        const title = parts[1] || 'MOMENTOS DEL TORNEO';
-        const desc = parts[2] || '';
+        const subParts = afterPipe ? afterPipe.split('|').map(p => p.trim()) : [];
+        const title = subParts[0] || 'MOMENTOS DEL TORNEO';
+        const desc = subParts[1] || '';
         const thumb = ytId
           ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`
           : 'img/TOROS ICONO DEL TORNEO.jpg';
@@ -4270,10 +4323,10 @@
       document.body.className = '';
       document.getElementById('view-calendario').classList.add('active');
       renderGeneralCalendarView();
-    } else if (root === 'recuerdos' || root === 'momentos') {
+    } else if (root === 'recuerdos') {
       document.body.className = '';
       document.getElementById('view-recuerdos').classList.add('active');
-      const targetFilter = root === 'momentos' ? 'momentos' : (APP_STATE.currentRecuerdosFilter || 'all');
+      const targetFilter = APP_STATE.currentRecuerdosFilter || 'all';
       renderRecuerdosGallery(targetFilter);
     } else if (root === 'torneo') {
       document.body.className = '';
