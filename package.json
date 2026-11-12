@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "PORT=3000 node server.js",
     "build": "echo 'Static site - no build step required'",
-    "start": "node server.js",
+    "start": "PORT=3000 node server.js",
     "lint": "node --check server.js && node --check js/app.js"
   },
   "dependencies": {

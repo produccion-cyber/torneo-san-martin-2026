@@ -1495,7 +1495,7 @@
         if (roster.length) APP_STATE.data.masculino.plantilla = roster;
       }
       if (Array.isArray(apiData.masculino.RESULTADOS) && apiData.masculino.RESULTADOS.length) {
-        const res = parseResultsSheet(apiData.masculino.RESULTADOS);
+        const res = parseResultsSheet(apiData.masculino.RESULTADOS, "masculino");
         if (res.length) APP_STATE.data.masculino.resultados = res;
       }
       if (Array.isArray(apiData.masculino.TABLA_POSICIONES) && apiData.masculino.TABLA_POSICIONES.length) {
@@ -1514,7 +1514,7 @@
         if (roster.length) APP_STATE.data.femenino.plantilla = roster;
       }
       if (Array.isArray(apiData.femenino.RESULTADOS) && apiData.femenino.RESULTADOS.length) {
-        const res = parseResultsSheet(apiData.femenino.RESULTADOS);
+        const res = parseResultsSheet(apiData.femenino.RESULTADOS, "femenino");
         if (res.length) APP_STATE.data.femenino.resultados = res;
       }
       if (Array.isArray(apiData.femenino.TABLA_POSICIONES) && apiData.femenino.TABLA_POSICIONES.length) {
@@ -1719,27 +1719,29 @@
     const listEl = document.getElementById("homeNextMatchesList");
     if (!listEl) return;
 
-    const jugadosKeys = new Set();
-    [...mascRes, ...femRes].filter(r => r.estado === "Jugado").forEach(r => {
-      jugadosKeys.add(`${normStr(r.local)}_${normStr(r.visitante)}`);
-    });
+    function isMatchJugado(m) {
+      const marc = cleanStr(m.marcador);
+      if (marc && marc !== '-' && marc !== 'vs' && /\d+\s*[-:]\s*\d+/.test(marc)) {
+        return true;
+      }
+      const resList = (m.branch === 'femenino') ? femRes : mascRes;
+      const r = (resList || []).find(x => String(x.partido) === String(m.partido));
+      if (r) {
+        if (normStr(r.estado) === 'JUGADO') return true;
+        if (normStr(r.estado).includes('PENDIENTE')) return false;
+      }
+      return false;
+    }
 
     const pendientes = [];
     [...mascCal, ...femCal].forEach(m => {
-      const key = `${normStr(m.local)}_${normStr(m.visitante)}`;
-      if (jugadosKeys.has(key)) return;
-      if (cleanStr(m.marcador) && cleanStr(m.marcador) !== "-") return;
-
-      const isFinal =
-        normStr(m.local).includes("DEFINIR") ||
-        normStr(m.visitante).includes("DEFINIR") ||
-        normStr(m.observaciones).includes("PLAY-IN") ||
-        normStr(m.observaciones).includes("SEMIFINAL") ||
-        normStr(m.observaciones).includes("FINAL");
-
-      if (!isFinal) {
-        pendientes.push(m);
-      }
+      if (isMatchJugado(m)) return;
+      const hasLocal = cleanStr(m.local);
+      const hasVisit = cleanStr(m.visitante);
+      const hasFase = cleanStr(m.fase);
+      // Ignorar filas sin equipos y sin fase
+      if (!hasLocal && !hasVisit && !hasFase) return;
+      pendientes.push(m);
     });
 
     if (!pendientes.length) {
@@ -1747,21 +1749,35 @@
       return;
     }
 
-    // Filtrar estrictamente la próxima fecha más cercana
-    pendientes.sort((a, b) => {
+    // Filtrar estrictamente los partidos pendientes que tengan fecha asignada
+    const conFecha = pendientes.filter(m => Boolean(parseSheetDate(m.fecha)));
+
+    if (!conFecha.length) {
+      listEl.innerHTML = '<p class="empty-state-msg">No hay partidos pendientes con fecha oficial programada por disputar.</p>';
+      return;
+    }
+
+    // Ordenar por fecha cronológica para obtener la fecha oficial más cercana (ej. sábado 14 de noviembre)
+    conFecha.sort((a, b) => {
       const da = parseSheetDate(a.fecha)?.getTime() || 9999999999999;
       const db = parseSheetDate(b.fecha)?.getTime() || 9999999999999;
       return da - db;
     });
 
-    const earliestTime = parseSheetDate(pendientes[0].fecha)?.getTime();
-    const nextMatchday = pendientes.filter(p => {
+    const earliestTime = parseSheetDate(conFecha[0].fecha)?.getTime();
+    // Tomar estrictamente todos los partidos programados para la fecha más próxima
+    const nextMatchday = conFecha.filter(p => {
       const t = parseSheetDate(p.fecha)?.getTime();
       return t !== null && t === earliestTime;
     });
 
     // Ordenar estrictamente cronológicamente por hora los partidos de ese día
-    nextMatchday.sort((a, b) => parseTimeInMinutes(a.hora) - parseTimeInMinutes(b.hora));
+    nextMatchday.sort((a, b) => {
+      const ta = parseTimeInMinutes(a.hora);
+      const tb = parseTimeInMinutes(b.hora);
+      if (ta !== tb) return ta - tb;
+      return (Number(a.partido) || 0) - (Number(b.partido) || 0);
+    });
 
     const dayHeader = formatDayHeader(nextMatchday[0].fecha);
     const relTime = getRelativeDateLabel(nextMatchday[0].fecha);
@@ -1769,12 +1785,12 @@
     let html = `
       <div class="next-day-alert-banner">
         <div class="alert-banner-left">
-          <span class="alert-banner-badge">📅 PRÓXIMA FECHA OFICIAL</span>
+          <span class="alert-banner-badge">📅 PRÓXIMA FECHA OFICIAL · FASES FINALES</span>
           <h3 class="alert-banner-title">${escapeHtml(dayHeader)}</h3>
         </div>
         <div class="alert-banner-right">
           <span class="alert-badge-count">${nextMatchday.length} PARTIDOS PROGRAMADOS</span>
-          ${relTime ? `<span class="alert-badge-rel">${escapeHtml(relTime)}</span>` : ""}
+          ${relTime ? `<span class="alert-badge-rel">${escapeHtml(relTime)}</span>` : ''}
         </div>
       </div>
       <div class="matches-stream-cards">
@@ -1783,46 +1799,81 @@
     nextMatchday.forEach((m, idx) => {
       const isFirstMatch = idx === 0;
       const cancha = parseCanchaInfo(m.cancha);
-      const isFem = m.branch === "femenino";
-      const branchBadge = isFem ? "TORNEO FEMENINO" : "TORNEO MASCULINO";
-      const branchClass = isFem ? "match-fem" : "match-masc";
-      const tagClass = isFem ? "tag-femenino" : "tag-masculino";
+      const isFem = m.branch === 'femenino';
+      const branchBadge = isFem ? 'TORNEO FEMENINO' : 'TORNEO MASCULINO';
+      const branchClass = isFem ? 'match-fem' : 'match-masc';
+      const tagClass = isFem ? 'tag-femenino' : 'tag-masculino';
+
+      const faseStr = cleanStr(m.fase);
+      const faseUpper = faseStr.toUpperCase();
+      const isGranFinal = faseUpper.includes('GRAN FINAL') || faseUpper.includes('FINAL');
+      const isSemi = faseUpper.includes('SEMIFINAL');
+      const isPlayIn = faseUpper.includes('PLAY-IN');
+
+      const roundTag = faseStr ? `${branchBadge} · ${faseStr}` : `${branchBadge} · Jornada ${escapeHtml(m.jornada || '1')}`;
+      const hourDisplay = cleanStr(m.hora) || (m.fecha ? 'Hora por definir' : 'Fecha y hora por definir');
+
+      const localIsMystery = isMysteryTeam(m.local);
+      const visitIsMystery = isMysteryTeam(m.visitante);
+      const localHint = localIsMystery ? getMysteryHint(m, 'local') : '';
+      const visitHint = visitIsMystery ? getMysteryHint(m, 'visitante') : '';
 
       html += `
-        <div class="match-row-card ${branchClass} ${isFirstMatch ? "highlight-next" : ""}" data-match-partido="${escapeHtml(m.partido || '')}" data-match-branch="${escapeHtml(m.branch || '')}" tabindex="0" role="button" aria-label="Ver ficha del partido ${escapeHtml(m.local)} vs ${escapeHtml(m.visitante)}">
+        <div class="match-row-card ${branchClass} ${isGranFinal ? 'match-card-gran-final' : ''} ${isFirstMatch ? 'highlight-next' : ''}" data-match-partido="${escapeHtml(m.partido || '')}" data-match-branch="${escapeHtml(m.branch || '')}" tabindex="0" role="button" aria-label="Ver ficha del partido ${escapeHtml(m.local)} vs ${escapeHtml(m.visitante)}">
           <div class="next-badge-row">
             <div class="match-time-tag-box">
               <span class="match-index-pill">PARTIDO ${idx + 1}</span>
-              <strong class="match-hour-pill">${escapeHtml(m.hora || "Hora por definir")}</strong>
-              ${isFirstMatch ? `<span class="badge-siguiente">PRIMER ENCUENTRO</span>` : ""}
+              <strong class="match-hour-pill">${escapeHtml(hourDisplay)}</strong>
+              ${isFirstMatch ? '<span class="badge-siguiente">PRIMER ENCUENTRO</span>' : ''}
             </div>
-            <span class="badge-tag ${tagClass}">${branchBadge} · Jornada ${escapeHtml(m.jornada || "1")}</span>
+            <span class="badge-tag ${tagClass}">${escapeHtml(roundTag)}</span>
           </div>
 
+          ${isGranFinal ? `
+            <div class="final-excitement-ribbon ${isFem ? 'ribbon-fem' : 'ribbon-masc'}">
+              <span>🏆</span> <strong>${isFem ? 'DEFINICIÓN DE LA CAMPEONA · TORNEO FEMENINO 2026' : 'DEFINICIÓN DEL CAMPEÓN · TORNEO MASCULINO 2026'}</strong> <span>🏆</span>
+            </div>
+          ` : isSemi ? `
+            <div class="final-excitement-ribbon ribbon-masc">
+              <span>⚡</span> <strong>${escapeHtml(m.fase || 'SEMIFINAL')} DIRECTA A LA GRAN FINAL · TORNEO MASCULINO</strong> <span>⚡</span>
+            </div>
+          ` : isPlayIn ? `
+            <div class="final-excitement-ribbon ${isFem ? 'ribbon-fem' : 'ribbon-masc'}">
+              <span>🔥</span> <strong>DUELO CLASIFICATORIO A SEMIFINALES</strong> <span>🔥</span>
+            </div>
+          ` : ''}
+
           <div class="match-teams-row">
-            <div class="team-side home">
+            <div class="team-side home ${localIsMystery ? 'is-mystery' : ''}">
               ${getTeamShieldHtml(m.local)}
-              <span class="team-name">${escapeHtml(m.local)}</span>
+              <div class="team-info-col">
+                <span class="team-name">${escapeHtml(m.local)}</span>
+                ${localHint ? `<span class="team-mystery-hint">${escapeHtml(localHint)}</span>` : ''}
+              </div>
             </div>
             <div class="match-middle-box">
               <span class="match-vs-tag">VS</span>
             </div>
-            <div class="team-side away">
-              <span class="team-name">${escapeHtml(m.visitante)}</span>
+            <div class="team-side away ${visitIsMystery ? 'is-mystery' : ''}">
+              <div class="team-info-col team-info-col-away">
+                <span class="team-name">${escapeHtml(m.visitante)}</span>
+                ${visitHint ? `<span class="team-mystery-hint">${escapeHtml(visitHint)}</span>` : ''}
+              </div>
               ${getTeamShieldHtml(m.visitante)}
             </div>
           </div>
 
           <div class="match-meta-line">
-            <span class="venue-info-text">📍 ${escapeHtml(cancha.direccion)}</span>
+            <span class="venue-info-text">📍 ${escapeHtml(cancha.direccion || 'Cancha oficial por confirmar')}</span>
+            ${m.fecha ? `<span class="match-referee-tag">📅 <strong>${escapeHtml(formatMatchDate(m.fecha, ''))}</strong></span>` : '<span class="match-referee-tag">📅 Fecha oficial por confirmar</span>'}
             ${m.arbitro ? `<span class="match-referee-tag">👨‍⚖️ <strong>Árbitro:</strong> ${escapeHtml(m.arbitro)}</span>` : '<span class="match-referee-tag referee-pending">👨‍⚖️ Árbitro por designar</span>'}
-            ${cancha.mapsUrl ? `<a href="${cancha.mapsUrl}" target="_blank" rel="noopener noreferrer" class="btn-maps-action" onclick="event.stopPropagation()">Google Maps ↗</a>` : ""}
+            ${cancha.mapsUrl ? `<a href="${cancha.mapsUrl}" target="_blank" rel="noopener noreferrer" class="btn-maps-action" onclick="event.stopPropagation()">Google Maps ↗</a>` : ''}
           </div>
         </div>
       `;
     });
 
-    html += `</div>`;
+    html += '</div>';
     listEl.innerHTML = html;
     attachMatchCardClicks(listEl, nextMatchday);
   }
@@ -2047,28 +2098,67 @@
 
   function renderBranchResumen(branchKey, data) {
     const cardEl = document.getElementById('branchNextMatchCard');
-    const pend = (data.calendario || []).find(m => !cleanStr(m.marcador) || cleanStr(m.marcador) === '-');
+    const jugadosRes = new Set((data.resultados || []).filter(r => normStr(r.estado) === 'JUGADO').map(r => String(r.partido)));
+    const pend = (data.calendario || []).find(m => {
+      const marc = cleanStr(m.marcador);
+      if (marc && marc !== '-' && marc !== 'vs' && /\d+\s*[-:]\s*\d+/.test(marc)) return false;
+      if (jugadosRes.has(String(m.partido))) return false;
+      return Boolean(cleanStr(m.local) || cleanStr(m.visitante) || cleanStr(m.fase));
+    });
     if (pend) {
       const cancha = parseCanchaInfo(pend.cancha);
+      const isFem = branchKey === 'femenino';
+      const faseStr = cleanStr(pend.fase);
+      const faseUpper = faseStr.toUpperCase();
+      const isGranFinal = faseUpper.includes('GRAN FINAL') || faseUpper.includes('FINAL');
+      const isSemi = faseUpper.includes('SEMIFINAL');
+      const isPlayIn = faseUpper.includes('PLAY-IN');
+
+      const localIsMystery = isMysteryTeam(pend.local);
+      const visitIsMystery = isMysteryTeam(pend.visitante);
+      const localHint = localIsMystery ? getMysteryHint(pend, 'local') : '';
+      const visitHint = visitIsMystery ? getMysteryHint(pend, 'visitante') : '';
+
       cardEl.innerHTML = `
-        <div class="match-row-card highlight-next ${branchKey === 'masculino' ? 'match-masc' : 'match-fem'}" data-match-partido="${escapeHtml(pend.partido || '')}" data-match-branch="${escapeHtml(branchKey)}" tabindex="0" role="button" aria-label="Ver ficha del partido ${escapeHtml(pend.local)} vs ${escapeHtml(pend.visitante)}">
+        <div class="match-row-card highlight-next ${isFem ? 'match-fem' : 'match-masc'} ${isGranFinal ? 'match-card-gran-final' : ''}" data-match-partido="${escapeHtml(pend.partido || '')}" data-match-branch="${escapeHtml(branchKey)}" tabindex="0" role="button" aria-label="Ver ficha del partido ${escapeHtml(pend.local)} vs ${escapeHtml(pend.visitante)}">
           <div class="next-badge-row">
-            <span class="badge-siguiente">PRÓXIMO · ${escapeHtml(pend.hora || 'Hora por definir')}</span>
+            <span class="badge-siguiente">${faseStr ? escapeHtml(faseStr) + ' · ' : ''}PRÓXIMO · ${escapeHtml(pend.hora || 'Hora por definir')}</span>
             <span class="relative-time-text">${escapeHtml(formatMatchDate(pend.fecha, ''))}</span>
           </div>
+
+          ${isGranFinal ? `
+            <div class="final-excitement-ribbon ${isFem ? 'ribbon-fem' : 'ribbon-masc'}" style="margin: 6px 0 2px 0;">
+              <span>🏆</span> <strong>${isFem ? 'DEFINICIÓN DE LA CAMPEONA · TORNEO FEMENINO 2026' : 'DEFINICIÓN DEL CAMPEÓN · TORNEO MASCULINO 2026'}</strong> <span>🏆</span>
+            </div>
+          ` : isSemi ? `
+            <div class="final-excitement-ribbon ribbon-masc" style="margin: 6px 0 2px 0;">
+              <span>⚡</span> <strong>${escapeHtml(faseStr || 'SEMIFINAL')} DIRECTA A LA GRAN FINAL</strong> <span>⚡</span>
+            </div>
+          ` : isPlayIn ? `
+            <div class="final-excitement-ribbon ${isFem ? 'ribbon-fem' : 'ribbon-masc'}" style="margin: 6px 0 2px 0;">
+              <span>🔥</span> <strong>DUELO CLASIFICATORIO</strong> <span>🔥</span>
+            </div>
+          ` : ''}
+
           <div class="match-teams-row">
-            <div class="team-side home">
+            <div class="team-side home ${localIsMystery ? 'is-mystery' : ''}">
               ${getTeamShieldHtml(pend.local)}
-              <span class="team-name">${escapeHtml(pend.local)}</span>
+              <div class="team-info-col">
+                <span class="team-name">${escapeHtml(pend.local)}</span>
+                ${localHint ? `<span class="team-mystery-hint">${escapeHtml(localHint)}</span>` : ''}
+              </div>
             </div>
             <div class="match-middle-box"><span class="match-vs-tag">vs</span></div>
-            <div class="team-side away">
-              <span class="team-name">${escapeHtml(pend.visitante)}</span>
+            <div class="team-side away ${visitIsMystery ? 'is-mystery' : ''}">
+              <div class="team-info-col team-info-col-away">
+                <span class="team-name">${escapeHtml(pend.visitante)}</span>
+                ${visitHint ? `<span class="team-mystery-hint">${escapeHtml(visitHint)}</span>` : ''}
+              </div>
               ${getTeamShieldHtml(pend.visitante)}
             </div>
           </div>
           <div class="match-meta-line">
-            <span>📍 ${escapeHtml(cancha.direccion)}</span>
+            <span>📍 ${escapeHtml(cancha.direccion || 'Cancha oficial por confirmar')}</span>
             ${pend.arbitro ? `<span class="match-referee-tag">👨‍⚖️ <strong>Árbitro:</strong> ${escapeHtml(pend.arbitro)}</span>` : '<span class="match-referee-tag referee-pending">👨‍⚖️ Árbitro por designar</span>'}
             ${cancha.mapsUrl ? `<a href="${cancha.mapsUrl}" target="_blank" rel="noopener noreferrer" class="btn-maps-action" onclick="event.stopPropagation()">Ver en Maps ↗</a>` : ''}
           </div>
